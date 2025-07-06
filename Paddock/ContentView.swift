@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    // View properties
+    @State private var items: [RacingPoster] = [
+        .init(image: "/images/BritishGP.jpeg")
+    ]
     var body: some View {
         
         NavigationStack {
-            Text("Hello")
+            Text("")
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Text("Paddock")
@@ -29,8 +33,15 @@ struct ContentView: View {
                         })
                     }
                 }
+            TabView()
+                .preferredColorScheme(.light)
+            CustomPageSlider(data: $items) { item in
+                // Content View
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(item.image)
+                    .frame(width: 300, height: 200)
+            }
         }
-        
     }
 }
 
