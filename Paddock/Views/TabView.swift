@@ -30,9 +30,16 @@ struct TabView: View {
                     LazyHStack(spacing: 0) {
                         // Individual Tab Views
                         ForEach(tabs) { tab in
-                            Text(tab.id.rawValue)
-                                .frame(width:  size.width, height: size.height)
-                                .contentShape(.rect)
+                            Group {
+                                switch tab.id {
+                                case .Previous:
+                                    RaceCardView() // This could be your previous races card view
+                                case .Upcoming:
+                                    RaceCardView() // You can also create another view like `UpcomingCardView()` if needed
+                                }
+                            }
+                            .frame(width: size.width, height: size.height)
+                            .contentShape(.rect)
                         }
                     }
                     .scrollTargetLayout()
