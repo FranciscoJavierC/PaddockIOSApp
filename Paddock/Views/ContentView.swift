@@ -8,23 +8,23 @@
 import SwiftUI
 
 enum AppTab: String, CaseIterable, FloatingTabProtocol {
-    case home = "Home"
     case schedule = "Schedule"
+    case news = "News"
     case garage = "Garage"
     case more = "More"
     
     var symbolImage: String {
         switch self {
-        case .home: "house"
         case .schedule: "calendar"
-        case .garage: "car.fill"
+        case .news: "newspaper"
+        case .garage: "door.garage.double.bay.closed"
         case .more: "ellipsis"
         }
     }
 }
 
 struct ContentView: View {
-    @State private var activeTab: AppTab = .home
+    @State private var activeTab: AppTab = .schedule
     
     var body: some View {
         NavigationStack {
@@ -33,8 +33,8 @@ struct ContentView: View {
                 FloatingTabView(selection: $activeTab) { tab, tabBarHeight in
                     // TabViwes
                     switch tab {
-                    case .home: HomeView()
                     case .schedule: ScheduleView()
+                    case .news: NewsView()
                     case .garage: GarageView()
                     case .more: MoreView()
                     }
