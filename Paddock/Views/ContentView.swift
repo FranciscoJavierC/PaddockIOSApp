@@ -7,34 +7,38 @@
 
 import SwiftUI
 
+enum AppTab: String, CaseIterable, FloatingTabProtocol {
+    case home = "Home"
+    case schedule = "Schedule"
+    case garage = "Garage"
+    case more = "More"
+    
+    var symbolImage: String {
+        switch self {
+        case .home: "house"
+        case .schedule: "calendar"
+        case .garage: "car.fill"
+        case .more: "ellipsis"
+        }
+    }
+}
+
 struct ContentView: View {
+    @State private var activeTab: AppTab = .home
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                // Scrollble Tabs
-                TabView()
-                
-                // Driver Standings Section
-                VStack(alignment: .leading, spacing: 15) {
-                    Text("2025 Driver Standings")
-                        .font(.title2)
-                        .bold()
-                    Text("1: Oscar Piastri")
-                    Text("2: Lando Norris")
-                    Text("3: Max Verstappen")
+                // Tab Bar
+                FloatingTabView(selection: $activeTab) { tab, tabBarHeight in
+                    // TabViwes
+                    switch tab {
+                    case .home: HomeView()
+                    case .schedule: ScheduleView()
+                    case .garage: GarageView()
+                    case .more: MoreView()
+                    }
                 }
-                
-                // Constructor Standings Section
-                VStack(alignment: .leading, spacing: 15) {
-                    Text("2025 Constructor Standings")
-                        .font(.title2)
-                        .bold()
-                    Text("1: Mercedes")
-                    Text("2: Red Bull Racing")
-                    Text("3: McLaren")
-                }
-                
-                // 
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

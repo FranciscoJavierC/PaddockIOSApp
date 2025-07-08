@@ -1,5 +1,5 @@
 //
-//  TabView.swift
+//  ScrollTabView.swift
 //  Paddock
 //
 //  Created by Francisco  Cortez on 7/5/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TabView: View {
+struct ScrollTabView: View {
     // View Properties
     @State private var tabs: [TabModel] = [
         .init(id: TabModel.Tab.Previous),
