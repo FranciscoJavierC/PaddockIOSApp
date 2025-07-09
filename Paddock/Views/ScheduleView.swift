@@ -8,15 +8,54 @@
 import SwiftUI
 
 struct ScheduleView: View {
+    // Tab Bar View properties
+    @State private var activeTab1: TabBar = .previous
+    
     var body: some View {
         VStack(spacing: 20) {
-                    Text("Work in progress")
-                    
+            // Tab Bar
+            TabView(selection: $activeTab1) {
+                ForEach(TabBar.allCases, id: \.self) { tab in
+                    tab.view
+                        .tag(tab)
                 }
-                .padding()
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+        }
     }
 }
 
 #Preview {
-    ScheduleView()
+    ContentView()
+}
+
+@Observable
+class PageOffsetObserver: NSObject {
+    var collectionView: UICollectionView?
+    var offset: CGFloat = 0
+    private(set) var isObserving: Bool = false
+    
+    func observe() {
+        
+    }
+    
+    func remove() {
+        
+    }
+}
+
+struct FindCollectionView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        view.backgroundColor = .clear
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            
+        }
+        
+        return view
+    }
+    
+    func updateUIView(_ uiView: UIView, context: Context) {
+        
+    }
 }

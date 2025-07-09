@@ -24,12 +24,13 @@ enum AppTab: String, CaseIterable, FloatingTabProtocol {
 }
 
 struct ContentView: View {
+    // Floating Tab Bar View properties
     @State private var activeTab: AppTab = .schedule
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 20) {
-                // Tab Bar
+            VStack(spacing: 20) {                
+                // Floating Tab Bar
                 FloatingTabView(selection: $activeTab) { tab, tabBarHeight in
                     // TabViwes
                     switch tab {
@@ -40,13 +41,14 @@ struct ContentView: View {
                     }
                 }
             }
+            
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Paddock")
                         .font(.system(size: 30, weight: .bold))
                 }
 
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItemGroup(placement: .topBarTrailing) {
                     Button(action: {
                         // To do
                     }) {
@@ -54,8 +56,6 @@ struct ContentView: View {
                             .foregroundColor(.black)
                             .font(.headline)
                     }
-                }
-                ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
                         // To do
                     }) {
