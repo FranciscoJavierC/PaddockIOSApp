@@ -18,7 +18,7 @@ enum AppTab: String, CaseIterable, FloatingTabProtocol {
         case .schedule: "calendar"
         case .news: "newspaper"
         case .garage: "door.garage.double.bay.closed"
-        case .more: "ellipsis"
+        case .more: "line.3.horizontal"
         }
     }
 }
@@ -51,6 +51,15 @@ struct ContentView: View {
                         // To do
                     }) {
                         Image(systemName: "magnifyingglass")
+                            .foregroundColor(.black)
+                            .font(.headline)
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {
+                        // To do
+                    }) {
+                        Image(systemName: "line.3.horizontal.decrease")
                             .foregroundColor(.black)
                             .font(.headline)
                     }
