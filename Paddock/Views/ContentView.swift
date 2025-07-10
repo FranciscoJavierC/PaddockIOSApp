@@ -7,39 +7,10 @@
 
 import SwiftUI
 
-enum AppTab: String, CaseIterable, FloatingTabProtocol {
-    case schedule = "Schedule"
-    case news = "News"
-    case garage = "Garage"
-    case more = "More"
-    
-    var symbolImage: String {
-        switch self {
-        case .schedule: "calendar"
-        case .news: "newspaper"
-        case .garage: "door.garage.double.bay.closed"
-        case .more: "line.3.horizontal"
-        }
-    }
-}
-
 struct ContentView: View {
-    // Floating Tab Bar View properties
-    @State private var activeTab: AppTab = .schedule
-    
     var body: some View {
         NavigationStack {
-            VStack(spacing: 20) {                
-                // Floating Tab Bar
-                FloatingTabView(selection: $activeTab) { tab, tabBarHeight in
-                    // TabViwes
-                    switch tab {
-                    case .schedule: ScheduleView()
-                    case .news: NewsView()
-                    case .garage: GarageView()
-                    case .more: MoreView()
-                    }
-                }
+            VStack(spacing: 20) {
             }
             
             .toolbar {

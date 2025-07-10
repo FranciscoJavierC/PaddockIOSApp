@@ -9,7 +9,9 @@ import SwiftUI
 
 struct PreviousView: View {
     var body: some View {
-        Text("Previous")
+        VStack {
+            
+        }
     }
 }
 
