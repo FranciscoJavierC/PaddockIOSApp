@@ -22,7 +22,7 @@ struct ScheduleView: View {
                         
                         ZStack(alignment: .leading) {
                             Capsule()
-                                .fill(.black)
+                                .fill(.red)
                                 .frame(width: capsuleWidth)
                                 .offset(x: index * capsuleWidth)
 
@@ -35,7 +35,7 @@ struct ScheduleView: View {
                         }
                     }
                 }
-                .background(.ultraThinMaterial)
+                .background(.white)
                 .clipShape(.capsule)
                 .shadow(color: .black.opacity(0.1), radius: 5, x: 5, y: 5)
                 .shadow(color: .black.opacity(0.05), radius: 5, x: -5, y: -5)

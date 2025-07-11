@@ -9,9 +9,6 @@ import SwiftUI
 
 struct PreviousView: View {
     var body: some View {
-        VStack {
-            
-        }
     }
 }
 

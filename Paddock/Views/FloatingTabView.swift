@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FloatingTabView: View {
     var activeForeground: Color = .white
-    var activeBackground: Color = .blue
+    var activeBackground: Color = .red
     @Binding var activeTab: FloatingTab
     // For matched geometry effect
     @Namespace private var animation
