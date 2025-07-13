@@ -9,9 +9,21 @@ import SwiftUI
 
 struct NewsView: View {
     var body: some View {
-        Text("News")
+        VStack(spacing: 10) {
+            HStack {
+                Text("News")
+                    .font(.system(size: 36, weight: .bold))
+                    .foregroundStyle(.red)
+                    .padding(.leading)
+                Spacer()
             }
+            
+            ScrollView {
+                Text("News content")
+            }
+        }
     }
+}
 
 #Preview {
     NewsView()

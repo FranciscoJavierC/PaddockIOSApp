@@ -10,7 +10,15 @@ import SwiftUI
 struct StandingsView: View {
     @State private var activeTab: StandingsBar = .drivers
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 0) {
+            HStack {
+                Text("Standings")
+                    .font(.system(size: 36, weight: .bold))
+                    .foregroundStyle(.red)
+                    .padding(.leading)
+                Spacer()
+            }
+            
             Tabbar(.gray)
                 .overlay {
                     GeometryReader { geo in
@@ -73,68 +81,5 @@ struct StandingsView: View {
 }
 
 #Preview {
-    ContentView()
+    StandingsView()
 }
-/*
-@Observable
-class PageOffsetObserver: NSObject {
-    var collectionView: UICollectionView?
-    var offset: CGFloat = 0
-    private(set) var isObserving: Bool = false
-    
-    deinit {
-        remove()
-    }
-    
-    func observe() {
-        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
-            return
-        }
-
-        guard let collectionView, !isObserving else { return }
-        collectionView.addObserver(self, forKeyPath: "contentOffset", context: nil)
-        isObserving = true
-    }
-    
-    func remove() {
-        isObserving = false
-        collectionView?.removeObserver(self, forKeyPath: "contentOffset")
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "contentOffset",
-           let collectionView = object as? UICollectionView {
-            offset = collectionView.contentOffset.x
-        }
-    }
-}
-
-struct FindCollectionView: UIViewRepresentable {
-    var result: (UICollectionView) -> ()
-    func makeUIView(context: Context) -> UIView {
-        let view = UIView()
-        view.backgroundColor = .clear
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            if let collectionView = view.collectionSuperView {
-                result(collectionView)
-            }
-        }
-        
-        return view
-    }
-    
-    func updateUIView(_ uiView: UIView, context: Context) {
-        
-    }
-}
-
-extension UIView {
-    // Finding the CollectionView by traversing the superview
-    var collectionSuperView: UICollectionView? {
-        if let collectionView = superview as? UICollectionView {
-            return collectionView
-        }
-        
-        return superview?.collectionSuperView
-    }
-}*/

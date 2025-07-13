@@ -14,7 +14,7 @@ struct PreviousView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.red)
-                        .frame(width: 400, height: 150)
+                        .frame(width: 400, height: 400)
                     HStack {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -28,16 +28,13 @@ struct PreviousView: View {
                         }
                         .padding(.leading, -170)
                     }
-                    HStack {
-                        Text("British GP")
-                            .font(.title2)
-                            .foregroundStyle(.white)
-                        Text("13-15 MAR")
-                            .font(.title2)
-                            .foregroundStyle(.white)
-                    }
-                    .padding(.bottom, 70)
                 }
+                ZStack {
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.red)
+                        .frame(width: 400, height: 400)
+                }
+
             }
         }
         .safeAreaPadding(.bottom, 60)

@@ -9,7 +9,19 @@ import SwiftUI
 
 struct MoreView: View {
     var body: some View {
-        Text("More")
+        VStack(spacing: 10) {
+            HStack {
+                Text("More")
+                    .font(.system(size: 36, weight: .bold))
+                    .foregroundStyle(.red)
+                    .padding(.leading)
+                Spacer()
+            }
+            
+            ScrollView {
+                Text("More content")
+            }
+        }
     }
 }
 

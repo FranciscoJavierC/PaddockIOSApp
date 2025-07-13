@@ -11,49 +11,50 @@ struct UpcomingView: View {
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 16) {
-                ZStack(alignment: .topLeading) {
+                ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.red)
-                        .frame(width: 400, height: 270)
-                        .overlay(
-                            Image("AustrailianGP")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 100, height: 230, alignment: .leading)
-                        )
-                    Text("Australian Grand Prix")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.white)
-                        .padding(.leading, 100)
-                        .padding(.top, 25)
-    
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.white)
-                            .frame(width: 50, height: 50)
+                        .frame(width: 400, height: 400)
 
-                        Text("R1")
-                            .foregroundStyle(.red)
-                            .font(.title2)
-                            .fontWeight(.bold)
+                    HStack {
+                        // Text content on the left
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Round 01")
+                                .font(.title3)
+                                .foregroundStyle(.white)
+                            Text("Austrailian GP")
+                                .foregroundStyle(.white)
+                                .font(.title)
+                                .fontWeight(.bold)
+                            Text("Melbourne")
+                                .foregroundStyle(.white)
+                                .font(.title3)
+                        }
+                        .padding(.leading, 50)
+                        .padding(.top, 260)
+
+                        Spacer()
+
+                        // Date box on the right
+                        VStack(spacing: 4) {
+                            Text("13-15")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                            Text("MAR")
+                                .font(.title2)
+                        }
+                        .foregroundColor(.red)
+                        .frame(width: 80, height: 80)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .padding(.trailing, 40)
+                        .padding(.bottom, 280)
                     }
-                    .padding(20)
                 }
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.red)
-                        .frame(width: 400, height: 150)
-                }
-                ZStack {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.red)
-                        .frame(width: 400, height: 150)
-                }
-                ZStack {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.red)
-                        .frame(width: 400, height: 150)
+                        .frame(width: 400, height: 400)
                 }
             }
         }

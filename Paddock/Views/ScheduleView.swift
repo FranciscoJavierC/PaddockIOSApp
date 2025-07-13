@@ -11,45 +11,72 @@ struct ScheduleView: View {
     @State private var activeTab1: TabBar = .previous
 
     var body: some View {
-        VStack(spacing: 20) {
-            Tabbar(.gray)
-                .overlay {
-                    GeometryReader { geo in
-                        let width = geo.size.width
-                        let tabCount = CGFloat(TabBar.allCases.count)
-                        let capsuleWidth = width / tabCount
-                        let index = CGFloat(TabBar.allCases.firstIndex(of: activeTab1) ?? 0)
-                        
-                        ZStack(alignment: .leading) {
-                            Capsule()
-                                .fill(.red)
-                                .frame(width: capsuleWidth)
-                                .offset(x: index * capsuleWidth)
-
-                            Tabbar(.white, .semibold)
-                                .mask(alignment: .leading) {
-                                    Capsule()
-                                        .frame(width: capsuleWidth)
-                                        .offset(x: index * capsuleWidth)
-                                }
+        NavigationStack {
+            VStack(spacing: 20) {
+                Tabbar(.gray)
+                    .overlay {
+                        GeometryReader { geo in
+                            let width = geo.size.width
+                            let tabCount = CGFloat(TabBar.allCases.count)
+                            let capsuleWidth = width / tabCount
+                            let index = CGFloat(TabBar.allCases.firstIndex(of: activeTab1) ?? 0)
+                            
+                            ZStack(alignment: .leading) {
+                                Capsule()
+                                    .fill(.red)
+                                    .frame(width: capsuleWidth)
+                                    .offset(x: index * capsuleWidth)
+                                
+                                Tabbar(.white, .semibold)
+                                    .mask(alignment: .leading) {
+                                        Capsule()
+                                            .frame(width: capsuleWidth)
+                                            .offset(x: index * capsuleWidth)
+                                    }
+                            }
                         }
                     }
+                    .background(.white)
+                    .clipShape(.capsule)
+                    .shadow(color: .black.opacity(0.1), radius: 5, x: 5, y: 5)
+                    .shadow(color: .black.opacity(0.05), radius: 5, x: -5, y: -5)
+                    .padding([.horizontal, .top], 15)
+                
+                // Tab View
+                TabView(selection: $activeTab1) {
+                    ForEach(TabBar.allCases, id: \.self) { tab in
+                        tab.view
+                            .tag(tab)
+                    }
                 }
-                .background(.white)
-                .clipShape(.capsule)
-                .shadow(color: .black.opacity(0.1), radius: 5, x: 5, y: 5)
-                .shadow(color: .black.opacity(0.05), radius: 5, x: -5, y: -5)
-                .padding([.horizontal, .top], 15)
-
-            // Tab View
-            TabView(selection: $activeTab1) {
-                ForEach(TabBar.allCases, id: \.self) { tab in
-                    tab.view
-                        .tag(tab)
+                .tabViewStyle(.page(indexDisplayMode: .never))
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Text("Paddock")
+                        .font(.system(size: 36, weight: .bold))
+                        .foregroundStyle(Color.red)
+                }
+                
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button(action: {
+                        // To do
+                    }) {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.red)
+                            .font(.headline)
+                    }
+                    Button(action: {
+                        // To do
+                    }) {
+                        Image(systemName: "line.3.horizontal.decrease")
+                            .foregroundColor(.red)
+                            .font(.headline)
+                    }
                 }
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
         }
+        .preferredColorScheme(.light)
     }
 
     @ViewBuilder
