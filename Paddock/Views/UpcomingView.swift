@@ -22,7 +22,7 @@ struct UpcomingView: View {
                     HStack {
                         // Text content on the left
                         VStack(alignment: .leading, spacing: 6) {
-                            Text("Round 01")
+                            Text("Round 1")
                                 .font(.title3)
                                 .foregroundStyle(.white)
                             Text("Austrailian GP")
