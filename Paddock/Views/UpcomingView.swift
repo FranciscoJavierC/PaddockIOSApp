@@ -15,6 +15,9 @@ struct UpcomingView: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.red)
                         .frame(width: 400, height: 400)
+                        .overlay(
+                            Image("AustrailianGP")
+                        )
 
                     HStack {
                         // Text content on the left
@@ -47,14 +50,19 @@ struct UpcomingView: View {
                         .frame(width: 80, height: 80)
                         .background(Color.white)
                         .cornerRadius(10)
-                        .padding(.trailing, 40)
+                        .padding(.trailing, 30)
                         .padding(.bottom, 280)
+                        
+                        VStack(spacing: 4) {
+                            Image("AustrailianFlag")
+                                .resizable()
+                                .frame(width: 80, height: 80)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.white, style: StrokeStyle(lineWidth: 4)))
+                        }
+                        .padding(.leading, -400)
+                        .padding(.top, -180)
                     }
-                }
-                ZStack {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.red)
-                        .frame(width: 400, height: 400)
                 }
             }
         }
