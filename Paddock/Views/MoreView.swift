@@ -1,10 +1,3 @@
-//
-//  MoreView.swift
-//  Paddock
-//
-//  Created by Francisco  Cortez on 7/7/25.
-//
-
 import SwiftUI
 
 struct MoreView: View {
@@ -14,13 +7,43 @@ struct MoreView: View {
                 Text("More")
                     .font(.system(size: 36, weight: .bold))
                     .foregroundStyle(.red)
-                    .padding(.leading)
                 Spacer()
             }
-            
+            .padding(.horizontal)
+            .padding(.bottom, 40)
+
             ScrollView {
-                Text("More content")
+                VStack(spacing: 16) {
+                    menuItem(title: "Theme", icon: "moonphase.first.quarter")
+                    menuItem(title: "Notifications", icon: "bell.fill")
+                    menuItem(title: "My Garage", icon: "car.fill")
+                }
+                .padding(.horizontal)
             }
+        }
+    }
+
+    @ViewBuilder
+    func menuItem(title: String, icon: String) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.red)
+                .frame(height: 70)
+
+            HStack {
+                Text(title)
+                    .foregroundStyle(.white)
+                    .font(.title)
+                    .fontWeight(.bold)
+
+                Spacer()
+
+                Image(systemName: icon)
+                    .foregroundStyle(.white)
+                    .font(.title2)
+                    .fontWeight(.bold)
+            }
+            .padding(.horizontal)
         }
     }
 }

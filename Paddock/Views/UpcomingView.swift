@@ -64,6 +64,210 @@ struct UpcomingView: View {
                         .padding(.top, -180)
                     }
                 }
+                ZStack {
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.red)
+                        .frame(width: 400, height: 120)
+
+                    HStack(spacing: 12) {
+                        // 1. Flag Circle
+                        Image("AustrailianFlag")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                            .padding(.leading, 40)
+
+                        // 2. Race Info
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Round 1")
+                                .font(.subheadline)
+                                .foregroundStyle(.white)
+                            Text("Australian GP")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .foregroundStyle(.white)
+                            Text("Melbourne")
+                                .font(.subheadline)
+                                .foregroundStyle(.white)
+                        }
+
+                        Spacer()
+
+                        // 3. Circuit Image
+                        Image("AustrailianGP")
+                            .resizable()
+                            .frame(width: 90, height: 90)
+                            .cornerRadius(10)
+
+                        // 4. Date Box
+                        VStack(spacing: 2) {
+                            Text("13-15")
+                                .font(.caption)
+                                .fontWeight(.bold)
+                            Text("MAR")
+                                .font(.caption)
+                        }
+                        .foregroundColor(.red)
+                        .frame(width: 50, height: 50)
+                        .background(Color.white)
+                        .cornerRadius(8)
+                        .padding(.trailing, 40)
+                    }
+                }
+                ZStack {
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.red)
+                        .frame(width: 400, height: 120)
+
+                    HStack(spacing: 12) {
+                        // 1. Flag Circle
+                        Image("AustrailianFlag")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                            .padding(.leading, 40)
+
+                        // 2. Race Info
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Round 1")
+                                .font(.subheadline)
+                                .foregroundStyle(.white)
+                            Text("Australian GP")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .foregroundStyle(.white)
+                            Text("Melbourne")
+                                .font(.subheadline)
+                                .foregroundStyle(.white)
+                        }
+
+                        Spacer()
+
+                        // 3. Circuit Image
+                        Image("AustrailianGP")
+                            .resizable()
+                            .frame(width: 90, height: 90)
+                            .cornerRadius(10)
+
+                        // 4. Date Box
+                        VStack(spacing: 2) {
+                            Text("13-15")
+                                .font(.caption)
+                                .fontWeight(.bold)
+                            Text("MAR")
+                                .font(.caption)
+                        }
+                        .foregroundColor(.red)
+                        .frame(width: 50, height: 50)
+                        .background(Color.white)
+                        .cornerRadius(8)
+                        .padding(.trailing, 40)
+                    }
+                }
+                ZStack {
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.red)
+                        .frame(width: 400, height: 120)
+
+                    HStack(spacing: 12) {
+                        // 1. Flag Circle
+                        Image("AustrailianFlag")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                            .padding(.leading, 40)
+
+                        // 2. Race Info
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Round 1")
+                                .font(.subheadline)
+                                .foregroundStyle(.white)
+                            Text("Australian GP")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .foregroundStyle(.white)
+                            Text("Melbourne")
+                                .font(.subheadline)
+                                .foregroundStyle(.white)
+                        }
+
+                        Spacer()
+
+                        // 3. Circuit Image
+                        Image("AustrailianGP")
+                            .resizable()
+                            .frame(width: 90, height: 90)
+                            .cornerRadius(10)
+
+                        // 4. Date Box
+                        VStack(spacing: 2) {
+                            Text("13-15")
+                                .font(.caption)
+                                .fontWeight(.bold)
+                            Text("MAR")
+                                .font(.caption)
+                        }
+                        .foregroundColor(.red)
+                        .frame(width: 50, height: 50)
+                        .background(Color.white)
+                        .cornerRadius(8)
+                        .padding(.trailing, 40)
+                    }
+                }
+                ZStack {
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.red)
+                        .frame(width: 400, height: 120)
+
+                    HStack(spacing: 12) {
+                        // 1. Flag Circle
+                        Image("AustrailianFlag")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                            .padding(.leading, 40)
+
+                        // 2. Race Info
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Round 1")
+                                .font(.subheadline)
+                                .foregroundStyle(.white)
+                            Text("Australian GP")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .foregroundStyle(.white)
+                            Text("Melbourne")
+                                .font(.subheadline)
+                                .foregroundStyle(.white)
+                        }
+
+                        Spacer()
+
+                        // 3. Circuit Image
+                        Image("AustrailianGP")
+                            .resizable()
+                            .frame(width: 90, height: 90)
+                            .cornerRadius(10)
+
+                        // 4. Date Box
+                        VStack(spacing: 2) {
+                            Text("13-15")
+                                .font(.caption)
+                                .fontWeight(.bold)
+                            Text("MAR")
+                                .font(.caption)
+                        }
+                        .foregroundColor(.red)
+                        .frame(width: 50, height: 50)
+                        .background(Color.white)
+                        .cornerRadius(8)
+                        .padding(.trailing, 40)
+                    }
+                }
             }
         }
     }
