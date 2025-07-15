@@ -276,6 +276,9 @@ struct UpcomingView: View {
             }
         }
         .padding(.vertical, -10)
+        .safeAreaInset(edge: .top, spacing: 0) {
+                    Color.clear.frame(height: 10)
+                }
     }
 }
 

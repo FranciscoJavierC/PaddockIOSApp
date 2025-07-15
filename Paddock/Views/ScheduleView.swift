@@ -55,6 +55,7 @@ struct ScheduleView: View {
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
             }
+            .ignoresSafeArea(edges: .bottom)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Paddock")
