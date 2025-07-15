@@ -17,7 +17,44 @@ struct PreviousView: View {
                         .frame(width: 400, height: 400)
                         .overlay(
                             Image("AustrailianGP")
+                                .resizable()
+                                .frame(width: 150, height: 150)
+                                .padding(.top, 300)
+                                .padding(.leading, 200)
                         )
+                    
+                    HStack {
+                        VStack {
+                            Text("2nd")
+                                .foregroundStyle(.white)
+                            Text("Lando")
+                                .foregroundStyle(.white)
+                            Text("Norris")
+                                .foregroundStyle(.white)
+                            Text("McLaren")
+                                .foregroundStyle(.white)
+                        }
+                        VStack {
+                            Text("1st")
+                                .foregroundStyle(.white)
+                            Text("Lando")
+                                .foregroundStyle(.white)
+                            Text("Norris")
+                                .foregroundStyle(.white)
+                            Text("McLaren")
+                                .foregroundStyle(.white)
+                        }
+                        VStack {
+                            Text("3rd")
+                                .foregroundStyle(.white)
+                            Text("Lando")
+                                .foregroundStyle(.white)
+                            Text("Norris")
+                                .foregroundStyle(.white)
+                            Text("McLaren")
+                                .foregroundStyle(.white)
+                        }
+                    }
 
                     HStack {
                         // Text content on the left
