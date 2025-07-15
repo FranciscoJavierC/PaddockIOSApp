@@ -9,6 +9,10 @@ import SwiftUI
 
 struct StandingsView: View {
     @State private var activeTab: StandingsBar = .drivers
+    
+    // 1. Read the environment color scheme
+    @Environment(\.colorScheme) var colorScheme
+
     var body: some View {
         VStack(spacing: 0) {
             HStack {
@@ -42,7 +46,8 @@ struct StandingsView: View {
                         }
                     }
                 }
-                .background(.white)
+                // 2. Change the background color based on the colorScheme
+                .background(colorScheme == .dark ? Color.black : Color.white) // Apply conditional background
                 .clipShape(.capsule)
                 .shadow(color: .black.opacity(0.1), radius: 5, x: 5, y: 5)
                 .shadow(color: .black.opacity(0.05), radius: 5, x: -5, y: -5)
@@ -81,5 +86,5 @@ struct StandingsView: View {
 }
 
 #Preview {
-    StandingsView()
+    ContentView()
 }

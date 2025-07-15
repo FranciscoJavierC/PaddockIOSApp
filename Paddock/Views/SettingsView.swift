@@ -1,6 +1,35 @@
 import SwiftUI
 
+// Your existing ThemeSwitcher and AppTheme enums remain the same
+// --- (ThemeSwitcher and AppTheme definition from your previous code) ---
+struct ThemeSwitcher<Content: View>: View {
+    @ViewBuilder var content: Content
+    @AppStorage("AppTheme") private var appTheme: AppTheme = .systemDefault
+    var body: some View {
+        content
+            .preferredColorScheme(appTheme.colorScheme)
+    }
+}
+
+enum AppTheme: String, CaseIterable {
+    case light = "Light"
+    case dark = "Dark"
+    case systemDefault = "Default"
+    
+    var colorScheme: ColorScheme? {
+        switch self {
+        case .light: .light
+        case .dark: .dark
+        case .systemDefault: nil
+        }
+    }
+}
+// --- End of ThemeSwitcher and AppTheme definition ---
+
 struct SettingsView: View {
+    // IMPORTANT: Remove @AppStorage here and accept it as a Binding
+    @Binding var appTheme: AppTheme
+
     var body: some View {
         VStack(spacing: 10) {
             HStack {
@@ -21,6 +50,20 @@ struct SettingsView: View {
                 }
                 .padding(.horizontal)
             }
+            // The NavigationStack around the List containing the Picker is fine here.
+            NavigationStack {
+                List {
+                    // Use the binding for the Picker's selection
+                    Picker("App Theme", selection: $appTheme) {
+                        ForEach(AppTheme.allCases, id: \.rawValue) { theme in
+                            Text(theme.rawValue)
+                                .tag(theme)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                }
+                .navigationTitle("Theme Switcher")
+            }
         }
     }
 
@@ -34,7 +77,7 @@ struct SettingsView: View {
             HStack {
                 Text(title)
                     .foregroundStyle(.white)
-                    .font(.title)
+                    .font(.title2)
                     .fontWeight(.bold)
 
                 Spacer()
@@ -47,8 +90,4 @@ struct SettingsView: View {
             .padding(.horizontal)
         }
     }
-}
-
-#Preview {
-    SettingsView()
 }

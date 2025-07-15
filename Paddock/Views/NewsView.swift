@@ -1,12 +1,15 @@
 import SwiftUI
 
 struct NewsView: View {
+    // 1. Read the environment color scheme
+    @Environment(\.colorScheme) var colorScheme
+
     var body: some View {
         VStack(spacing: 10) {
             HStack {
                 Text("News")
                     .font(.system(size: 36, weight: .bold))
-                    .foregroundStyle(.red)
+                    .foregroundStyle(.red) // This remains red as requested
                     .padding(.leading)
                 Spacer()
             }
@@ -15,9 +18,9 @@ struct NewsView: View {
                 LazyVStack(spacing: 16) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
-                            .fill(Color.white)
-                            .shadow(color: .black.opacity(0.1), radius: 6, x: 0, y: 3)
-
+                            // 2. Change the fill color based on the colorScheme
+                            .fill(colorScheme == .dark ? Color.black : Color.white)
+                            .shadow(color: colorScheme == .dark ? Color.white.opacity(0.2) : Color.black.opacity(0.1), radius: 6, x: 0, y: 3)
                         VStack(alignment: .leading, spacing: 12) {
                             Image("NewsHulk")
                                 .resizable()
@@ -28,7 +31,7 @@ struct NewsView: View {
 
                             VStack(alignment: .leading, spacing: 6) {
                                 Text("Nico Hulkenberg celebrates his maiden F1 podium at British Grand Prix at Silverstone")
-                                    .foregroundStyle(.red)
+                                    .foregroundStyle(.red) // This remains red
                                     .font(.headline)
 
                                 HStack(spacing: 8) {
@@ -38,7 +41,8 @@ struct NewsView: View {
                                         .clipShape(Circle())
                                     Text("Formula 1 • 18 min ago")
                                         .font(.caption)
-                                        .foregroundStyle(.gray)
+                                        // 3. Use .primary or .secondary for adaptive text colors
+                                        .foregroundStyle(.secondary) // .gray might be too light/dark depending on mode
                                 }
                             }
                             .padding(.horizontal)
@@ -49,10 +53,11 @@ struct NewsView: View {
                     .padding(.horizontal)
 
                     // 📰 Smaller News Cards
-                    ForEach(0..<5) { _ in
+                    ForEach(0..<4) { _ in
                         ZStack {
                             RoundedRectangle(cornerRadius: 16)
-                                .fill(Color.white)
+                                // 4. Change the fill color for smaller cards too
+                                .fill(colorScheme == .dark ? Color.black : Color.white)
                                 .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
 
                             HStack(alignment: .top, spacing: 12) {
@@ -66,7 +71,7 @@ struct NewsView: View {
                                 VStack(alignment: .leading, spacing: 8) {
                                     Text("Hulkenberg gets his maiden podium at Silverstone")
                                         .font(.headline)
-                                        .foregroundStyle(.red)
+                                        .foregroundStyle(.red) // This remains red
                                         .lineLimit(3)
 
                                     HStack(spacing: 8) {
@@ -76,7 +81,8 @@ struct NewsView: View {
                                             .clipShape(Circle())
                                         Text("Formula 1 • 18 min ago")
                                             .font(.caption)
-                                            .foregroundStyle(.gray)
+                                            // 5. Use .primary or .secondary for adaptive text colors
+                                            .foregroundStyle(.secondary) // .gray might be too light/dark depending on mode
                                     }
                                 }
 
@@ -94,5 +100,5 @@ struct NewsView: View {
 }
 
 #Preview {
-    NewsView()
+    ContentView()
 }

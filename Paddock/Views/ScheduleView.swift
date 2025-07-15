@@ -9,6 +9,9 @@ import SwiftUI
 
 struct ScheduleView: View {
     @State private var activeTab1: TabBar = .previous
+    
+    // 1. Read the environment color scheme
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         NavigationStack {
@@ -36,7 +39,8 @@ struct ScheduleView: View {
                             }
                         }
                     }
-                    .background(.white)
+                    // 2. Change the background color based on the colorScheme
+                    .background(colorScheme == .dark ? Color.black : Color.white) // Change here!
                     .clipShape(.capsule)
                     .shadow(color: .black.opacity(0.1), radius: 5, x: 5, y: 5)
                     .shadow(color: .black.opacity(0.05), radius: 5, x: -5, y: -5)
@@ -76,7 +80,6 @@ struct ScheduleView: View {
                 }
             }
         }
-        .preferredColorScheme(.light)
     }
 
     @ViewBuilder
@@ -86,7 +89,7 @@ struct ScheduleView: View {
                 Text(tab.rawValue)
                     .font(.callout)
                     .fontWeight(weight)
-                    .foregroundStyle(tint)
+                    .foregroundStyle(tint) // This tint might also need to change based on dark/light mode
                     .padding(.vertical, 10)
                     .frame(maxWidth: .infinity)
                     .contentShape(.rect)

@@ -11,7 +11,9 @@ import SwiftUI
 struct PaddockApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ThemeSwitcher {
+                ContentView()
+            }
         }
     }
 }
