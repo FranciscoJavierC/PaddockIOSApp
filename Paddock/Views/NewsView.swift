@@ -1,10 +1,3 @@
-//
-//  HomeView.swift
-//  Paddock
-//
-//  Created by Francisco  Cortez on 7/7/25.
-//
-
 import SwiftUI
 
 struct NewsView: View {
@@ -17,165 +10,84 @@ struct NewsView: View {
                     .padding(.leading)
                 Spacer()
             }
-            
+
             ScrollView {
-                LazyVStack(spacing: 12) {
-                    Image("NewsHulk")
-                        .resizable()
-                        .frame(width: 400, height: 250)
-                        .cornerRadius(20)
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Nico Hulkenberg celebrates his maiden F1 podium at British Grand Prix at Silverstone")
-                            .foregroundStyle(.red)
-                            .font(.headline)
-                            .padding(.horizontal, 20)
-                        
-                        HStack(spacing: 8) {
-                            Image("F1Logo")
+                LazyVStack(spacing: 16) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color.white)
+                            .shadow(color: .black.opacity(0.1), radius: 6, x: 0, y: 3)
+
+                        VStack(alignment: .leading, spacing: 12) {
+                            Image("NewsHulk")
                                 .resizable()
-                                .frame(width: 30, height: 30)
-                            Text("Formula 1 • 18 min ago")
-                                .foregroundStyle(.red)
-                                .font(.subheadline)
-                        }
-                        .padding(.horizontal, 20)
-                    }
-                    HStack(alignment: .top, spacing: 12) {
-                        // Left: News Image
-                        Image("NewsHulk")
-                            .resizable()
-                            .frame(width: 150, height: 120)
-                            .cornerRadius(12)
-                        
-                        // Right: Headline and source info
-                        VStack(alignment: .leading, spacing: 35) {
-                            Text("Nico Hulkenberg celebrates his maiden F1 podium at British Grand Prix at Silverstone")
-                                .foregroundStyle(.red)
-                                .font(.headline)
-                                .lineLimit(3)
+                                .scaledToFill()
+                                .frame(height: 220)
+                                .clipped()
+                                .cornerRadius(16)
 
-                            HStack(spacing: 10) {
-                                Image("F1Logo")
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .clipShape(Circle())
-
-                                Text("Formula 1 • 18 min ago")
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("Nico Hulkenberg celebrates his maiden F1 podium at British Grand Prix at Silverstone")
                                     .foregroundStyle(.red)
-                                    .font(.caption)
+                                    .font(.headline)
+
+                                HStack(spacing: 8) {
+                                    Image("F1Logo")
+                                        .resizable()
+                                        .frame(width: 24, height: 24)
+                                        .clipShape(Circle())
+                                    Text("Formula 1 • 18 min ago")
+                                        .font(.caption)
+                                        .foregroundStyle(.gray)
+                                }
                             }
+                            .padding(.horizontal)
+                            .padding(.bottom)
                         }
+                        .padding()
                     }
                     .padding(.horizontal)
-                    HStack(alignment: .top, spacing: 12) {
-                        // Left: News Image
-                        Image("NewsHulk")
-                            .resizable()
-                            .frame(width: 150, height: 120)
-                            .cornerRadius(12)
-                        
-                        // Right: Headline and source info
-                        VStack(alignment: .leading, spacing: 35) {
-                            Text("Nico Hulkenberg celebrates his maiden F1 podium at British Grand Prix at Silverstone")
-                                .foregroundStyle(.red)
-                                .font(.headline)
-                                .lineLimit(3)
 
-                            HStack(spacing: 10) {
-                                Image("F1Logo")
+                    // 📰 Smaller News Cards
+                    ForEach(0..<5) { _ in
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color.white)
+                                .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+
+                            HStack(alignment: .top, spacing: 12) {
+                                // Left image
+                                Image("NewsHulk")
                                     .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .clipShape(Circle())
+                                    .frame(width: 120, height: 90)
+                                    .cornerRadius(10)
 
-                                Text("Formula 1 • 18 min ago")
-                                    .foregroundStyle(.red)
-                                    .font(.caption)
+                                // Right text
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text("Hulkenberg gets his maiden podium at Silverstone")
+                                        .font(.headline)
+                                        .foregroundStyle(.red)
+                                        .lineLimit(3)
+
+                                    HStack(spacing: 8) {
+                                        Image("F1Logo")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                            .clipShape(Circle())
+                                        Text("Formula 1 • 18 min ago")
+                                            .font(.caption)
+                                            .foregroundStyle(.gray)
+                                    }
+                                }
+
+                                Spacer()
                             }
+                            .padding()
                         }
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
-                    HStack(alignment: .top, spacing: 12) {
-                        // Left: News Image
-                        Image("NewsHulk")
-                            .resizable()
-                            .frame(width: 150, height: 120)
-                            .cornerRadius(12)
-                        
-                        // Right: Headline and source info
-                        VStack(alignment: .leading, spacing: 35) {
-                            Text("Nico Hulkenberg celebrates his maiden F1 podium at British Grand Prix at Silverstone")
-                                .foregroundStyle(.red)
-                                .font(.headline)
-                                .lineLimit(3)
-
-                            HStack(spacing: 10) {
-                                Image("F1Logo")
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .clipShape(Circle())
-
-                                Text("Formula 1 • 18 min ago")
-                                    .foregroundStyle(.red)
-                                    .font(.caption)
-                            }
-                        }
-                    }
-                    .padding(.horizontal)
-                    HStack(alignment: .top, spacing: 12) {
-                        // Left: News Image
-                        Image("NewsHulk")
-                            .resizable()
-                            .frame(width: 150, height: 120)
-                            .cornerRadius(12)
-                        
-                        // Right: Headline and source info
-                        VStack(alignment: .leading, spacing: 35) {
-                            Text("Nico Hulkenberg celebrates his maiden F1 podium at British Grand Prix at Silverstone")
-                                .foregroundStyle(.red)
-                                .font(.headline)
-                                .lineLimit(3)
-
-                            HStack(spacing: 10) {
-                                Image("F1Logo")
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .clipShape(Circle())
-
-                                Text("Formula 1 • 18 min ago")
-                                    .foregroundStyle(.red)
-                                    .font(.caption)
-                            }
-                        }
-                    }
-                    .padding(.horizontal)
-                    HStack(alignment: .top, spacing: 12) {
-                        // Left: News Image
-                        Image("NewsHulk")
-                            .resizable()
-                            .frame(width: 150, height: 120)
-                            .cornerRadius(12)
-                        
-                        // Right: Headline and source info
-                        VStack(alignment: .leading, spacing: 35) {
-                            Text("Nico Hulkenberg celebrates his maiden F1 podium at British Grand Prix at Silverstone")
-                                .foregroundStyle(.red)
-                                .font(.headline)
-                                .lineLimit(3)
-
-                            HStack(spacing: 10) {
-                                Image("F1Logo")
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .clipShape(Circle())
-
-                                Text("Formula 1 • 18 min ago")
-                                    .foregroundStyle(.red)
-                                    .font(.caption)
-                            }
-                        }
-                    }
-                    .padding(.horizontal)
                 }
+                .padding(.vertical)
             }
         }
     }

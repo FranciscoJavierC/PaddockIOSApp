@@ -11,14 +11,14 @@ enum FloatingTab: String, CaseIterable {
     case schedule = "calendar"
     case standings = "trophy"
     case news = "newspaper"
-    case more = "line.3.horizontal"
+    case settings = "gearshape.fill"
     
     var title: String {
         switch self {
         case .schedule: "Schedule"
         case .standings: "Standings"
         case .news: "News"
-        case .more: "More"
+        case .settings: "Settings"
         }
     }
 }

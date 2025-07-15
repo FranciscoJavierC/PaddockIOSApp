@@ -15,6 +15,7 @@ struct UpcomingView: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.red)
                         .frame(width: 400, height: 400)
+                        .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 3)
                         .overlay(
                             Image("AustrailianGP")
                         )
@@ -68,6 +69,7 @@ struct UpcomingView: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.red)
                         .frame(width: 400, height: 120)
+                        .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 3)
 
                     HStack(spacing: 12) {
                         // 1. Flag Circle
@@ -119,6 +121,7 @@ struct UpcomingView: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.red)
                         .frame(width: 400, height: 120)
+                        .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 3)
 
                     HStack(spacing: 12) {
                         // 1. Flag Circle
@@ -170,6 +173,7 @@ struct UpcomingView: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.red)
                         .frame(width: 400, height: 120)
+                        .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 3)
 
                     HStack(spacing: 12) {
                         // 1. Flag Circle
@@ -221,6 +225,7 @@ struct UpcomingView: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.red)
                         .frame(width: 400, height: 120)
+                        .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 3)
 
                     HStack(spacing: 12) {
                         // 1. Flag Circle

@@ -33,8 +33,8 @@ struct ContentView: View {
                                     .toolbarVisibility(.hidden, for: .tabBar)
                             }
                             
-                            Tab.init(value: .more) {
-                                MoreView()
+                            Tab.init(value: .settings) {
+                                SettingsView()
                                     .toolbarVisibility(.hidden, for: .tabBar)
                             }
                         }
@@ -57,8 +57,8 @@ struct ContentView: View {
                             NewsView()
                                 .tag(FloatingTab.news)
                             
-                            MoreView()
-                                .tag(FloatingTab.more)
+                            SettingsView()
+                                .tag(FloatingTab.settings)
                         }
                     }
                 }
