@@ -14,7 +14,7 @@ struct StandingsView: View {
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 20) {
             HStack {
                 Text("Standings")
                     .font(.system(size: 36, weight: .bold))
