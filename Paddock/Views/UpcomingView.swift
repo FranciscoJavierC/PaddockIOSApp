@@ -279,6 +279,8 @@ struct UpcomingView: View {
         .safeAreaInset(edge: .top, spacing: 0) {
                     Color.clear.frame(height: 10)
                 }
+        .safeAreaPadding(.bottom, 60)
+
     }
 }
 
