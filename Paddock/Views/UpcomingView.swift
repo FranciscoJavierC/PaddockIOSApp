@@ -19,6 +19,27 @@ struct UpcomingView: View {
                         .overlay(
                             Image("AustrailianGP")
                         )
+                    
+                    Text("Race Starts in")
+                        .foregroundStyle(.white)
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding(.trailing, 170)
+                        .padding(.top, 170)
+                    
+                    Text("01 16 46")
+                        .foregroundStyle(.white)
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding(.trailing, 240)
+                        .padding(.top, 250)
+                    
+                    Text("Days Hours Minutes")
+                        .foregroundStyle(.white)
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding(.trailing, 90)
+                        .padding(.top, 320)
 
                     HStack {
                         // Text content on the left
@@ -280,7 +301,6 @@ struct UpcomingView: View {
                     Color.clear.frame(height: 10)
                 }
         .safeAreaPadding(.bottom, 60)
-
     }
 }
 
