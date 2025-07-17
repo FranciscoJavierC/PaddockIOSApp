@@ -15,38 +15,35 @@ struct PreviousView: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.red)
                         .frame(width: 400, height: 400)
-                        .overlay(
-                            Image("AustrailianGP")
-                                .resizable()
-                                .frame(width: 150, height: 150)
-                                .padding(.top, 300)
-                                .padding(.leading, 200)
-                        )
                     
-                    VStack(spacing: 12) {
-                        PodiumCard(number: 1, wordText: "ST", imageName: "Verstappen", name: "Max Verstappen", team: "Red Bull", timeGap: "1:29:15.211")
-                        PodiumCard(number: 2,  wordText: "ND", imageName: "Verstappen", name: "Lando Norris", team: "McLaren", timeGap: "+5.221s")
-                        PodiumCard(number: 3,  wordText: "RD", imageName: "Verstappen", name: "Charles Leclerc", team: "Ferrari", timeGap: "+12.407s")
+                    HStack(alignment: .bottom, spacing: 20) {
+                        PodiumCard(number: 2, code: "VER", imageName: "Verstappen", timeGap: "1:29:15.211")
+                            .frame(height: 150)
+                        PodiumCard(number: 1, code: "NOR", imageName: "Verstappen", timeGap: "+5.221s")
+                            .frame(height: 180)
+                        PodiumCard(number: 3, code: "LEC", imageName: "Verstappen", timeGap: "+12.407s")
+                            .frame(height: 130)
                     }
                     .padding(.horizontal, 50)
+                    .padding(.top, 60)
                     .frame(maxHeight: .infinity, alignment: .center)
                     
                     HStack {
                         // Text content on the left
-                        VStack(alignment: .leading, spacing: 6) {
+                        VStack(alignment: .leading) {
                             Text("Round 1")
-                                .font(.title3)
+                                .font(.headline)
                                 .foregroundStyle(.white)
                             Text("Australian GP")
                                 .foregroundStyle(.white)
-                                .font(.title)
+                                .font(.title2)
                                 .fontWeight(.bold)
                             Text("Melbourne")
                                 .foregroundStyle(.white)
-                                .font(.title3)
+                                .font(.headline)
                         }
-                        .padding(.leading, 50)
-                        .padding(.top, 280)
+                        .padding(.leading, 150)
+                        .padding(.bottom, 280)
                         
                         Spacer()
                         
@@ -81,7 +78,7 @@ struct PreviousView: View {
                         .fill(Color.red)
                         .frame(width: 400, height: 140)
                         .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 3)
-
+                    
                     VStack(spacing: 8) {
                         HStack(spacing: 12) {
                             // Flag
@@ -138,18 +135,13 @@ struct PreviousView: View {
                         )
                         .frame(width: 380)
                     }
-                    Image("AustrailianGP")
-                            .resizable()
-                            .frame(width: 110, height: 110)
-                            .cornerRadius(8)
-                            .offset(x: 50, y: -30)
                 }
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.red)
                         .frame(width: 400, height: 140)
                         .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 3)
-
+                    
                     VStack(spacing: 8) {
                         HStack(spacing: 12) {
                             // Flag
@@ -206,12 +198,8 @@ struct PreviousView: View {
                         )
                         .frame(width: 380)
                     }
-                    Image("AustrailianGP")
-                            .resizable()
-                            .frame(width: 110, height: 110)
-                            .cornerRadius(8)
-                            .offset(x: 50, y: -30)
-                }            }
+                }
+            }
         }
         .safeAreaPadding(.bottom, 60)
     }
@@ -219,64 +207,52 @@ struct PreviousView: View {
 
 struct PodiumCard: View {
     let number: Int
-    let wordText: String
+    let code: String
     let imageName: String
-    let name: String
-    let team: String
     let timeGap: String
 
     var body: some View {
-        HStack(spacing: 6) {
-            VStack {
-                // Position
+        ZStack {
+            VStack(spacing: 0) {
+                // Position number OUTSIDE of the rectangle, like driver image
                 Text("\(number)")
-                    .font(.subheadline)
+                    .font(.title)
                     .fontWeight(.bold)
-                    .frame(width: 24)
-                    .foregroundStyle(.red)
-                
-                // Rest of the 1st
-                Text("\(wordText)")
-                    .font(.subheadline)
-                    .fontWeight(.bold)
-                    .frame(width: 24)
-                    .foregroundStyle(.red)
+                    .foregroundColor(.white)
+                    .frame(width: 32, height: 32)
+                    .background(Color.red)
+                    .clipShape(Circle())
+                    .offset(y: -20) // Pull it up outside the card
+
+                // Rectangle body
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(Color.white)
+                    .frame(width: 100, height: 150)
+                    .shadow(radius: 2)
+                    .overlay(
+                        VStack(spacing: 10) {
+                            Image(imageName)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 80, height: 80)
+                                .clipShape(Circle())
+                                .background(
+                                        Circle()
+                                            .fill(Color.blue)
+                                    )
+
+                            Text(code)
+                                .font(.subheadline)
+                                .fontWeight(.bold)
+                                .foregroundColor(.red)
+
+                            Text(timeGap)
+                                .font(.caption)
+                                .foregroundColor(.red)
+                        }
+                    )
             }
-
-            // Driver Image
-            Image(imageName)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 38, height: 38)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(Color.red.opacity(0.7), lineWidth: 1.5))
-
-            // Name + Team
-            VStack(alignment: .leading, spacing: 1) {
-                Text(name)
-                    .font(.caption2)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.red)
-                Text(team)
-                    .font(.caption2)
-                    .foregroundStyle(.red.opacity(0.8))
-            }
-
-            Spacer()
-
-            // Gap or Lap Time
-            Text(timeGap)
-                .font(.headline)
-                .foregroundStyle(.red)
         }
-        .padding(.vertical, 6)
-        .padding(.horizontal, 8)
-        .frame(width: 300)
-        .background(
-            RoundedRectangle(cornerRadius: 14)
-                .fill(Color.white)
-                .shadow(radius: 2)
-        )
     }
 }
 
@@ -299,7 +275,11 @@ struct PodiumMini: View {
                 .scaledToFill()
                 .frame(width: 36, height: 36)
                 .clipShape(Circle())
-                .overlay(Circle().stroke(Color.red.opacity(0.7), lineWidth: 1.5))
+                .background(
+                        Circle()
+                            .fill(Color.blue)
+                    )
+
 
             VStack {
                 Text(code)

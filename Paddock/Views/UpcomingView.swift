@@ -22,20 +22,20 @@ struct UpcomingView: View {
 
                     HStack {
                         // Text content on the left
-                        VStack(alignment: .leading, spacing: 6) {
+                        VStack(alignment: .leading) {
                             Text("Round 1")
-                                .font(.title3)
+                                .font(.headline)
                                 .foregroundStyle(.white)
-                            Text("Austrailian GP")
+                            Text("Australian GP")
                                 .foregroundStyle(.white)
-                                .font(.title)
+                                .font(.title2)
                                 .fontWeight(.bold)
                             Text("Melbourne")
                                 .foregroundStyle(.white)
-                                .font(.title3)
+                                .font(.headline)
                         }
-                        .padding(.leading, 50)
-                        .padding(.top, 260)
+                        .padding(.leading, 150)
+                        .padding(.bottom, 280)
 
                         Spacer()
 
