@@ -47,7 +47,7 @@ struct StandingsView: View {
                     }
                 }
                 // 2. Change the background color based on the colorScheme
-                .background(colorScheme == .dark ? Color.black : Color.white) // Apply conditional background
+                .background(colorScheme == .dark ? Color(.systemGray6) : Color.white) // Apply conditional background
                 .clipShape(.capsule)
                 .shadow(color: .black.opacity(0.1), radius: 5, x: 5, y: 5)
                 .shadow(color: .black.opacity(0.05), radius: 5, x: -5, y: -5)

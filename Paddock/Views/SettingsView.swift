@@ -27,7 +27,6 @@ enum AppTheme: String, CaseIterable {
 // --- End of ThemeSwitcher and AppTheme definition ---
 
 struct SettingsView: View {
-    // IMPORTANT: Remove @AppStorage here and accept it as a Binding
     @Binding var appTheme: AppTheme
 
     var body: some View {
@@ -77,7 +76,7 @@ struct SettingsView: View {
             HStack {
                 Text(title)
                     .foregroundStyle(.white)
-                    .font(.title2)
+                    .font(.title3)
                     .fontWeight(.bold)
 
                 Spacer()
@@ -90,4 +89,8 @@ struct SettingsView: View {
             .padding(.horizontal)
         }
     }
+}
+
+#Preview {
+    ContentView()
 }

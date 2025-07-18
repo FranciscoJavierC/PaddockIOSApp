@@ -7,15 +7,31 @@
 
 import SwiftUI
 
+
 struct FloatingTabView: View {
-    var activeForeground: Color = .white
-    var activeBackground: Color = .red
+    @Environment(\.colorScheme) var colorScheme
+    
     @Binding var activeTab: FloatingTab
+    
     // For matched geometry effect
     @Namespace private var animation
     
     // View properties
     @State private var tabLocation: CGRect = .zero
+    
+    // Adaptive colors
+    var activeForeground: Color {
+        colorScheme == .dark ? .white : .white
+    }
+    
+    var activeBackground: Color {
+        colorScheme == .dark ? .red.opacity(0.9) : .red
+    }
+    
+    var inactiveColor: Color {
+        colorScheme == .dark ? .gray.opacity(0.7) : .gray
+    }
+    
     var body: some View {
         HStack(spacing: 12) {
             ForEach(FloatingTab.allCases, id: \.rawValue) { tab in
@@ -31,11 +47,11 @@ struct FloatingTabView: View {
                             Text(tab.title)
                                 .font(.caption)
                                 .fontWeight(.semibold)
-                                .foregroundColor(.white)
+                                .foregroundColor(activeForeground)
                                 .lineLimit(1)
                         }
                     }
-                    .foregroundStyle(activeTab == tab ? activeForeground : .gray)
+                    .foregroundStyle(activeTab == tab ? activeForeground : inactiveColor)
                     .padding(.vertical, 2)
                     .padding(.leading, 10)
                     .padding(.trailing, 15)
@@ -66,7 +82,7 @@ struct FloatingTabView: View {
         .padding(.horizontal, 5)
         .frame(height: 45)
         .background(
-            .background
+            (colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground))
                 .shadow(.drop(color: .black.opacity(0.08), radius: 5, x: 5, y: 5))
                 .shadow(.drop(color: .black.opacity(0.06), radius: 5, x: -5, y: -5)),
             in: .capsule
