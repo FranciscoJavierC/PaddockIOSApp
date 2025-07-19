@@ -7,6 +7,20 @@
 
 import SwiftUI
 
+struct Session {
+    let title: String
+    let day: String
+    let time: String
+}
+
+let scheduleData: [Session] = [
+    .init(title: "Practice 1", day: "FRI", time: "12:30 - 13:30"),
+    .init(title: "Practice 2", day: "FRI", time: "16:00 - 17:00"),
+    .init(title: "Practice 3", day: "SAT", time: "12:30 - 13:30"),
+    .init(title: "Qualifying", day: "SAT", time: "16:00 - 17:00"),
+    .init(title: "Race",       day: "SUN", time: "15:00")
+]
+
 struct UpcomingView: View {
     @Environment(\.colorScheme) var colorScheme
 
@@ -24,74 +38,89 @@ struct UpcomingView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(cardBackground)
-                        .frame(width: 400, height: 400)
-                        .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 3)
-                        .overlay(
+                        .frame(width: 400, height: 570)
+                        .shadow(color: cardShadow, radius: 6, x: 0, y: 3)
+
+                    VStack {
+                        HStack(alignment: .top) {
+                            VStack(alignment: .leading, spacing: 8) {
+                                HStack {
+                                    Text("Round 1")
+                                        .font(.headline)
+                                        .foregroundColor(.adaptiveText)
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .frame(width: 100, height: 25)
+                                        .foregroundColor(.red)
+                                        .overlay(
+                                            Text("UP NEXT")
+                                                .foregroundColor(.white)
+                                                .fontWeight(.bold)
+                                            
+                                        )
+                                }
+                                
+                                
+                                HStack(spacing: 8) {
+                                    Image("AustrailianFlag")
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 30, height: 24)
+                                        .cornerRadius(8)
+                                    Text("AUSTRALIA")
+                                        .foregroundColor(.adaptiveText)
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                }
+                                
+                                Text("FORMULA 1 LOUIS VUITTON AUSTRALIAN GRAND PRIX 2025")
+                                    .foregroundColor(.adaptiveText)
+                                    .font(.headline)
+                                
+                                Text("13-15 Mar")
+                                    .foregroundColor(.adaptiveText)
+                            }
                             Image("AustrailianGP")
-                        )
-                    
-                    Text("Race Starts in")
-                        .foregroundColor(.adaptiveText)
-                        .fontWeight(.bold)
-                        .font(.title)
-                        .padding(.trailing, 170)
-                        .padding(.top, 170)
-                    
-                    Text("01 16 46")
-                        .foregroundColor(.adaptiveText)
-                        .fontWeight(.bold)
-                        .font(.title)
-                        .padding(.trailing, 240)
-                        .padding(.top, 250)
-                    
-                    Text("Days Hours Minutes")
-                        .foregroundColor(.adaptiveText)
-                        .fontWeight(.bold)
-                        .font(.title)
-                        .padding(.trailing, 90)
-                        .padding(.top, 320)
-
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("Round 1")
-                                .font(.headline)
-                                .foregroundColor(.adaptiveText)
-                            Text("Australian GP")
-                                .foregroundColor(.adaptiveText)
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            Text("Melbourne")
-                                .foregroundColor(.adaptiveText)
-                                .font(.headline)
-                        }
-                        .padding(.leading, 150)
-                        .padding(.bottom, 280)
-
-                        Spacer()
-
-                        VStack(spacing: 4) {
-                            Text("13-15")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            Text("MAR")
-                                .font(.title2)
-                        }
-                        .foregroundColor(.white)
-                        .frame(width: 80, height: 80)
-                        .background(Color.red)
-                        .cornerRadius(10)
-                        .padding(.trailing, 30)
-                        .padding(.bottom, 280)
-                        
-                        VStack(spacing: 4) {
-                            Image("AustrailianFlag")
                                 .resizable()
-                                .frame(width: 80, height: 80)
-                                .clipShape(Circle())
-                                .overlay(Circle().stroke(Color.black, style: StrokeStyle(lineWidth: 4)))
+                                .scaledToFill()
+                                .frame(width: 150, height: 100)
+                                .padding(.top, 20)
+                                .padding(.trailing, 20)
                         }
-                        .padding(.leading, -400)
-                        .padding(.top, -180)
+                        .padding(.leading, 30)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        Image("AustralianWide")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 380, height: 200)
+                            .cornerRadius(10)
+                        
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color(.systemGray5))
+                                .frame(width: 380, height: 170)
+                            
+                            Grid(horizontalSpacing: 0, verticalSpacing: 12) {
+                                ForEach(scheduleData, id: \.title) { session in
+                                    GridRow {
+                                        Text(session.title)
+                                            .foregroundColor(.adaptiveText)
+                                            .fontWeight(.bold)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                                        Text(session.day)
+                                            .foregroundColor(.secondary)
+                                            .frame(maxWidth: .infinity, alignment: .center)
+
+                                        Text(session.time)
+                                            .foregroundColor(.adaptiveText)
+                                            .fontWeight(.bold)
+                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                    }
+                                }
+                            }
+                            .padding(.horizontal, 40)
+                        }
                     }
                 }
 
