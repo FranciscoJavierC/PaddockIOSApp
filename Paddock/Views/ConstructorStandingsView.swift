@@ -11,135 +11,101 @@ struct ConstructorStandingsView: View {
     var body: some View {
         ScrollView {
             LazyVStack {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.red.opacity(0.95)) // Keep red, but easier on the eyes
-                        .frame(width: 400, height: 300)
+                ConstructorStandingCard(position: 1, constructor: "Red Bull", teamColor: LinearGradient(
+                    gradient: Gradient(colors: [Color.blue, Color.red]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing), points: 330, teamLogo: Image("RedBull"))
 
-                    // Red Bull logo in white circle for visibility
+                ConstructorStandingCard(position: 2, constructor: "Ferrari", teamColor: LinearGradient(
+                    gradient: Gradient(colors: [Color.red, Color.black]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing), points: 275, teamLogo: Image("RedBull"))
+
+                ConstructorStandingCard(position: 3, constructor: "McLaren", teamColor: LinearGradient(
+                    gradient: Gradient(colors: [Color.orange, Color.black]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing), points: 250, teamLogo: Image("RedBull"))
+                
+                ConstructorStandingCard(position: 3, constructor: "McLaren", teamColor: LinearGradient(
+                    gradient: Gradient(colors: [Color.orange, Color.black]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing), points: 250, teamLogo: Image("RedBull"))
+                
+                ConstructorStandingCard(position: 3, constructor: "McLaren", teamColor: LinearGradient(
+                    gradient: Gradient(colors: [Color.orange, Color.black]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing), points: 250, teamLogo: Image("RedBull"))
+                
+                ConstructorStandingCard(position: 3, constructor: "McLaren", teamColor: LinearGradient(
+                    gradient: Gradient(colors: [Color.orange, Color.black]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing), points: 250, teamLogo: Image("RedBull"))
+            }
+        }
+    }
+}
+
+struct ConstructorStandingCard: View {
+    let position: Int
+    let constructor: String
+    let teamColor: LinearGradient
+    let points: Int
+    let teamLogo: Image
+
+    var body: some View {
+        ZStack {
+            // Background Card
+            RoundedRectangle(cornerRadius: 20)
+                .fill(teamColor)
+                .frame(height: 160)
+
+            HStack {
+                VStack(alignment: .leading) {
                     VStack {
-                        HStack {
-                            Spacer()
-                            ZStack {
-                                Circle()
-                                    .fill(Color.white)
-                                    .frame(width: 70, height: 70)
-                                    .shadow(radius: 4)
-
-                                Image("RedBull")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 70)
-                            }
-                            .padding(.top, 20)
-                            .padding(.trailing, 30)
-                        }
-                        Spacer()
+                        Text(constructor)
+                            .font(.title)
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
                     }
+                    
+                    Text("\(position)\(ordinalSuffix(for: position)) place")
+                        .font(.subheadline)
+                        .foregroundColor(.white)
+                        .fontWeight(.medium)
 
-                    // Driver + Stats
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("1")
-                                .foregroundStyle(.red)
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                                .frame(width: 50, height: 50)
-                                .background(Color.white)
-                                .cornerRadius(10)
-                                .padding(.bottom, 120)
-
-                            Text("Verstappen")
-                                .foregroundStyle(.white)
-                                .font(.title3)
-                                .fontWeight(.bold)
-                            Text("Red Bull")
-                                .foregroundStyle(.white)
-                                .font(.caption)
-                                .fontWeight(.bold)
-                            Text("280 pts")
-                                .foregroundStyle(.white)
-                                .font(.title3)
-                                .fontWeight(.bold)
-                        }
-                        .padding(.leading, 30)
-
-                        Spacer()
-
-                        Image("VerstappenStand")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 180, height: 270, alignment: .top)
-                            .clipped()
-                            .padding(.trailing, 100)
-                            .padding(.top, 30)
-                    }
+                    Text("\(points) pts")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
                 }
-                ZStack {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.red.opacity(0.95)) // Keep red, but easier on the eyes
-                        .frame(width: 400, height: 100)
 
-                    // Red Bull logo in white circle for visibility
-                    VStack {
-                        HStack {
-                            Spacer()
-                            ZStack {
-                                Circle()
-                                    .fill(Color.white)
-                                    .frame(width: 70, height: 70)
-                                    .shadow(radius: 4)
+                Spacer()
 
-                                Image("RedBull")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 70)
-                            }
-                            .padding(.top, 15)
-                            .padding(.trailing, 30)
-                        }
-                        Spacer()
-                    }
-
-                    // Driver + Stats
-                    HStack {
-                        HStack(spacing: 4) {
-                            Text("1")
-                                .foregroundStyle(.red)
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                                .frame(width: 50, height: 50)
-                                .background(Color.white)
-                                .cornerRadius(10)
-
-                            VStack {
-                                Text("Verstappen")
-                                    .foregroundStyle(.white)
-                                    .font(.caption)
-                                    .fontWeight(.bold)
-                                Text("Red Bull")
-                                    .foregroundStyle(.white)
-                                    .font(.caption)
-                                    .fontWeight(.bold)
-                                Text("280 pts")
-                                    .foregroundStyle(.white)
-                                    .font(.caption)
-                                    .fontWeight(.bold)
-                            }
-                            .padding(.leading, 15)
-                        }
-                        .padding(.leading, 30)
-
-                        Spacer()
-
-                        Image("MclarenCar")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 40, height: 40)
-                            .padding(.trailing, 160)
-                            .padding(.top, -5)
-                    }
+                ZStack(alignment: .bottomTrailing) {
+                    teamLogo
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 190, height: 160, alignment: .top)
+                        .clipped()
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .offset(x: 10)
                 }
+            }
+            .padding(.horizontal)
+        }
+        .padding(.horizontal)
+
+    }
+
+    private func ordinalSuffix(for number: Int) -> String {
+        switch number {
+        case 11...13: return "th"
+        default:
+            switch number % 10 {
+            case 1: return "st"
+            case 2: return "nd"
+            case 3: return "rd"
+            default: return "th"
             }
         }
     }
