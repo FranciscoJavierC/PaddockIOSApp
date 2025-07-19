@@ -60,7 +60,7 @@ struct ScheduleView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Paddock")
                         .font(.system(size: 36, weight: .bold))
-                        .foregroundStyle(Color.red)
+                        .foregroundColor(Color.adaptiveText)
                 }
                 
                 ToolbarItemGroup(placement: .topBarTrailing) {
@@ -68,14 +68,14 @@ struct ScheduleView: View {
                         // To do
                     }) {
                         Image(systemName: "magnifyingglass")
-                            .foregroundColor(.red)
+                            .foregroundColor(.adaptiveText)
                             .font(.headline)
                     }
                     Button(action: {
                         // To do
                     }) {
                         Image(systemName: "line.3.horizontal.decrease")
-                            .foregroundColor(.red)
+                            .foregroundColor(.adaptiveText)
                             .font(.headline)
                     }
                 }
@@ -90,7 +90,7 @@ struct ScheduleView: View {
                 Text(tab.rawValue)
                     .font(.callout)
                     .fontWeight(weight)
-                    .foregroundStyle(tint) // This tint might also need to change based on dark/light mode
+                    .foregroundStyle(tint)
                     .padding(.vertical, 10)
                     .frame(maxWidth: .infinity)
                     .contentShape(.rect)

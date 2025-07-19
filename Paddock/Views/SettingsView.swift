@@ -34,7 +34,7 @@ struct SettingsView: View {
             HStack {
                 Text("Settings")
                     .font(.system(size: 36, weight: .bold))
-                    .foregroundStyle(.red)
+                    .foregroundColor(.adaptiveText)
                 Spacer()
             }
             .padding(.horizontal)

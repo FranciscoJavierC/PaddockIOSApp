@@ -9,7 +9,7 @@ struct NewsView: View {
             HStack {
                 Text("News")
                     .font(.system(size: 36, weight: .bold))
-                    .foregroundStyle(.red) // This remains red as requested
+                    .foregroundColor(.adaptiveText)
                     .padding(.leading)
                 Spacer()
             }

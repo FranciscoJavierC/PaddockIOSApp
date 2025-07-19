@@ -18,7 +18,7 @@ struct StandingsView: View {
             HStack {
                 Text("Standings")
                     .font(.system(size: 36, weight: .bold))
-                    .foregroundStyle(.red)
+                    .foregroundColor(.adaptiveText)
                     .padding(.leading)
                 Spacer()
             }
@@ -62,6 +62,7 @@ struct StandingsView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
+        .ignoresSafeArea(edges: .bottom)
     }
 
     @ViewBuilder

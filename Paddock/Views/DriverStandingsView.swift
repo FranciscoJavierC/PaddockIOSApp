@@ -42,6 +42,9 @@ struct DriverStandingsView: View {
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing), points: 165, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"))
             }
+            .safeAreaInset(edge: .top, spacing: 0) {
+                Color.clear.frame(height: 10)
+            }
         }
         .safeAreaPadding(.bottom, 60)
     }

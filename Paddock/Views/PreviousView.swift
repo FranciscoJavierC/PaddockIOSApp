@@ -24,63 +24,51 @@ struct PreviousView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(cardBackground)
-                        .frame(width: 400, height: 400)
+                        .frame(width: 400, height: 300)
                         .shadow(color: cardShadow, radius: 6, x: 0, y: 3)
-
-                    HStack(alignment: .bottom, spacing: 20) {
-                        PodiumCard(number: 2, code: "VER", imageName: "Verstappen", timeGap: "1:29:15.211", isDark: true)
-                            .frame(height: 150)
-                        PodiumCard(number: 1, code: "NOR", imageName: "Verstappen", timeGap: "+5.221s", isDark: true)
-                            .frame(height: 180)
-                        PodiumCard(number: 3, code: "LEC", imageName: "Verstappen", timeGap: "+12.407s", isDark: true)
-                            .frame(height: 130)
-                    }
-                    .padding(.horizontal, 50)
-                    .padding(.top, 60)
-                    .frame(maxHeight: .infinity, alignment: .center)
 
                     HStack {
                         VStack(alignment: .leading) {
                             Text("Round 1")
                                 .font(.headline)
                                 .foregroundColor(.adaptiveText)
-                            Text("Australian GP")
-                                .foregroundColor(.adaptiveText)
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            Text("Melbourne")
+                            
+                            HStack {
+                                Image("AustrailianFlag")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 30, height: 24)
+                                    .cornerRadius(8)
+                                Text("Australia")
+                                    .foregroundColor(.adaptiveText)
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                            }
+                            
+                            Text("FORMULA 1 LOUIS VUITTON AUSTRALIAN GRAND PRIX 2025")
                                 .foregroundColor(.adaptiveText)
                                 .font(.headline)
+                            
+                            Text("13-15 Mar")
+                                .foregroundColor(.adaptiveText)
                         }
-                        .padding(.leading, 150)
-                        .padding(.bottom, 280)
-
-                        Spacer()
-
-                        VStack(spacing: 4) {
-                            Text("13-15")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            Text("MAR")
-                                .font(.title2)
-                        }
-                        .foregroundColor(.white)
-                        .frame(width: 80, height: 80)
-                        .background(Color.red)
-                        .cornerRadius(10)
-                        .padding(.trailing, 30)
-                        .padding(.bottom, 280)
-
-                        VStack(spacing: 4) {
-                            Image("AustrailianFlag")
-                                .resizable()
-                                .frame(width: 80, height: 80)
-                                .clipShape(Circle())
-                                .overlay(Circle().stroke(Color.black, style: StrokeStyle(lineWidth: 4)))
-                        }
-                        .padding(.leading, -400)
-                        .padding(.top, -180)
+                        Image("AustrailianGP")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 150, height: 100)
                     }
+                    
+                    HStack(alignment: .bottom, spacing: 20) {
+                        PodiumCard(number: 2, code: "VER", imageName: "Verstappen", isDark: true)
+                            .frame(height: 150)
+                        PodiumCard(number: 1, code: "NOR", imageName: "Verstappen", isDark: true)
+                            .frame(height: 180)
+                        PodiumCard(number: 3, code: "LEC", imageName: "Verstappen", isDark: true)
+                            .frame(height: 130)
+                    }
+                    .padding(.horizontal, 50)
+                    .padding(.top, 60)
+                    .frame(maxHeight: .infinity, alignment: .center)
                 }
 
                 ForEach(0..<2) { _ in
@@ -155,7 +143,6 @@ struct PodiumCard: View {
     let number: Int
     let code: String
     let imageName: String
-    let timeGap: String
     var isDark: Bool = false
 
     var textColor: Color {
@@ -164,38 +151,21 @@ struct PodiumCard: View {
 
     var body: some View {
         ZStack {
-            VStack(spacing: 0) {
-                Text("\(number)")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.adaptiveText)
-                    .frame(width: 32, height: 32)
-                    .clipShape(Circle())
-                    .offset(y: -20)
-
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(Color.red)
-                    .frame(width: 100, height: 150)
-                    .shadow(radius: 2)
-                    .overlay(
-                        VStack(spacing: 10) {
-                            Image(imageName)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 80, height: 80)
-                                .clipShape(Circle())
-                                .background(Circle().fill(Color.adaptiveBackground))
-
-                            Text(code)
-                                .font(.subheadline)
-                                .fontWeight(.bold)
-                                .foregroundColor(textColor)
-
-                            Text(timeGap)
-                                .font(.caption)
-                                .foregroundColor(textColor)
-                        }
-                    )
+            HStack {
+                VStack {
+                    Image(imageName)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 48, height: 48)
+                    
+                    HStack {
+                        Text("\(number)")
+                            .font(.caption2)
+                            .fontWeight(.bold)
+                        Text(code)
+                            .font(.caption)
+                    }
+                }
             }
         }
     }

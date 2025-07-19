@@ -42,6 +42,7 @@ struct ConstructorStandingsView: View {
                     endPoint: .bottomTrailing), points: 250, teamLogo: Image("RedBull"))
             }
         }
+        .safeAreaPadding(.bottom, 60)
     }
 }
 
