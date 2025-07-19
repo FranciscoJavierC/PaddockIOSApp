@@ -27,19 +27,19 @@ struct PreviousView: View {
                         .frame(width: 400, height: 300)
                         .shadow(color: cardShadow, radius: 6, x: 0, y: 3)
 
-                    HStack {
-                        VStack(alignment: .leading) {
+                    HStack(alignment: .top) {
+                        VStack(alignment: .leading, spacing: 8) {
                             Text("Round 1")
                                 .font(.headline)
                                 .foregroundColor(.adaptiveText)
                             
-                            HStack {
+                            HStack(spacing: 8) {
                                 Image("AustrailianFlag")
                                     .resizable()
                                     .scaledToFill()
                                     .frame(width: 30, height: 24)
                                     .cornerRadius(8)
-                                Text("Australia")
+                                Text("AUSTRALIA")
                                     .foregroundColor(.adaptiveText)
                                     .font(.title2)
                                     .fontWeight(.bold)
@@ -56,19 +56,20 @@ struct PreviousView: View {
                             .resizable()
                             .scaledToFill()
                             .frame(width: 150, height: 100)
+                            .padding(.top, 20)
+                            .padding(.trailing, 20)
                     }
+                    .padding(.leading, 30)
+                    .padding(.bottom, 110)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     
                     HStack(alignment: .bottom, spacing: 20) {
-                        PodiumCard(number: 2, code: "VER", imageName: "Verstappen", isDark: true)
-                            .frame(height: 150)
-                        PodiumCard(number: 1, code: "NOR", imageName: "Verstappen", isDark: true)
-                            .frame(height: 180)
-                        PodiumCard(number: 3, code: "LEC", imageName: "Verstappen", isDark: true)
-                            .frame(height: 130)
+                        PodiumCard(number: 2, code: "VER", imageName: "Verstappen", gradientColors: [.blue, .purple], teamColor: .blue)
+                        PodiumCard(number: 1, code: "NOR", imageName: "Verstappen", gradientColors: [.orange, .red], teamColor: .orange)
+                        PodiumCard(number: 3, code: "LEC", imageName: "Verstappen", gradientColors: [.red, .pink], teamColor: .red)
                     }
-                    .padding(.horizontal, 50)
-                    .padding(.top, 60)
-                    .frame(maxHeight: .infinity, alignment: .center)
+                    .padding(.top, 160)
+                    .frame(width: 400)
                 }
 
                 ForEach(0..<2) { _ in
@@ -142,34 +143,76 @@ struct PreviousView: View {
 struct PodiumCard: View {
     let number: Int
     let code: String
-    let imageName: String
-    var isDark: Bool = false
-
-    var textColor: Color {
-        isDark ? .white : .adaptiveText
-    }
+    let imageName: String // Assumes you have images like "Verstappen", "Norris", "Leclerc"
+    let gradientColors: [Color] // Colors for the background gradient
+    let teamColor: Color // Color for the small bar next to number/code
 
     var body: some View {
-        ZStack {
-            HStack {
-                VStack {
-                    Image(imageName)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 48, height: 48)
-                    
-                    HStack {
-                        Text("\(number)")
-                            .font(.caption2)
-                            .fontWeight(.bold)
-                        Text(code)
-                            .font(.caption)
-                    }
-                }
+        VStack(spacing: 0) {
+            ZStack(alignment: .center) {
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(LinearGradient(gradient: Gradient(colors: gradientColors), startPoint: .trailing, endPoint: .leading))
+                    .frame(width: 100, height: imageHeight(for: number))
+                    .offset(y: 20)
+                    .clipShape(
+                            .rect(cornerRadii: .init(topTrailing: 20))
+                        )
+                    .mask(
+                            LinearGradient(
+                                gradient: Gradient(stops: [
+                                    .init(color: .clear, location: 0.0),  // fully transparent on left
+                                    .init(color: .black, location: 0.8),  // fully opaque starting at 30%
+                                    .init(color: .black, location: 1.0)   // opaque on right
+                                ]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                
+                // Driver Image
+                Image(imageName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 90, height: imageHeight(for: number))
+                    .clipShape(Rectangle())
             }
+            .frame(width: 100, height: 100)
+            .clipped()
+
+
+            HStack(spacing: 8) {
+                Text("\(number)")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .foregroundColor(.adaptiveText)
+                
+                Rectangle()
+                    .fill(teamColor)
+                    .frame(width: 3, height: 12)
+
+                Text(code)
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .foregroundColor(.adaptiveText)
+            }
+        }
+        .frame(width: 120)
+    }
+    
+    private func imageHeight(for position: Int) -> CGFloat {
+        switch position {
+        case 1:
+            return 100 // biggest
+        case 2:
+            return 85  // slightly smaller
+        case 3:
+            return 75  // even smaller
+        default:
+            return 80
         }
     }
 }
+
 
 struct PodiumMini: View {
     let position: String
