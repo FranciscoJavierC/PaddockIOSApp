@@ -37,9 +37,14 @@ struct UpcomingView: View {
             LazyVStack(spacing: 16) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(cardBackground)
-                        .frame(width: 400, height: 570)
-                        .shadow(color: cardShadow, radius: 6, x: 0, y: 3)
+                        .stroke(Color.red, lineWidth: 2)
+                        .shadow(color: Color.red.opacity(0.7), radius: 10, x: 0, y: 0)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(cardBackground)
+                        )
+                        .frame(width: 400, height: 420)
+
 
                     VStack {
                         HStack(alignment: .top) {
@@ -71,29 +76,19 @@ struct UpcomingView: View {
                                         .font(.title2)
                                         .fontWeight(.bold)
                                 }
-                                
-                                Text("FORMULA 1 LOUIS VUITTON AUSTRALIAN GRAND PRIX 2025")
-                                    .foregroundColor(.adaptiveText)
-                                    .font(.headline)
-                                
                                 Text("13-15 Mar")
                                     .foregroundColor(.adaptiveText)
+                                    .font(.title3)
                             }
                             Image("AustrailianGP")
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 150, height: 100)
-                                .padding(.top, 20)
-                                .padding(.trailing, 20)
+                                .padding(.leading, 40)
                         }
                         .padding(.leading, 30)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        
-                        Image("AustralianWide")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 380, height: 200)
-                            .cornerRadius(10)
+
                         
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -120,6 +115,11 @@ struct UpcomingView: View {
                                 }
                             }
                             .padding(.horizontal, 40)
+                        }
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color(.red))
+                                .frame(width: 380, height: 100)
                         }
                     }
                 }

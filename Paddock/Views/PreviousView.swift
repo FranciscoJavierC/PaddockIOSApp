@@ -24,7 +24,7 @@ struct PreviousView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(cardBackground)
-                        .frame(width: 400, height: 300)
+                        .frame(width: 400, height: 240)
                         .shadow(color: cardShadow, radius: 6, x: 0, y: 3)
 
                     HStack(alignment: .top) {
@@ -44,20 +44,16 @@ struct PreviousView: View {
                                     .font(.title2)
                                     .fontWeight(.bold)
                             }
-                            
-                            Text("FORMULA 1 LOUIS VUITTON AUSTRALIAN GRAND PRIX 2025")
-                                .foregroundColor(.adaptiveText)
-                                .font(.headline)
-                            
+                        
                             Text("13-15 Mar")
                                 .foregroundColor(.adaptiveText)
+                                .font(.title3)
                         }
                         Image("AustrailianGP")
                             .resizable()
                             .scaledToFill()
                             .frame(width: 150, height: 100)
-                            .padding(.top, 20)
-                            .padding(.trailing, 20)
+                            .padding(.leading, 50)
                     }
                     .padding(.leading, 30)
                     .padding(.bottom, 110)
@@ -68,7 +64,7 @@ struct PreviousView: View {
                         PodiumCard(number: 1, code: "NOR", imageName: "Verstappen", gradientColors: [.orange, .red], teamColor: .orange)
                         PodiumCard(number: 3, code: "LEC", imageName: "Verstappen", gradientColors: [.red, .pink], teamColor: .red)
                     }
-                    .padding(.top, 160)
+                    .padding(.top, 90)
                     .frame(width: 400)
                 }
 
@@ -76,7 +72,7 @@ struct PreviousView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
                             .fill(cardBackground)
-                            .frame(width: 400, height: 300)
+                            .frame(width: 400, height: 240)
                             .shadow(color: cardShadow, radius: 6, x: 0, y: 3)
 
                         HStack(alignment: .top) {
@@ -97,19 +93,15 @@ struct PreviousView: View {
                                         .fontWeight(.bold)
                                 }
                                 
-                                Text("FORMULA 1 LOUIS VUITTON AUSTRALIAN GRAND PRIX 2025")
-                                    .foregroundColor(.adaptiveText)
-                                    .font(.headline)
-                                
                                 Text("13-15 Mar")
                                     .foregroundColor(.adaptiveText)
+                                    .font(.title3)
                             }
                             Image("AustrailianGP")
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 150, height: 100)
-                                .padding(.top, 20)
-                                .padding(.trailing, 20)
+                                .padding(.leading, 50)
                         }
                         .padding(.leading, 30)
                         .padding(.bottom, 110)
@@ -120,7 +112,7 @@ struct PreviousView: View {
                             PodiumCard(number: 1, code: "NOR", imageName: "Verstappen", gradientColors: [.orange, .red], teamColor: .orange)
                             PodiumCard(number: 3, code: "LEC", imageName: "Verstappen", gradientColors: [.red, .pink], teamColor: .red)
                         }
-                        .padding(.top, 160)
+                        .padding(.top, 90)
                         .frame(width: 400)
                     }
                 }
