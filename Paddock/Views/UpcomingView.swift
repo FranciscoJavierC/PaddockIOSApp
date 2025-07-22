@@ -37,31 +37,18 @@ struct UpcomingView: View {
             LazyVStack(spacing: 16) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.red, lineWidth: 2)
-                        .shadow(color: Color.red.opacity(0.7), radius: 10, x: 0, y: 0)
-                        .background(
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(cardBackground)
-                        )
-                        .frame(width: 400, height: 420)
+                        .fill(cardBackground)
+                        .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 0)
+                        .frame(width: 400, height: 400)// Old height with old design was 310 for large schedule
 
 
                     VStack {
                         HStack(alignment: .top) {
-                            VStack(alignment: .leading, spacing: 8) {
+                            VStack(alignment: .leading, spacing: 19) {
                                 HStack {
                                     Text("Round 1")
-                                        .font(.headline)
+                                        .font(.custom("SFPro-ExpandedRegular", size: 17))
                                         .foregroundColor(.adaptiveText)
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .frame(width: 100, height: 25)
-                                        .foregroundColor(.red)
-                                        .overlay(
-                                            Text("UP NEXT")
-                                                .foregroundColor(.white)
-                                                .fontWeight(.bold)
-                                            
-                                        )
                                 }
                                 
                                 
@@ -69,57 +56,79 @@ struct UpcomingView: View {
                                     Image("AustrailianFlag")
                                         .resizable()
                                         .scaledToFill()
-                                        .frame(width: 30, height: 24)
+                                        .frame(width: 50, height: 30)
                                         .cornerRadius(8)
                                     Text("AUSTRALIA")
                                         .foregroundColor(.adaptiveText)
-                                        .font(.title2)
-                                        .fontWeight(.bold)
+                                        .font(.custom("SFPro-ExpandedBold", size: 20))
                                 }
+                                
                                 Text("13-15 Mar")
                                     .foregroundColor(.adaptiveText)
-                                    .font(.title3)
+                                    .font(.custom("SFPro-ExpandedRegular", size: 17))
                             }
-                            Image("AustrailianGP")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 150, height: 100)
-                                .padding(.leading, 40)
+                            
+                            VStack(spacing: -30) {
+                                Image("AustrailianGP")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 150, height: 100)
+                                    .padding(.leading, 10)
+                                    .padding(.bottom, 20)
+                                
+                                Text("Albert Park Circuit")
+                                    .foregroundColor(.adaptiveText)
+                                    .font(.custom("SFPro-ExpandedRegular", size: 15))
+                            }
                         }
                         .padding(.leading, 30)
                         .frame(maxWidth: .infinity, alignment: .leading)
-
                         
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color(.systemGray5))
-                                .frame(width: 380, height: 170)
-                            
-                            Grid(horizontalSpacing: 0, verticalSpacing: 12) {
-                                ForEach(scheduleData, id: \.title) { session in
-                                    GridRow {
-                                        Text(session.title)
-                                            .foregroundColor(.adaptiveText)
-                                            .fontWeight(.bold)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
+                        HStack(spacing: 8) {
+                            WeekendDayCard(
+                                day: "FRI",
+                                date: "MAR 13",
+                                sessions: [
+                                    ("Practice 1", "12:30 - 13:30"),
+                                    ("Practice 2", "16:00 - 17:00")
+                                ]
+                            )
 
-                                        Text(session.day)
-                                            .foregroundColor(.secondary)
-                                            .frame(maxWidth: .infinity, alignment: .center)
+                            WeekendDayCard(
+                                day: "SAT",
+                                date: "MAR 14",
+                                sessions: [
+                                    ("Practice 3", "11:30 - 12:30"),
+                                    ("Qualifying", "15:00 - 16:00")
+                                ]
+                            )
 
-                                        Text(session.time)
-                                            .foregroundColor(.adaptiveText)
-                                            .fontWeight(.bold)
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
-                                    }
-                                }
-                            }
-                            .padding(.horizontal, 40)
+                            WeekendDayCard(
+                                day: "SUN",
+                                date: "MAR 15",
+                                sessions: [
+                                    ("Race", "13:00 - 15:00")
+                                ]
+                            )
                         }
+                        
                         ZStack {
                             RoundedRectangle(cornerRadius: 20)
                                 .fill(Color(.red))
-                                .frame(width: 380, height: 100)
+                                .frame(width: 380, height: 140)
+
+                            VStack(spacing: 8) {
+                                Text("Practice 1")
+                                    .font(.custom("SFPro-ExpandedBold", size: 20))
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.white)
+
+                                HStack(spacing: 8) {
+                                    TimeUnitBox(label: "DAYS", value: "02")
+                                    TimeUnitBox(label: "HRS", value: "13")
+                                    TimeUnitBox(label: "MIN", value: "45")
+                                }
+                            }
                         }
                     }
                 }
@@ -161,10 +170,9 @@ struct UpcomingView: View {
 
                             VStack(spacing: 2) {
                                 Text("13-15")
-                                    .font(.caption)
-                                    .fontWeight(.bold)
+                                    .font(.custom("SFPro-ExpandedBold", size: 12))
                                 Text("MAR")
-                                    .font(.caption)
+                                    .font(.custom("SFPro-ExpandedBold", size: 10))
                             }
                             .foregroundColor(.white)
                             .frame(width: 50, height: 50)
@@ -181,6 +189,85 @@ struct UpcomingView: View {
             Color.clear.frame(height: 10)
         }
         .safeAreaPadding(.bottom, 70)
+    }
+}
+
+struct WeekendDayCard: View {
+    let day: String
+    let date: String
+    let sessions: [(title: String, time: String)]
+
+    var body: some View {
+        VStack(spacing: 0) {
+            ZStack {
+                Color.red
+                    .frame(height: 35)
+                    .clipShape(RoundedCorner(radius: 20, corners: [.topLeft, .topRight]))
+                
+                HStack(spacing: 4) {
+                    Text(day)
+                        .font(.custom("SFPro-ExpandedBold", size: 13))
+                        .foregroundStyle(.white)
+                    Text(date)
+                        .font(.custom("SFPro-ExpandedBold", size: 13))
+                        .foregroundStyle(.white)
+                }
+            }
+
+            VStack {
+                ForEach(sessions.indices, id: \.self) { index in
+                    VStack(spacing: 4) {
+                        Text(sessions[index].title)
+                            .font(.custom("SFPro-ExpandedBold", size: 11))
+                            .multilineTextAlignment(.center)
+
+                        Text(sessions[index].time)
+                            .font(.custom("SFPro-ExpandedRegular", size: 10))
+                            .foregroundColor(Color.black)
+                    }
+                }
+                Spacer()
+            }
+            .padding(.vertical, 8)
+            .frame(height: 75)
+            .frame(maxWidth: .infinity)
+            .background(Color(.systemGray6))
+        }
+        .frame(width: 120, height: 100)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .shadow(radius: 2)
+    }
+}
+
+struct RoundedCorner: Shape {
+    var radius: CGFloat
+    var corners: UIRectCorner
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        return Path(path.cgPath)
+    }
+}
+
+struct TimeUnitBox: View {
+    let label: String
+    let value: String
+
+    var body: some View {
+        VStack(spacing: 2) {
+            Text(value)
+                .font(.custom("SFPro-ExpandedBold", size: 35))
+                .foregroundStyle(.white)
+            Text(label)
+                .font(.custom("SFPro-ExpandedRegular", size: 13))
+                .foregroundColor(.white)
+        }
+        .frame(width: 115, height: 80)
+        .background(RoundedRectangle(cornerRadius: 10).fill(Color(red: 0.8, green: 0, blue: 0)))
     }
 }
 
