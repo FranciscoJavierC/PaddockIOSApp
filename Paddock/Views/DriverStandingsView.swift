@@ -46,17 +46,20 @@ struct DriverStandingCard: View {
                     .frame(height: 80)
                     .clipShape(RoundedCorner(radius: 12, corners: [.topLeft, .topRight]))
                 
-                Text("\(name) \(driverNumber)")
-                    .font(.custom("SFPro-ExpandedBold", size: 24))
-                    .foregroundStyle(.white)
-                    .padding(.trailing, 100)
-                
-                driverCountry
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 70, height: 40)
-                    .cornerRadius(8)
-                    .padding(.leading, 280)
+                HStack {
+                    Text("\(name) #\(driverNumber)")
+                        .font(.custom("SFPro-ExpandedBold", size: 22))
+                        .foregroundStyle(.white)
+                    
+                    Spacer()
+                    
+                    driverCountry
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 70, height: 40)
+                        .cornerRadius(8)
+                }
+                .padding(.horizontal, 12)
             }
             
             HStack(spacing: 6) {
@@ -109,6 +112,7 @@ struct DriverStandingCard: View {
                                 .font(.custom("SFPro-ExpandedRegular", size: 17))
                         }
                     }
+                    .padding(.leading, 8)
                 }
                 
                 driverImage
@@ -138,22 +142,21 @@ struct MiniDriverStandingCard: View {
     let driverImage: Image
     let teamLogo: Image
     let driverCountry: Image
-    
+
     var body: some View {
         VStack(spacing: 0) {
-            // Header
-            ZStack(alignment: .leading) {
+            // HEADER
+            ZStack {
                 teamColor
-                    .frame(height: 80)
                     .clipShape(RoundedCorner(radius: 12, corners: [.topLeft, .topRight]))
                 
                 HStack {
                     Text("\(name) #\(driverNumber)")
                         .font(.custom("SFPro-ExpandedBold", size: 20))
                         .foregroundStyle(.white)
-                    
+
                     Spacer()
-                    
+
                     driverCountry
                         .resizable()
                         .scaledToFill()
@@ -161,52 +164,52 @@ struct MiniDriverStandingCard: View {
                         .cornerRadius(4)
                 }
                 .padding(.horizontal, 12)
-                .padding(.top, 25)
             }
+            .frame(height: 60) // Fixed header height
             
-            // Content
-            HStack(spacing: 10) {
-                VStack(alignment: .leading, spacing: 5) {
-                    // Team name & logo
+            // CONTENT
+            HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: 10) {
+                    // Team + logo
                     HStack(spacing: 8) {
                         Text(team)
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
+                            .font(.custom("SFPro-ExpandedRegular", size: 18))
                         teamLogo
                             .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50)
                     }
-                    
-                    // Position & Points
-                    HStack(spacing: 15) {
+
+                    // Position + Points
+                    HStack(spacing: 20) {
                         VStack {
                             Text("\(position)")
-                                .font(.custom("SFPro-ExpandedBold", size: 24))
+                                .font(.custom("SFPro-ExpandedBold", size: 22))
                             Text("POS")
-                                .font(.custom("SFPro-ExpandedRegular", size: 12))
+                                .font(.custom("SFPro-ExpandedRegular", size: 10))
                         }
-                        
+
                         VStack {
                             Text("\(points)")
-                                .font(.custom("SFPro-ExpandedBold", size: 24))
+                                .font(.custom("SFPro-ExpandedBold", size: 22))
                             Text("PTS")
                                 .font(.custom("SFPro-ExpandedRegular", size: 10))
                         }
                     }
                 }
-                .padding(.bottom, 20)
-                
+                .padding(.bottom)
+
                 Spacer()
-                
-                // Driver image
+
                 driverImage
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 150, height: 120, alignment: .top)
+                    .frame(width: 130, height: 100, alignment: .top)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .shadow(radius: 1)
             }
-            .padding(15)
+            .padding(.top, 10)
+            .padding(.horizontal, 15)
             .background(Color(.systemBackground))
         }
         .frame(width: 400, height: 170)
