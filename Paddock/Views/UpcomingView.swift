@@ -7,20 +7,6 @@
 
 import SwiftUI
 
-struct Session {
-    let title: String
-    let day: String
-    let time: String
-}
-
-let scheduleData: [Session] = [
-    .init(title: "Practice 1", day: "FRI", time: "12:30 - 13:30"),
-    .init(title: "Practice 2", day: "FRI", time: "16:00 - 17:00"),
-    .init(title: "Practice 3", day: "SAT", time: "12:30 - 13:30"),
-    .init(title: "Qualifying", day: "SAT", time: "16:00 - 17:00"),
-    .init(title: "Race",       day: "SUN", time: "15:00")
-]
-
 struct UpcomingView: View {
     @Environment(\.colorScheme) var colorScheme
 
@@ -39,10 +25,9 @@ struct UpcomingView: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(cardBackground)
                         .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 0)
-                        .frame(width: 400, height: 400)// Old height with old design was 310 for large schedule
+                        .frame(width: 400, height: 410)
 
-
-                    VStack {
+                    VStack(spacing: 13) {
                         HStack(alignment: .top) {
                             VStack(alignment: .leading, spacing: 19) {
                                 HStack {
@@ -50,7 +35,6 @@ struct UpcomingView: View {
                                         .font(.custom("SFPro-ExpandedRegular", size: 17))
                                         .foregroundColor(.adaptiveText)
                                 }
-                                
                                 
                                 HStack(spacing: 8) {
                                     Image("AustrailianFlag")
@@ -132,63 +116,18 @@ struct UpcomingView: View {
                         }
                     }
                 }
-
-                ForEach(0..<4) { _ in
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(cardBackground)
-                            .frame(width: 400, height: 120)
-                            .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 3)
-
-                        HStack(spacing: 12) {
-                            Image("AustrailianFlag")
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                                .clipShape(Circle())
-                                .overlay(Circle().stroke(Color.black, lineWidth: 2))
-                                .padding(.leading, 40)
-
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Round 1")
-                                    .font(.subheadline)
-                                    .foregroundColor(.adaptiveText)
-                                Text("Australian GP")
-                                    .font(.headline)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.adaptiveText)
-                                Text("Melbourne")
-                                    .font(.subheadline)
-                                    .foregroundColor(.adaptiveText)
-                            }
-
-                            Spacer()
-
-                            Image("AustrailianGP")
-                                .resizable()
-                                .frame(width: 90, height: 90)
-                                .cornerRadius(10)
-
-                            VStack(spacing: 2) {
-                                Text("13-15")
-                                    .font(.custom("SFPro-ExpandedBold", size: 12))
-                                Text("MAR")
-                                    .font(.custom("SFPro-ExpandedBold", size: 10))
-                            }
-                            .foregroundColor(.white)
-                            .frame(width: 50, height: 50)
-                            .background(Color.red)
-                            .cornerRadius(8)
-                            .padding(.trailing, 40)
-                        }
-                    }
+                ForEach(0..<6) { _ in
+                    MiniRaceCard(
+                        round: "Round 1",
+                        country: "AUSTRALIA",
+                        flagImage: "AustrailianFlag",
+                        circuitImage: "AustrailianGP",
+                        shortDate: "13–15",
+                        shortMonth: "MAR"
+                    )
                 }
             }
         }
-        .padding(.vertical, -10)
-        .safeAreaInset(edge: .top, spacing: 0) {
-            Color.clear.frame(height: 10)
-        }
-        .safeAreaPadding(.bottom, 70)
     }
 }
 
@@ -268,6 +207,74 @@ struct TimeUnitBox: View {
         }
         .frame(width: 115, height: 80)
         .background(RoundedRectangle(cornerRadius: 10).fill(Color(red: 0.8, green: 0, blue: 0)))
+    }
+}
+
+struct MiniRaceCard: View {
+    let round: String
+    let country: String
+    let flagImage: String
+    let circuitImage: String
+    let shortDate: String
+    let shortMonth: String
+
+    @Environment(\.colorScheme) var colorScheme
+
+    var cardBackground: Color {
+        colorScheme == .dark ? Color(.systemGray6) : .white
+    }
+
+    var cardShadow: Color {
+        colorScheme == .dark ? .white.opacity(0.2) : .black.opacity(0.3)
+    }
+
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(cardBackground)
+                .frame(height: 120)
+                .shadow(color: cardShadow, radius: 6, x: 0, y: 3)
+
+            HStack {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text(round)
+                        .font(.custom("SFPro-ExpandedRegular", size: 17))
+                        .foregroundColor(.adaptiveText)
+
+                    HStack(spacing: 8) {
+                        Image(flagImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 35, height: 25)
+                            .cornerRadius(8)
+
+                        Text(country)
+                            .font(.custom("SFPro-ExpandedBold", size: 18))
+                            .foregroundColor(.adaptiveText)
+                    }
+                }
+
+                Spacer()
+
+                Image(circuitImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+
+                VStack(spacing: 2) {
+                    Text(shortDate)
+                        .font(.custom("SFPro-ExpandedBold", size: 12))
+                    Text(shortMonth)
+                        .font(.custom("SFPro-ExpandedBold", size: 10))
+                }
+                .foregroundColor(.white)
+                .frame(width: 55, height: 50)
+                .background(Color.red)
+                .cornerRadius(8)
+            }
+            .padding(.horizontal, 20)
+        }
+        .padding(.horizontal)
     }
 }
 

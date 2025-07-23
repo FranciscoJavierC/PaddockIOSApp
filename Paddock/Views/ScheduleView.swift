@@ -9,78 +9,60 @@ import SwiftUI
 
 struct ScheduleView: View {
     @State private var activeTab1: TabBar = .previous
-    
-    // 1. Read the environment color scheme
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 20) {
-                Tabbar(.gray)
-                    .overlay {
-                        GeometryReader { geo in
-                            let width = geo.size.width
-                            let tabCount = CGFloat(TabBar.allCases.count)
-                            let capsuleWidth = width / tabCount
-                            let index = CGFloat(TabBar.allCases.firstIndex(of: activeTab1) ?? 0)
-                            
-                            ZStack(alignment: .leading) {
-                                Capsule()
-                                    .fill(.red)
-                                    .frame(width: capsuleWidth)
-                                    .offset(x: index * capsuleWidth)
-                                
-                                Tabbar(.white, .semibold)
-                                    .mask(alignment: .leading) {
-                                        Capsule()
-                                            .frame(width: capsuleWidth)
-                                            .offset(x: index * capsuleWidth)
-                                    }
-                            }
+        VStack(spacing: 20) {
+            // Custom Title Tile
+            HStack {
+                Text("Schedule")
+                    .font(.system(size: 36, weight: .bold))
+                    .foregroundColor(Color.adaptiveText)
+                Spacer()
+            }
+            .padding(.horizontal, 15)
+            .padding(.top, 10)
+
+            // Tab Bar
+            Tabbar(.gray)
+                .overlay {
+                    GeometryReader { geo in
+                        let width = geo.size.width
+                        let tabCount = CGFloat(TabBar.allCases.count)
+                        let capsuleWidth = width / tabCount
+                        let index = CGFloat(TabBar.allCases.firstIndex(of: activeTab1) ?? 0)
+
+                        ZStack(alignment: .leading) {
+                            Capsule()
+                                .fill(.red)
+                                .frame(width: capsuleWidth)
+                                .offset(x: index * capsuleWidth)
+
+                            Tabbar(.white, .semibold)
+                                .mask(alignment: .leading) {
+                                    Capsule()
+                                        .frame(width: capsuleWidth)
+                                        .offset(x: index * capsuleWidth)
+                                }
                         }
                     }
-                    // 2. Change the background color based on the colorScheme
-                    .background(colorScheme == .dark ? Color(.systemGray6) : Color.white)
-                    .clipShape(.capsule)
-                    .shadow(color: .black.opacity(0.1), radius: 5, x: 5, y: 5)
-                    .shadow(color: .black.opacity(0.05), radius: 5, x: -5, y: -5)
-                    .padding([.horizontal, .top], 15)
-                
-                // Tab View
-                TabView(selection: $activeTab1) {
-                    ForEach(TabBar.allCases, id: \.self) { tab in
-                        tab.view
-                            .tag(tab)
-                    }
                 }
-                .tabViewStyle(.page(indexDisplayMode: .never))
-            }
-            .ignoresSafeArea(edges: .bottom)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Text("Paddock")
-                        .font(.system(size: 36, weight: .bold))
-                        .foregroundColor(Color.adaptiveText)
-                }
-                
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button(action: {
-                        // To do
-                    }) {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.adaptiveText)
-                            .font(.headline)
-                    }
-                    Button(action: {
-                        // To do
-                    }) {
-                        Image(systemName: "line.3.horizontal.decrease")
-                            .foregroundColor(.adaptiveText)
-                            .font(.headline)
-                    }
+                .background(colorScheme == .dark ? Color(.systemGray6) : Color.white)
+                .clipShape(.capsule)
+                .shadow(color: .black.opacity(0.1), radius: 5, x: 5, y: 5)
+                .shadow(color: .black.opacity(0.05), radius: 5, x: -5, y: -5)
+                .padding(.horizontal, 15)
+
+            // Tab View
+            TabView(selection: $activeTab1) {
+                ForEach(TabBar.allCases, id: \.self) { tab in
+                    tab.view
+                        .tag(tab)
                 }
             }
+            .tabViewStyle(.page(indexDisplayMode: .never))
         }
+        .ignoresSafeArea(edges: .bottom)
     }
 
     @ViewBuilder
