@@ -10,43 +10,18 @@ import SwiftUI
 struct DriverStandingsView: View {
     var body: some View {
         ScrollView {
-            LazyVStack {
+            LazyVStack(spacing: 15) {
+                DriverStandingCard(position: 1, name: "Max Verstappen", team: "Red Bull", driverNumber: "1", teamColor: .blue, points: 165, wins: 5, podiums: 7, poles: 3, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
                 
-                DriverStandingCard(position: 1, name: "Max Verstappen", team: "Red Bull", teamColor: LinearGradient(
-                    gradient: Gradient(colors: [Color.blue, Color.red]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing), points: 165, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"))
+                MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
                 
-                DriverStandingCard(position: 2, name: "Max Verstappen", team: "Red Bull", teamColor: LinearGradient(
-                    gradient: Gradient(colors: [Color.blue, Color.red]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing), points: 165, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"))
+                MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
                 
-                DriverStandingCard(position: 3, name: "Max Verstappen", team: "Red Bull", teamColor: LinearGradient(
-                    gradient: Gradient(colors: [Color.blue, Color.red]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing), points: 165, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"))
+                MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
                 
-                DriverStandingCard(position: 4, name: "Max Verstappen", team: "Red Bull", teamColor: LinearGradient(
-                    gradient: Gradient(colors: [Color.blue, Color.red]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing), points: 165, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"))
-                
-                DriverStandingCard(position: 5, name: "Max Verstappen", team: "Red Bull", teamColor: LinearGradient(
-                    gradient: Gradient(colors: [Color.blue, Color.red]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing), points: 165, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"))
-                
-                DriverStandingCard(position: 6, name: "Max Verstappen", team: "Red Bull", teamColor: LinearGradient(
-                    gradient: Gradient(colors: [Color.blue, Color.red]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing), points: 165, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"))
-            }
-            .safeAreaInset(edge: .top, spacing: 0) {
-                Color.clear.frame(height: 10)
+                MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
             }
         }
-        .safeAreaPadding(.bottom, 60)
     }
 }
 
@@ -54,76 +29,190 @@ struct DriverStandingCard: View {
     let position: Int
     let name: String
     let team: String
-    let teamColor: LinearGradient
+    let driverNumber: String
+    let teamColor: Color
     let points: Int
+    let wins: Int
+    let podiums: Int
+    let poles: Int
     let driverImage: Image
     let teamLogo: Image
+    let driverCountry: Image
 
     var body: some View {
-        ZStack {
-            // Background Card
-            RoundedRectangle(cornerRadius: 20)
-                .fill(teamColor)
-                .frame(height: 160)
-
-            HStack {
-                VStack(alignment: .leading) {
-                    VStack {
-                        Text(name)
-                            .font(.title2)
-                            .foregroundColor(.white)
-                            .fontWeight(.bold)
-                        HStack {
-                            teamLogo
-                                .resizable()
-                                .frame(width: 40, height: 40)
-                            Text(team)
-                                .font(.title3)
-                                .foregroundStyle(.white)
-                        }
-                        .padding(.trailing, 50)
+        VStack(spacing: 0) {
+            ZStack {
+                teamColor
+                    .frame(height: 80)
+                    .clipShape(RoundedCorner(radius: 12, corners: [.topLeft, .topRight]))
+                
+                Text("\(name) \(driverNumber)")
+                    .font(.custom("SFPro-ExpandedBold", size: 24))
+                    .foregroundStyle(.white)
+                    .padding(.trailing, 100)
+                
+                driverCountry
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 70, height: 40)
+                    .cornerRadius(8)
+                    .padding(.leading, 280)
+            }
+            
+            HStack(spacing: 6) {
+                VStack (spacing: 20){
+                    HStack {
+                        Text(team)
+                            .font(.custom("SFPro-ExpandedRegular", size: 20))
+                        teamLogo
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 70, height: 40)
                     }
                     
-                    Text("\(position)\(ordinalSuffix(for: position)) place")
-                        .font(.subheadline)
-                        .foregroundColor(.white)
-                        .fontWeight(.medium)
+                    HStack(spacing: 30) {
+                        VStack {
+                            Text("\(position)")
+                                .font(.custom("SFPro-ExpandedBold", size: 30))
+                            Text("POS")
+                                .font(.custom("SFPro-ExpandedRegular", size: 15))
+                        }
+                        
+                        VStack {
+                            Text("\(points)")
+                                .font(.custom("SFPro-ExpandedBold", size: 30))
+                            Text("PTS")
+                                .font(.custom("SFPro-ExpandedRegular", size: 15))
+                        }
+                    }
+                    
+                    HStack(spacing: 6) {
+                        VStack {
+                            Text("\(wins)")
+                                .font(.custom("SFPro-ExpandedRegular", size: 17))
+                            Text("Wins")
+                                .font(.custom("SFPro-ExpandedRegular", size: 17))
 
-                    Text("\(points) pts")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        }
+                        
+                        VStack {
+                            Text("\(podiums)")
+                                .font(.custom("SFPro-ExpandedRegular", size: 17))
+                            Text("Podiums")
+                                .font(.custom("SFPro-ExpandedRegular", size: 17))
+                        }
+                        
+                        VStack {
+                            Text("\(poles)")
+                                .font(.custom("SFPro-ExpandedRegular", size: 17))
+                            Text("Poles")
+                                .font(.custom("SFPro-ExpandedRegular", size: 17))
+                        }
+                    }
                 }
+                
+                driverImage
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 190, height: 210, alignment: .top)
+                    .clipped()
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .offset(x: 15)
+            }
+            .frame(maxWidth: .infinity)
+            .background(Color(.systemBackground))
+        }
+        .frame(width: 400)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .shadow(radius: 1)
+    }
+}
 
-                Spacer()
-
-                ZStack(alignment: .bottomTrailing) {
-                    driverImage
+struct MiniDriverStandingCard: View {
+    let position: Int
+    let name: String
+    let team: String
+    let driverNumber: String
+    let points: Int
+    let teamColor: Color
+    let driverImage: Image
+    let teamLogo: Image
+    let driverCountry: Image
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            // Header
+            ZStack(alignment: .leading) {
+                teamColor
+                    .frame(height: 80)
+                    .clipShape(RoundedCorner(radius: 12, corners: [.topLeft, .topRight]))
+                
+                HStack {
+                    Text("\(name) #\(driverNumber)")
+                        .font(.custom("SFPro-ExpandedBold", size: 20))
+                        .foregroundStyle(.white)
+                    
+                    Spacer()
+                    
+                    driverCountry
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 190, height: 160, alignment: .top)
-                        .clipped()
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .offset(x: 25)
+                        .frame(width: 50, height: 30)
+                        .cornerRadius(4)
                 }
+                .padding(.horizontal, 12)
+                .padding(.top, 25)
             }
-            .padding(.horizontal)
-        }
-        .padding(.horizontal)
-    }
-    private func ordinalSuffix(for number: Int) -> String {
-        switch number {
-        case 11...13: return "th"
-        default:
-            switch number % 10 {
-            case 1: return "st"
-            case 2: return "nd"
-            case 3: return "rd"
-            default: return "th"
+            
+            // Content
+            HStack(spacing: 10) {
+                VStack(alignment: .leading, spacing: 5) {
+                    // Team name & logo
+                    HStack(spacing: 8) {
+                        Text(team)
+                            .font(.custom("SFPro-ExpandedRegular", size: 20))
+                        teamLogo
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50, height: 50)
+                    }
+                    
+                    // Position & Points
+                    HStack(spacing: 15) {
+                        VStack {
+                            Text("\(position)")
+                                .font(.custom("SFPro-ExpandedBold", size: 24))
+                            Text("POS")
+                                .font(.custom("SFPro-ExpandedRegular", size: 12))
+                        }
+                        
+                        VStack {
+                            Text("\(points)")
+                                .font(.custom("SFPro-ExpandedBold", size: 24))
+                            Text("PTS")
+                                .font(.custom("SFPro-ExpandedRegular", size: 10))
+                        }
+                    }
+                }
+                .padding(.bottom, 20)
+                
+                Spacer()
+                
+                // Driver image
+                driverImage
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 150, height: 120, alignment: .top)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .shadow(radius: 1)
             }
+            .padding(15)
+            .background(Color(.systemBackground))
         }
+        .frame(width: 400, height: 170)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .shadow(radius: 1)
     }
-
 }
 
 #Preview {

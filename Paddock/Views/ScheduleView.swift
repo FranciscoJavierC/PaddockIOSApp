@@ -16,7 +16,7 @@ struct ScheduleView: View {
             // Custom Title Tile
             HStack {
                 Text("Schedule")
-                    .font(.system(size: 36, weight: .bold))
+                    .font(.custom("SFPro-ExpandedBold", size: 35))
                     .foregroundColor(Color.adaptiveText)
                 Spacer()
             }

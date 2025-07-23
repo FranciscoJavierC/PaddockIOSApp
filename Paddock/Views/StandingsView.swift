@@ -17,7 +17,7 @@ struct StandingsView: View {
         VStack(spacing: 20) {
             HStack {
                 Text("Standings")
-                    .font(.system(size: 36, weight: .bold))
+                    .font(.custom("SFPro-ExpandedBold", size: 35))
                     .foregroundColor(.adaptiveText)
                     .padding(.leading)
                 Spacer()
