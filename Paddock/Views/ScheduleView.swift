@@ -13,17 +13,16 @@ struct ScheduleView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            // Custom Title Tile
+            // Title
             HStack {
                 Text("Schedule")
                     .font(.custom("SFPro-ExpandedBold", size: 35))
-                    .foregroundColor(Color.adaptiveText)
+                    .foregroundColor(.adaptiveText)
+                    .padding(.leading)
                 Spacer()
             }
-            .padding(.horizontal, 15)
-            .padding(.top, 10)
 
-            // Tab Bar
+            // Tab Bar with red capsule animation
             Tabbar(.gray)
                 .overlay {
                     GeometryReader { geo in
@@ -48,12 +47,12 @@ struct ScheduleView: View {
                     }
                 }
                 .background(colorScheme == .dark ? Color(.systemGray6) : Color.white)
-                .clipShape(.capsule)
+                .clipShape(Capsule())
                 .shadow(color: .black.opacity(0.1), radius: 5, x: 5, y: 5)
                 .shadow(color: .black.opacity(0.05), radius: 5, x: -5, y: -5)
-                .padding(.horizontal, 15)
+                .padding([.horizontal, .top], 15)
 
-            // Tab View
+            // Tab View (Content)
             TabView(selection: $activeTab1) {
                 ForEach(TabBar.allCases, id: \.self) { tab in
                     tab.view
@@ -75,7 +74,7 @@ struct ScheduleView: View {
                     .foregroundStyle(tint)
                     .padding(.vertical, 10)
                     .frame(maxWidth: .infinity)
-                    .contentShape(.rect)
+                    .contentShape(Rectangle())
                     .onTapGesture {
                         withAnimation(.snappy(duration: 0.3, extraBounce: 0)) {
                             activeTab1 = tab

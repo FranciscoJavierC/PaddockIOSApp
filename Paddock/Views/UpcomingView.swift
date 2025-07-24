@@ -20,7 +20,7 @@ struct UpcomingView: View {
 
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: 16) {
+            LazyVStack(spacing: 15) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(cardBackground)
