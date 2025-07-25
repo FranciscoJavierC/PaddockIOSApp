@@ -17,6 +17,9 @@ struct PreviousView: View {
     var cardShadow: Color {
         colorScheme == .dark ? .white.opacity(0.2) : .black.opacity(0.3)
     }
+    
+    var hasFloatingTabBar: Bool
+
 
     var body: some View {
         ScrollView {
@@ -26,7 +29,7 @@ struct PreviousView: View {
                         .fill(cardBackground)
                         .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 0)
                         .frame(width: 400, height: 300)// Old height with old design was 310 for large schedule
-
+                    
                     VStack(spacing: 13) {
                         HStack(alignment: .top) {
                             VStack(alignment: .leading, spacing: 19) {
@@ -75,14 +78,14 @@ struct PreviousView: View {
                     }
                     .frame(width: 400)
                 }
-
+                
                 ForEach(0..<6) { _ in
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
                             .fill(cardBackground)
                             .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 0)
                             .frame(width: 400, height: 300)
-
+                        
                         VStack(spacing: 13) {
                             HStack(alignment: .top) {
                                 VStack(alignment: .leading, spacing: 19) {
@@ -134,6 +137,14 @@ struct PreviousView: View {
                 }
             }
         }
+        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 60 : 0) {
+            if hasFloatingTabBar {
+                Color.clear.frame(height: 10)
+            }
+        }
+        .safeAreaInset(edge: .top, spacing: 0) {
+                   Color.clear.frame(height: 5)
+               }
     }
 }
 
@@ -194,5 +205,5 @@ extension Color {
 }
 
 #Preview {
-    PreviousView()
+    PreviousView(hasFloatingTabBar: true)
 }

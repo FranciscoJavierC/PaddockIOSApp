@@ -13,14 +13,14 @@ enum TabBar: String, CaseIterable, Hashable {
     case upcoming = "Upcoming"
     
     @ViewBuilder
-    var view: some View {
-        switch self {
-        case .previous:
-            PreviousView()
-        case .today:
-            TodayView()
-        case .upcoming:
-            UpcomingView()
+        func view(hasFloatingTabBar: Bool) -> some View {
+            switch self {
+            case .previous:
+                PreviousView(hasFloatingTabBar: hasFloatingTabBar)
+            case .today:
+                TodayView()
+            case .upcoming:
+                UpcomingView(hasFloatingTabBar: hasFloatingTabBar)
+            }
         }
-    }
 }

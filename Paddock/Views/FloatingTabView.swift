@@ -228,7 +228,7 @@ struct FloatingTabView: View {
                     }
                     .allowsHitTesting(!isSearchExpanded)
                 if isSearchExpanded {
-                    TextField("Search", text: $searchText)
+                    TextField("Search...", text: $searchText)
                         .focused($isKeyboardActive)
                 }
             }

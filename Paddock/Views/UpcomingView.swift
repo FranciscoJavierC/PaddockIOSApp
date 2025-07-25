@@ -17,6 +17,9 @@ struct UpcomingView: View {
     var cardShadow: Color {
         colorScheme == .dark ? .white.opacity(0.2) : .black.opacity(0.3)
     }
+    
+    var hasFloatingTabBar: Bool
+
 
     var body: some View {
         ScrollView {
@@ -26,7 +29,7 @@ struct UpcomingView: View {
                         .fill(cardBackground)
                         .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 0)
                         .frame(width: 400, height: 410)
-
+                    
                     VStack(spacing: 13) {
                         HStack(alignment: .top) {
                             VStack(alignment: .leading, spacing: 19) {
@@ -77,7 +80,7 @@ struct UpcomingView: View {
                                     ("Practice 2", "16:00 - 17:00")
                                 ]
                             )
-
+                            
                             WeekendDayCard(
                                 day: "SAT",
                                 date: "MAR 14",
@@ -86,7 +89,7 @@ struct UpcomingView: View {
                                     ("Qualifying", "15:00 - 16:00")
                                 ]
                             )
-
+                            
                             WeekendDayCard(
                                 day: "SUN",
                                 date: "MAR 15",
@@ -100,13 +103,13 @@ struct UpcomingView: View {
                             RoundedRectangle(cornerRadius: 20)
                                 .fill(Color(.red))
                                 .frame(width: 380, height: 140)
-
+                            
                             VStack(spacing: 8) {
                                 Text("Practice 1")
                                     .font(.custom("SFPro-ExpandedBold", size: 20))
                                     .fontWeight(.bold)
                                     .foregroundStyle(.white)
-
+                                
                                 HStack(spacing: 8) {
                                     TimeUnitBox(label: "DAYS", value: "02")
                                     TimeUnitBox(label: "HRS", value: "13")
@@ -128,6 +131,14 @@ struct UpcomingView: View {
                 }
             }
         }
+        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 60 : 0) {
+            if hasFloatingTabBar {
+                Color.clear.frame(height: 10)
+            }
+        }
+        .safeAreaInset(edge: .top, spacing: 0) {
+                   Color.clear.frame(height: 5)
+               }
     }
 }
 
@@ -280,5 +291,5 @@ struct MiniRaceCard: View {
 
 
 #Preview {
-    UpcomingView()
+    UpcomingView(hasFloatingTabBar: true)
 }

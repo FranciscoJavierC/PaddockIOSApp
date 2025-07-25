@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ConstructorStandingsView: View {
+    var hasFloatingTabBar: Bool
+
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 15) {
@@ -24,6 +26,14 @@ struct ConstructorStandingsView: View {
                 MiniConstructorStandingCard(position: 1, constructor: "Red Bull", chassis: "RB21", teamColor: .blue, points: 330, drivers: ["VERSTAPPEN", "TSUNODA"], driverFlags: [Image("AustrailianFlag"), Image("AustrailianFlag")], teamLogo: Image("RedBull"), constructorFlag: Image("AustrailianFlag"))
             }
         }
+        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 60 : 0) {
+            if hasFloatingTabBar {
+                Color.clear.frame(height: 10)
+            }
+        }
+        .safeAreaInset(edge: .top, spacing: 0) {
+                   Color.clear.frame(height: 5)
+               }
     }
 }
 
@@ -229,5 +239,5 @@ struct MiniConstructorStandingCard: View {
 }
 
 #Preview {
-    ConstructorStandingsView()
+    ConstructorStandingsView(hasFloatingTabBar: true)
 }

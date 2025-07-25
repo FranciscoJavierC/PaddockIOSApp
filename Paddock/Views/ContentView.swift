@@ -5,17 +5,19 @@ struct ContentView: View {
     @State private var searchText: String = ""
     @State private var activeTab: TabItem = .schedule
     @State private var showSearch: Bool = false
+    
+    
 
     var body: some View {
         ThemeSwitcher {
             if #available(iOS 26, *) {
                 TabView {
                     Tab("Schedule", systemImage: "calendar") {
-                        ScheduleView()
+                        ScheduleView(hasFloatingTabBar: false)
                     }
 
                     Tab("Standings", systemImage: "trophy") {
-                        StandingsView()
+                        StandingsView(hasFloatingTabBar: false)
                     }
 
                     Tab("News", systemImage: "newspaper") {
@@ -48,9 +50,9 @@ struct ContentView: View {
             Group {
                 switch activeTab {
                 case .schedule:
-                    ScheduleView()
+                    ScheduleView(hasFloatingTabBar: true)
                 case .standings:
-                    StandingsView()
+                    StandingsView(hasFloatingTabBar: true)
                 case .news:
                     NewsView()
                 case .settings:

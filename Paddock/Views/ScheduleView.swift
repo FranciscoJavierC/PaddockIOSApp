@@ -10,6 +10,10 @@ import SwiftUI
 struct ScheduleView: View {
     @State private var activeTab1: TabBar = .previous
     @Environment(\.colorScheme) var colorScheme
+    @State private var showSearch: Bool = false
+
+    var hasFloatingTabBar: Bool
+
 
     var body: some View {
         VStack(spacing: 20) {
@@ -55,7 +59,7 @@ struct ScheduleView: View {
             // Tab View (Content)
             TabView(selection: $activeTab1) {
                 ForEach(TabBar.allCases, id: \.self) { tab in
-                    tab.view
+                    tab.view(hasFloatingTabBar: hasFloatingTabBar)
                         .tag(tab)
                 }
             }

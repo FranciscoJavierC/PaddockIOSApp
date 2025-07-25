@@ -9,6 +9,7 @@ import SwiftUI
 
 struct StandingsView: View {
     @State private var activeTab: StandingsBar = .drivers
+    var hasFloatingTabBar: Bool = false
     
     // 1. Read the environment color scheme
     @Environment(\.colorScheme) var colorScheme
@@ -56,7 +57,7 @@ struct StandingsView: View {
             // Tab View
             TabView(selection: $activeTab) {
                 ForEach(StandingsBar.allCases, id: \.self) { tab in
-                    tab.view
+                    tab.view(hasFloatingTabBar: hasFloatingTabBar)
                         .tag(tab)
                 }
             }

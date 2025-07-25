@@ -95,7 +95,7 @@ struct NewsView: View {
                 }
                 .padding(.vertical)
             }
-            .safeAreaPadding(.bottom, 30)
+            .safeAreaPadding(.bottom, 50)
         }
     }
 }
