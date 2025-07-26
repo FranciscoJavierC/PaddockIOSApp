@@ -6,8 +6,6 @@ struct ContentView: View {
     @State private var activeTab: TabItem = .schedule
     @State private var showSearch: Bool = false
     
-    
-
     var body: some View {
         ThemeSwitcher {
             if #available(iOS 26, *) {
@@ -36,9 +34,13 @@ struct ContentView: View {
                 }
                 .tabBarMinimizeBehavior(.onScrollDown)
                 .tint(.red)
+                .tabViewBottomAccessory {
+                    MiniCoutdown()
+                }
             } else {
                 // Use the old style for pre-iOS 26
                 CloneTabView()
+                
             }
         }
     }
@@ -69,6 +71,13 @@ struct ContentView: View {
                         .zIndex(1)
                 }
             }
+            
+            // ✅ MiniCountdown bar
+            MiniCoutdown()
+                .padding(.vertical, 5)
+                .background(.ultraThinMaterial, in: .rect(cornerRadius: 15, style: .continuous))
+                .padding(.horizontal, 25)
+                .offset(y: -65)
 
             FloatingTabView(
                 showSearchBar: true,
@@ -78,6 +87,55 @@ struct ContentView: View {
                 showSearch: $showSearch  // ✅ Pass it down
             )
         }
+    }
+    
+    @ViewBuilder
+    func CoutdownInfo(_ size: CGSize) -> some View {
+        HStack(spacing: 12) {
+            Image("AustrailianFlag")
+            .resizable()
+            .cornerRadius(5)
+            .frame(width: size.width, height: size.height)
+        
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Australian GP")
+                    .font(.custom("SFPro-ExpandedRegular", size: 15))
+                    .fontWeight(.semibold)
+
+                HStack(spacing: 6) {
+                    Circle()
+                        .fill(.red)
+                        .frame(width: 8, height: 8)
+                        .overlay(
+                            Circle()
+                                .stroke(Color.red.opacity(0.6), lineWidth: 2)
+                                .scaleEffect(1.5)
+                                .opacity(0.6)
+                        )
+                        .animation(
+                            .easeInOut(duration: 1)
+                                .repeatForever(autoreverses: true),
+                            value: UUID()
+                        )
+
+                    Text("Live • Practice 1")
+                        .font(.custom("SFPro-ExpandedRegular", size: 13))
+                        .foregroundColor(.red)
+                        .bold()
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func MiniCoutdown() -> some View {
+        HStack(spacing: 15) {
+            CoutdownInfo(.init(width: 30, height: 30))
+            
+            Spacer(minLength: 0)
+        }
+        .padding(.horizontal, 15)
     }
 }
 

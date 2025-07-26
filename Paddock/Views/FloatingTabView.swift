@@ -197,13 +197,10 @@ struct FloatingTabView: View {
     private func TabBarBackground() -> some View {
         ZStack {
             Capsule(style: .continuous)
-                .stroke(Color.gray.opacity(0.25), lineWidth: 1.5)
-            
-            Capsule(style: .continuous)
-                .fill(.background.opacity(0.8))
-            
-            Capsule(style: .continuous)
-                .fill(.ultraThinMaterial)
+                       .fill(.ultraThinMaterial)
+
+           Capsule(style: .continuous)
+               .stroke(Color.white.opacity(0.15), lineWidth: 1)
             
         }
         .compositingGroup()

@@ -26,7 +26,7 @@ struct ConstructorStandingsView: View {
                 MiniConstructorStandingCard(position: 1, constructor: "Red Bull", chassis: "RB21", teamColor: .blue, points: 330, drivers: ["VERSTAPPEN", "TSUNODA"], driverFlags: [Image("AustrailianFlag"), Image("AustrailianFlag")], teamLogo: Image("RedBull"), constructorFlag: Image("AustrailianFlag"))
             }
         }
-        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 60 : 0) {
+        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 110 : 0) {
             if hasFloatingTabBar {
                 Color.clear.frame(height: 10)
             }

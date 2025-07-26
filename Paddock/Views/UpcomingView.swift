@@ -131,7 +131,7 @@ struct UpcomingView: View {
                 }
             }
         }
-        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 60 : 0) {
+        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 115 : 0) {
             if hasFloatingTabBar {
                 Color.clear.frame(height: 10)
             }
