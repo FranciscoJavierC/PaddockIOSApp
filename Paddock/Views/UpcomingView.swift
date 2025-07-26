@@ -24,101 +24,105 @@ struct UpcomingView: View {
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 15) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(cardBackground)
-                        .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 0)
-                        .frame(width: 400, height: 410)
-                    
-                    VStack(spacing: 13) {
-                        HStack(alignment: .top) {
-                            VStack(alignment: .leading, spacing: 19) {
-                                HStack {
-                                    Text("Round 1")
-                                        .font(.custom("SFPro-ExpandedRegular", size: 17))
+                NavigationLink(destination: PreviousRaceDetailView()) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(cardBackground)
+                            .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 0)
+                            .frame(width: 400, height: 410)
+                        
+                        VStack(spacing: 13) {
+                            HStack(alignment: .top) {
+                                VStack(alignment: .leading, spacing: 19) {
+                                    HStack {
+                                        Text("Round 1")
+                                            .font(.custom("SFPro-ExpandedRegular", size: 17))
+                                            .foregroundColor(.adaptiveText)
+                                    }
+                                    
+                                    HStack(spacing: 8) {
+                                        Image("AustrailianFlag")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 50, height: 30)
+                                            .cornerRadius(8)
+                                        Text("AUSTRALIA")
+                                            .foregroundColor(.adaptiveText)
+                                            .font(.custom("SFPro-ExpandedBold", size: 20))
+                                    }
+                                    
+                                    Text("13-15 Mar")
                                         .foregroundColor(.adaptiveText)
+                                        .font(.custom("SFPro-ExpandedRegular", size: 17))
                                 }
                                 
-                                HStack(spacing: 8) {
-                                    Image("AustrailianFlag")
+                                VStack(spacing: -30) {
+                                    Image("AustrailianGP")
                                         .resizable()
                                         .scaledToFill()
-                                        .frame(width: 50, height: 30)
-                                        .cornerRadius(8)
-                                    Text("AUSTRALIA")
+                                        .frame(width: 150, height: 100)
+                                        .padding(.leading, 10)
+                                        .padding(.bottom, 20)
+                                    
+                                    Text("Albert Park Circuit")
                                         .foregroundColor(.adaptiveText)
-                                        .font(.custom("SFPro-ExpandedBold", size: 20))
+                                        .font(.custom("SFPro-ExpandedRegular", size: 15))
                                 }
+                            }
+                            .padding(.leading, 30)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            HStack(spacing: 8) {
+                                WeekendDayCard(
+                                    day: "FRI",
+                                    date: "MAR 13",
+                                    sessions: [
+                                        ("Practice 1", "12:30 - 13:30"),
+                                        ("Practice 2", "16:00 - 17:00")
+                                    ]
+                                )
                                 
-                                Text("13-15 Mar")
-                                    .foregroundColor(.adaptiveText)
-                                    .font(.custom("SFPro-ExpandedRegular", size: 17))
+                                WeekendDayCard(
+                                    day: "SAT",
+                                    date: "MAR 14",
+                                    sessions: [
+                                        ("Practice 3", "11:30 - 12:30"),
+                                        ("Qualifying", "15:00 - 16:00")
+                                    ]
+                                )
+                                
+                                WeekendDayCard(
+                                    day: "SUN",
+                                    date: "MAR 15",
+                                    sessions: [
+                                        ("Race", "13:00 - 15:00")
+                                    ]
+                                )
                             }
                             
-                            VStack(spacing: -30) {
-                                Image("AustrailianGP")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 150, height: 100)
-                                    .padding(.leading, 10)
-                                    .padding(.bottom, 20)
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color(.red))
+                                    .frame(width: 380, height: 140)
                                 
-                                Text("Albert Park Circuit")
-                                    .foregroundColor(.adaptiveText)
-                                    .font(.custom("SFPro-ExpandedRegular", size: 15))
-                            }
-                        }
-                        .padding(.leading, 30)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        
-                        HStack(spacing: 8) {
-                            WeekendDayCard(
-                                day: "FRI",
-                                date: "MAR 13",
-                                sessions: [
-                                    ("Practice 1", "12:30 - 13:30"),
-                                    ("Practice 2", "16:00 - 17:00")
-                                ]
-                            )
-                            
-                            WeekendDayCard(
-                                day: "SAT",
-                                date: "MAR 14",
-                                sessions: [
-                                    ("Practice 3", "11:30 - 12:30"),
-                                    ("Qualifying", "15:00 - 16:00")
-                                ]
-                            )
-                            
-                            WeekendDayCard(
-                                day: "SUN",
-                                date: "MAR 15",
-                                sessions: [
-                                    ("Race", "13:00 - 15:00")
-                                ]
-                            )
-                        }
-                        
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(Color(.red))
-                                .frame(width: 380, height: 140)
-                            
-                            VStack(spacing: 8) {
-                                Text("Practice 1")
-                                    .font(.custom("SFPro-ExpandedBold", size: 20))
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.white)
-                                
-                                HStack(spacing: 8) {
-                                    TimeUnitBox(label: "DAYS", value: "02")
-                                    TimeUnitBox(label: "HRS", value: "13")
-                                    TimeUnitBox(label: "MIN", value: "45")
+                                VStack(spacing: 8) {
+                                    Text("Practice 1")
+                                        .font(.custom("SFPro-ExpandedBold", size: 20))
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.white)
+                                    
+                                    HStack(spacing: 8) {
+                                        TimeUnitBox(label: "DAYS", value: "02")
+                                        TimeUnitBox(label: "HRS", value: "13")
+                                        TimeUnitBox(label: "MIN", value: "45")
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                .buttonStyle(.plain)
+                
                 ForEach(0..<6) { _ in
                     MiniRaceCard(
                         round: "Round 1",

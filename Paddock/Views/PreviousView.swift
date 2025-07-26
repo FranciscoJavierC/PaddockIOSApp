@@ -24,60 +24,64 @@ struct PreviousView: View {
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 15) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(cardBackground)
-                        .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 0)
-                        .frame(width: 400, height: 300)
-                    
-                    VStack(spacing: 13) {
-                        HStack(alignment: .top) {
-                            VStack(alignment: .leading, spacing: 19) {
-                                HStack {
-                                    Text("Round 1")
-                                        .font(.custom("SFPro-ExpandedRegular", size: 17))
+                NavigationLink(destination: PreviousRaceDetailView()) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(cardBackground)
+                            .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 0)
+                            .frame(width: 400, height: 300)
+                        
+                        VStack(spacing: 13) {
+                            HStack(alignment: .top) {
+                                VStack(alignment: .leading, spacing: 19) {
+                                    HStack {
+                                        Text("Round 1")
+                                            .font(.custom("SFPro-ExpandedRegular", size: 17))
+                                            .foregroundColor(.adaptiveText)
+                                    }
+                                    
+                                    HStack(spacing: 8) {
+                                        Image("AustrailianFlag")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 50, height: 30)
+                                            .cornerRadius(8)
+                                        Text("AUSTRALIA")
+                                            .foregroundColor(.adaptiveText)
+                                            .font(.custom("SFPro-ExpandedBold", size: 20))
+                                    }
+                                    
+                                    Text("13-15 Mar")
                                         .foregroundColor(.adaptiveText)
+                                        .font(.custom("SFPro-ExpandedRegular", size: 17))
                                 }
                                 
-                                HStack(spacing: 8) {
-                                    Image("AustrailianFlag")
+                                VStack(spacing: -30) {
+                                    Image("AustrailianGP")
                                         .resizable()
                                         .scaledToFill()
-                                        .frame(width: 50, height: 30)
-                                        .cornerRadius(8)
-                                    Text("AUSTRALIA")
+                                        .frame(width: 150, height: 100)
+                                        .padding(.bottom, 20)
+                                    
+                                    Text("Albert Park Circuit")
                                         .foregroundColor(.adaptiveText)
-                                        .font(.custom("SFPro-ExpandedBold", size: 20))
+                                        .font(.custom("SFPro-ExpandedRegular", size: 15))
                                 }
-                                
-                                Text("13-15 Mar")
-                                    .foregroundColor(.adaptiveText)
-                                    .font(.custom("SFPro-ExpandedRegular", size: 17))
                             }
+                            .padding(.leading, 10)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            VStack(spacing: -30) {
-                                Image("AustrailianGP")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 150, height: 100)
-                                    .padding(.bottom, 20)
-                                
-                                Text("Albert Park Circuit")
-                                    .foregroundColor(.adaptiveText)
-                                    .font(.custom("SFPro-ExpandedRegular", size: 15))
+                            HStack(alignment: .bottom, spacing: 20) {
+                                PodiumCard(position: 1, code: "VER",teamColor: .blue, driverImage: "Verstappen", lapTime: "1:42:06.304")
+                                PodiumCard(position: 2, code: "VER",teamColor: .red, driverImage: "Verstappen", lapTime: "+0.895")
+                                PodiumCard(position: 3, code: "VER",teamColor: .orange, driverImage: "Verstappen", lapTime: "+8.481")
                             }
                         }
-                        .padding(.leading, 10)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        
-                        HStack(alignment: .bottom, spacing: 20) {
-                            PodiumCard(position: 1, code: "VER",teamColor: .blue, driverImage: "Verstappen", lapTime: "1:42:06.304")
-                            PodiumCard(position: 2, code: "VER",teamColor: .red, driverImage: "Verstappen", lapTime: "+0.895")
-                            PodiumCard(position: 3, code: "VER",teamColor: .orange, driverImage: "Verstappen", lapTime: "+8.481")
-                        }
+                        .frame(width: 400)
                     }
-                    .frame(width: 400)
+                    .contentShape(Rectangle())
                 }
+                .buttonStyle(.plain) // 👈 add this line
                 
                 ForEach(0..<6) { _ in
                     ZStack {
@@ -163,7 +167,7 @@ struct PodiumCard: View {
                     .frame(height: 30)
                     .clipShape(RoundedCorner(radius: 12, corners: [.topLeft, .topRight]))
 
-                Text("\(position) \(code)")
+                Text("\(position) - \(code)")
                     .font(.custom("SFPro-ExpandedBold", size: 13))
                     .foregroundStyle(.white)
             }
@@ -182,7 +186,7 @@ struct PodiumCard: View {
             .frame(maxWidth: .infinity)
             .background(Color(.systemBackground))
         }
-        .frame(width: 100)
+        .frame(width: 110)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(radius: 1)
     }

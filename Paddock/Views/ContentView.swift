@@ -9,38 +9,40 @@ struct ContentView: View {
     var body: some View {
         ThemeSwitcher {
             if #available(iOS 26, *) {
-                TabView {
-                    Tab("Schedule", systemImage: "calendar") {
-                        ScheduleView(hasFloatingTabBar: false)
-                    }
-
-                    Tab("Standings", systemImage: "trophy") {
-                        StandingsView(hasFloatingTabBar: false)
-                    }
-
-                    Tab("News", systemImage: "newspaper") {
-                        NewsView()
-                    }
-
-                    Tab("Settings", systemImage: "gearshape") {
-                        SettingsView(appTheme: appTheme)
-                    }
-
-                    Tab("Search", systemImage: "magnifyingglass", role: .search) {
-                        NavigationStack {
+                NavigationStack {
+                    TabView {
+                        Tab("Schedule", systemImage: "calendar") {
+                            ScheduleView(hasFloatingTabBar: false)
+                        }
+                        
+                        Tab("Standings", systemImage: "trophy") {
+                            StandingsView(hasFloatingTabBar: false)
+                        }
+                        
+                        Tab("News", systemImage: "newspaper") {
+                            NewsView()
+                        }
+                        
+                        Tab("Settings", systemImage: "gearshape") {
+                            SettingsView(appTheme: appTheme)
+                        }
+                        
+                        Tab("Search", systemImage: "magnifyingglass", role: .search) {
+                            NavigationStack {
                                 SearchView()
                             }
+                        }
+                    }
+                    .tabBarMinimizeBehavior(.onScrollDown)
+                    .tint(.red)
+                    .tabViewBottomAccessory {
+                        MiniCoutdown()
                     }
                 }
-                .tabBarMinimizeBehavior(.onScrollDown)
-                .tint(.red)
-                .tabViewBottomAccessory {
-                    MiniCoutdown()
-                }
             } else {
-                // Use the old style for pre-iOS 26
-                CloneTabView()
-                
+                NavigationStack {
+                    CloneTabView()
+                }
             }
         }
     }
