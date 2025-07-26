@@ -27,8 +27,8 @@ struct PreviousView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(cardBackground)
-                        .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 0)
-                        .frame(width: 400, height: 300)// Old height with old design was 310 for large schedule
+                        .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 0)
+                        .frame(width: 400, height: 300)
                     
                     VStack(spacing: 13) {
                         HStack(alignment: .top) {

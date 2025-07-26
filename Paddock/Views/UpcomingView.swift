@@ -27,7 +27,7 @@ struct UpcomingView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(cardBackground)
-                        .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 0)
+                        .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 0)
                         .frame(width: 400, height: 410)
                     
                     VStack(spacing: 13) {
@@ -146,6 +146,8 @@ struct WeekendDayCard: View {
     let day: String
     let date: String
     let sessions: [(title: String, time: String)]
+    
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         VStack(spacing: 0) {
@@ -170,6 +172,7 @@ struct WeekendDayCard: View {
                         Text(sessions[index].title)
                             .font(.custom("SFPro-ExpandedBold", size: 11))
                             .multilineTextAlignment(.center)
+                            .foregroundColor(.adaptiveText)
 
                         Text(sessions[index].time)
                             .font(.custom("SFPro-ExpandedRegular", size: 10))
@@ -181,7 +184,7 @@ struct WeekendDayCard: View {
             .padding(.vertical, 8)
             .frame(height: 75)
             .frame(maxWidth: .infinity)
-            .background(Color(.systemGray6))
+            .background(colorScheme == .dark ? Color(.systemGray5) : Color(.systemGray6))
         }
         .frame(width: 120, height: 100)
         .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -236,7 +239,7 @@ struct MiniRaceCard: View {
     }
 
     var cardShadow: Color {
-        colorScheme == .dark ? .white.opacity(0.2) : .black.opacity(0.3)
+        colorScheme == .dark ? .white.opacity(0.2) : .black.opacity(0.2)
     }
 
     var body: some View {
