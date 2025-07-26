@@ -30,7 +30,7 @@ struct DriverStandingsView: View {
             }
         }
         .safeAreaInset(edge: .top, spacing: 0) {
-            Color.clear.frame(height: 5)
+            Color.clear.frame(height: 10)
         }
     }
 }

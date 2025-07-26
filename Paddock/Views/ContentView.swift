@@ -23,7 +23,7 @@ struct ContentView: View {
                     }
 
                     Tab("Settings", systemImage: "gearshape") {
-                        SettingsView(appTheme: $appTheme)
+                        SettingsView(appTheme: appTheme)
                     }
 
                     Tab("Search", systemImage: "magnifyingglass", role: .search) {
@@ -58,12 +58,12 @@ struct ContentView: View {
                 case .news:
                     NewsView()
                 case .settings:
-                    SettingsView(appTheme: $appTheme)
+                    SettingsView(appTheme: appTheme)
                 default:
                     EmptyView() // no .search here
                 }
             }
-
+            
             if showSearch {
                 NavigationStack {
                     SearchView()

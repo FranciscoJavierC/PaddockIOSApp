@@ -137,7 +137,7 @@ struct UpcomingView: View {
             }
         }
         .safeAreaInset(edge: .top, spacing: 0) {
-                   Color.clear.frame(height: 5)
+                   Color.clear.frame(height: 10)
                }
     }
 }
@@ -173,7 +173,7 @@ struct WeekendDayCard: View {
 
                         Text(sessions[index].time)
                             .font(.custom("SFPro-ExpandedRegular", size: 10))
-                            .foregroundColor(Color.black)
+                            .foregroundColor(.adaptiveText)
                     }
                 }
                 Spacer()

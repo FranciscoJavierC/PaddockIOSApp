@@ -16,7 +16,7 @@ struct ScheduleView: View {
 
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 15) {
             // Title
             HStack {
                 Text("Schedule")
@@ -65,6 +65,9 @@ struct ScheduleView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
+        .background(
+               colorScheme == .dark ? Color.black : Color(UIColor.systemGray6) // Light gray bg
+           )
         .ignoresSafeArea(edges: .bottom)
     }
 

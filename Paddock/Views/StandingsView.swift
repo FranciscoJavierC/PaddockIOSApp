@@ -15,7 +15,7 @@ struct StandingsView: View {
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 15) {
             HStack {
                 Text("Standings")
                     .font(.custom("SFPro-ExpandedBold", size: 35))

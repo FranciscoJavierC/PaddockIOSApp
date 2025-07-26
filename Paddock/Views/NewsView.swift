@@ -5,10 +5,10 @@ struct NewsView: View {
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 15) {
             HStack {
                 Text("News")
-                    .font(.system(size: 36, weight: .bold))
+                    .font(.custom("SFPro-ExpandedBold", size: 35))
                     .foregroundColor(.adaptiveText)
                     .padding(.leading)
                 Spacer()
