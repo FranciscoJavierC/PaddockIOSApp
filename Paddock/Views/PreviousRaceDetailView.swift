@@ -11,7 +11,7 @@ struct PreviousRaceDetailView: View {
                 VStack(alignment: .leading, spacing: 19) {
                     HStack {
                         Text("Round 1")
-                            .font(.custom("SFPro-ExpandedRegular", size: 17))
+                            .font(.custom("SFPro-ExpandedRegular", size: 20))
                             .foregroundColor(.adaptiveText)
                     }
 
@@ -19,16 +19,16 @@ struct PreviousRaceDetailView: View {
                         Image("AustrailianFlag")
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 50, height: 30)
+                            .frame(width: 70, height: 40)
                             .cornerRadius(8)
                         Text("AUSTRALIA")
                             .foregroundColor(.adaptiveText)
-                            .font(.custom("SFPro-ExpandedBold", size: 20))
+                            .font(.custom("SFPro-ExpandedBold", size: 25))
                     }
 
                     Text("13-15 March 2025")
                         .foregroundColor(.adaptiveText)
-                        .font(.custom("SFPro-ExpandedRegular", size: 17))
+                        .font(.custom("SFPro-ExpandedRegular", size: 20))
                 }
                 .padding()
 
@@ -98,11 +98,11 @@ struct PreviousRaceDetailView: View {
                         }
                     }
 
-                    // Schedule card
+                    // Schedule card (This is your outer VStack)
                     VStack(spacing: 0) {
                         ZStack {
                             Color.red
-                                .frame(height: 70)
+                                .frame(height: 90) // Keep header height fixed or adjust slightly
                                 .clipShape(RoundedCorner(radius: 20, corners: [.topLeft, .topRight]))
 
                             HStack(spacing: 4) {
@@ -112,45 +112,51 @@ struct PreviousRaceDetailView: View {
                             }
                         }
 
-                        VStack(alignment: .leading) {
-                            HStack(spacing: 150) {
+                        // This is the content area of your card
+                        VStack(alignment: .leading, spacing: 30) {
+                            HStack { // Practice 1 row
                                 Text("Practice 1")
-                                    .font(.custom("SFPro-ExpandedBold", size: 15))
-                                    .multilineTextAlignment(.center)
+                                    .font(.custom("SFPro-ExpandedBold", size: 20)) // Slightly larger font
                                     .foregroundColor(.adaptiveText)
-
+                                Spacer()
                                 Text("12:30 - 1:30")
-                                    .font(.custom("SFPro-ExpandedRegular", size: 15))
+                                    .font(.custom("SFPro-ExpandedRegular", size: 20)) // Slightly larger font
                                     .foregroundColor(.adaptiveText)
                             }
-                            Spacer()
-                            
-                            HStack(spacing: 150) {
-                                Text("Practice 2")
-                                    .font(.custom("SFPro-ExpandedBold", size: 15))
-                                    .multilineTextAlignment(.center)
-                                    .foregroundColor(.adaptiveText)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
 
+                            Divider()
+                                .background(Color.adaptiveText.opacity(0.3))
+                                .padding(.horizontal, 16)
+
+                            HStack { // Practice 2 row
+                                Text("Practice 2")
+                                    .font(.custom("SFPro-ExpandedBold", size: 20)) // Slightly larger font
+                                    .foregroundColor(.adaptiveText)
+                                Spacer()
                                 Text("16:00 - 17:00")
-                                    .font(.custom("SFPro-ExpandedRegular", size: 15))
+                                    .font(.custom("SFPro-ExpandedRegular", size: 20)) // Slightly larger font
                                     .foregroundColor(.adaptiveText)
                             }
-                            Spacer()
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
                         }
-                        .padding(.vertical, 8)
-                        .frame(height: 75)
+                        .padding(.vertical, 40) // **THIS IS KEY for the content's overall vertical size**
                         .frame(maxWidth: .infinity)
                         .background(colorScheme == .dark ? Color(.systemGray5) : Color(.systemGray6))
+                        .clipShape(RoundedCorner(radius: 20, corners: [.bottomLeft, .bottomRight]))
                     }
-                    .frame(width: 400, height: 150)
+                    .frame(maxWidth: .infinity)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .shadow(radius: 2)
+                    .padding(.horizontal)
                     
-                    // Schedule card
+                    // Schedule card (This is your outer VStack)
                     VStack(spacing: 0) {
                         ZStack {
                             Color.red
-                                .frame(height: 70)
+                                .frame(height: 90) // Keep header height fixed or adjust slightly
                                 .clipShape(RoundedCorner(radius: 20, corners: [.topLeft, .topRight]))
 
                             HStack(spacing: 4) {
@@ -160,45 +166,51 @@ struct PreviousRaceDetailView: View {
                             }
                         }
 
-                        VStack(alignment: .leading) {
-                            HStack(spacing: 150) {
+                        // This is the content area of your card
+                        VStack(alignment: .leading, spacing: 30) {
+                            HStack { // Practice 1 row
                                 Text("Practice 3")
-                                    .font(.custom("SFPro-ExpandedBold", size: 15))
-                                    .multilineTextAlignment(.center)
+                                    .font(.custom("SFPro-ExpandedBold", size: 20)) // Slightly larger font
                                     .foregroundColor(.adaptiveText)
-
+                                Spacer()
                                 Text("11:30 - 12:30")
-                                    .font(.custom("SFPro-ExpandedRegular", size: 15))
+                                    .font(.custom("SFPro-ExpandedRegular", size: 20)) // Slightly larger font
                                     .foregroundColor(.adaptiveText)
                             }
-                            Spacer()
-                            
-                            HStack(spacing: 150) {
-                                Text("Qualifying")
-                                    .font(.custom("SFPro-ExpandedBold", size: 15))
-                                    .multilineTextAlignment(.center)
-                                    .foregroundColor(.adaptiveText)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
 
+                            Divider()
+                                .background(Color.adaptiveText.opacity(0.3))
+                                .padding(.horizontal, 16)
+
+                            HStack { // Practice 2 row
+                                Text("Qualifying")
+                                    .font(.custom("SFPro-ExpandedBold", size: 20)) // Slightly larger font
+                                    .foregroundColor(.adaptiveText)
+                                Spacer()
                                 Text("15:00 - 16:00")
-                                    .font(.custom("SFPro-ExpandedRegular", size: 15))
+                                    .font(.custom("SFPro-ExpandedRegular", size: 20)) // Slightly larger font
                                     .foregroundColor(.adaptiveText)
                             }
-                            Spacer()
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
                         }
-                        .padding(.vertical, 8)
-                        .frame(height: 75)
+                        .padding(.vertical, 40) // **THIS IS KEY for the content's overall vertical size**
                         .frame(maxWidth: .infinity)
                         .background(colorScheme == .dark ? Color(.systemGray5) : Color(.systemGray6))
+                        .clipShape(RoundedCorner(radius: 20, corners: [.bottomLeft, .bottomRight]))
                     }
-                    .frame(width: 400, height: 150)
+                    .frame(maxWidth: .infinity)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .shadow(radius: 2)
+                    .padding(.horizontal)
                     
-                    // Schedule card
+                    // Schedule card (This is your outer VStack)
                     VStack(spacing: 0) {
                         ZStack {
                             Color.red
-                                .frame(height: 70)
+                                .frame(height: 90) // Keep header height fixed or adjust slightly
                                 .clipShape(RoundedCorner(radius: 20, corners: [.topLeft, .topRight]))
 
                             HStack(spacing: 4) {
@@ -208,26 +220,29 @@ struct PreviousRaceDetailView: View {
                             }
                         }
 
-                        VStack(alignment: .leading) {
-                            HStack(spacing: 150) {
+                        // This is the content area of your card
+                        VStack(alignment: .leading, spacing: 30) {
+                            HStack { // Practice 1 row
                                 Text("Race")
-                                    .font(.custom("SFPro-ExpandedBold", size: 15))
-                                    .multilineTextAlignment(.center)
+                                    .font(.custom("SFPro-ExpandedBold", size: 20)) // Slightly larger font
                                     .foregroundColor(.adaptiveText)
-
-                                Text("13:00 - 15:00")
-                                    .font(.custom("SFPro-ExpandedRegular", size: 15))
+                                Spacer()
+                                Text("12:30 - 1:30")
+                                    .font(.custom("SFPro-ExpandedRegular", size: 20)) // Slightly larger font
                                     .foregroundColor(.adaptiveText)
                             }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
                         }
-                        .padding(.vertical, 8)
-                        .frame(height: 75)
+                        .padding(.vertical, 40) // **THIS IS KEY for the content's overall vertical size**
                         .frame(maxWidth: .infinity)
                         .background(colorScheme == .dark ? Color(.systemGray5) : Color(.systemGray6))
+                        .clipShape(RoundedCorner(radius: 20, corners: [.bottomLeft, .bottomRight]))
                     }
-                    .frame(width: 400, height: 150)
+                    .frame(maxWidth: .infinity)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .shadow(radius: 2)
+                    .padding(.horizontal)
                 }
             }
             .padding(.bottom, 40) // Optional: safe spacing

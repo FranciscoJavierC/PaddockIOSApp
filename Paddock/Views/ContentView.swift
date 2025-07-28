@@ -1,4 +1,4 @@
-import SwiftUI
+import SwiftUI 
 
 struct ContentView: View {
     @AppStorage("AppTheme") private var appTheme: AppTheme = .systemDefault
@@ -9,35 +9,37 @@ struct ContentView: View {
     var body: some View {
         ThemeSwitcher {
             if #available(iOS 26, *) {
-                NavigationStack {
-                    TabView {
-                        Tab("Schedule", systemImage: "calendar") {
+                TabView {
+                    Tab("Schedule", systemImage: "calendar") {
+                        NavigationStack {
                             ScheduleView(hasFloatingTabBar: false)
                         }
-                        
-                        Tab("Standings", systemImage: "trophy") {
+                    }
+                    
+                    Tab("Standings", systemImage: "trophy") {
+                        NavigationStack {
                             StandingsView(hasFloatingTabBar: false)
                         }
-                        
-                        Tab("News", systemImage: "newspaper") {
-                            NewsView()
-                        }
-                        
-                        Tab("Settings", systemImage: "gearshape") {
-                            SettingsView(appTheme: appTheme)
-                        }
-                        
-                        Tab("Search", systemImage: "magnifyingglass", role: .search) {
-                            NavigationStack {
-                                SearchView()
-                            }
+                    }
+                    
+                    Tab("News", systemImage: "newspaper") {
+                        NewsView()
+                    }
+                    
+                    Tab("Settings", systemImage: "gearshape") {
+                        SettingsView(appTheme: appTheme)
+                    }
+                    
+                    Tab("Search", systemImage: "magnifyingglass", role: .search) {
+                        NavigationStack {
+                            SearchView()
                         }
                     }
-                    .tabBarMinimizeBehavior(.onScrollDown)
-                    .tint(.red)
-                    .tabViewBottomAccessory {
-                        MiniCoutdown()
-                    }
+                }
+                .tabBarMinimizeBehavior(.onScrollDown)
+                .tint(.red)
+                .tabViewBottomAccessory {
+                    MiniCoutdown()
                 }
             } else {
                 NavigationStack {

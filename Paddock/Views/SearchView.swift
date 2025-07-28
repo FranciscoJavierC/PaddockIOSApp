@@ -16,7 +16,8 @@ struct SearchView: View {
         List(filteredDrivers, id: \.self) { driver in
             Text(driver)
         }
-        .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Search...")
         .navigationTitle("Search")
+
+        .searchable(text: $query, prompt: "Search...")
     }
 }
