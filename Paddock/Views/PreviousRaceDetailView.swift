@@ -6,7 +6,6 @@ struct PreviousRaceDetailView: View {
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading) {
-                
                 // Race header
                 VStack(alignment: .leading, spacing: 19) {
                     HStack {
@@ -119,9 +118,20 @@ struct PreviousRaceDetailView: View {
                                     .font(.custom("SFPro-ExpandedBold", size: 20)) // Slightly larger font
                                     .foregroundColor(.adaptiveText)
                                 Spacer()
+                                
+                                NavigationLink(destination: ResultsView()) {
+                                Label("Results", systemImage: "flag.pattern.checkered")
+                                        .font(.custom("SFPro-ExpandedSemibold", size: 20))
+                                        .foregroundColor(.white) // Change text color to white for contrast
+                                        .padding(.vertical, 10) // Add vertical padding
+                                        .padding(.horizontal, 20) // Add horizontal padding
+                                        .background(Color.red) // Set a solid background color
+                                        .cornerRadius(8) // Rounded corners for a button look
+                                }
+                                /*
                                 Text("12:30 - 1:30")
                                     .font(.custom("SFPro-ExpandedRegular", size: 20)) // Slightly larger font
-                                    .foregroundColor(.adaptiveText)
+                                    .foregroundColor(.adaptiveText)*/
                             }
                             .padding(.horizontal, 16)
                             .padding(.vertical, 8)
