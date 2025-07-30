@@ -12,17 +12,20 @@ struct DriverStandingsView: View {
 
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: 15) {
-                DriverStandingCard(position: 1, name: "Max Verstappen", team: "Red Bull", driverNumber: "1", teamColor: .blue, points: 165, wins: 5, podiums: 7, poles: 3, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
-                
-                MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
-                
-                MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
-                
-                MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
-                
-                MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
+            NavigationLink(destination: DriverDetailView()) {
+                LazyVStack(spacing: 15) {
+                    DriverStandingCard(position: 1, name: "Max Verstappen", team: "Red Bull", driverNumber: "1", teamColor: .blue, points: 165, wins: 5, podiums: 7, poles: 3, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
+                    
+                    MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
+                    
+                    MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
+                    
+                    MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
+                    
+                    MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
+                }
             }
+            .buttonStyle(.plain) // 👈 add this line
         }
         .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 110 : 0) {
             if hasFloatingTabBar {
