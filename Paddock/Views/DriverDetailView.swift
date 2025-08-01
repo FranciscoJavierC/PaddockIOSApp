@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct DriverDetailView: View {
+    @State private var selectedCardIndex = 0
+    let titles = ["Profile", "Races", "Stats", "Career"]
+    
     let teamColor = LinearGradient(
         colors: [Color(red: 0.0, green: 0.09, blue: 0.3), Color(red: 0.8, green: 0.0, blue: 0.0)],
         startPoint: .topLeading,
@@ -60,14 +63,13 @@ struct DriverDetailView: View {
                     )
 
                 // Carousel of Floating Cards
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 16) {
+                TabView(selection: $selectedCardIndex) {
+                    ForEach(0..<4, id: \.self) { index in
                         DriverCard(
-                            title: "Profile",
+                            title: titles[index],
                             age: 26,
-                            // Example Date for Max Verstappen's birth date (Sept 30, 1997)
                             birthDate: "Feb 7, 2004",
-                            driverFlag: "AustrailianFlag", // Ensure "NetherlandsFlag" is in your Assets.xcassets
+                            driverFlag: "AustrailianFlag",
                             driverNumber: 1,
                             height: 5.8,
                             raceStarts: 13,
@@ -75,58 +77,23 @@ struct DriverDetailView: View {
                             podiums: 2,
                             points: 156,
                             rating: 8.7,
-                            championships: 4
+                            championships: index == 0 ? 4 : 1
                         )
-                        DriverCard(
-                            title: "Races",
-                            age: 26,
-                            // Example Date for Max Verstappen's birth date (Sept 30, 1997)
-                            birthDate: "Feb 7, 2004",
-                            driverFlag: "AustrailianFlag", // Ensure "NetherlandsFlag" is in your Assets.xcassets
-                            driverNumber: 1,
-                            height: 5.8,
-                            raceStarts: 13,
-                            wins: 7,
-                            podiums: 2,
-                            points: 156,
-                            rating: 8.7,
-                            championships: 1
-                        )
-                        DriverCard(
-                            title: "Stats",
-                            age: 26,
-                            // Example Date for Max Verstappen's birth date (Sept 30, 1997)
-                            birthDate: "Feb 7, 2004",
-                            driverFlag: "AustrailianFlag", // Ensure "NetherlandsFlag" is in your Assets.xcassets
-                            driverNumber: 1,
-                            height: 5.8,
-                            raceStarts: 13,
-                            wins: 7,
-                            podiums: 2,
-                            points: 156,
-                            rating: 8.7,
-                            championships: 1
-
-                        )
-                        DriverCard(
-                            title: "Career",
-                            age: 26,
-                            // Example Date for Max Verstappen's birth date (Sept 30, 1997)
-                            birthDate: "Feb 7, 2004",
-                            driverFlag: "AustrailianFlag", // Ensure "NetherlandsFlag" is in your Assets.xcassets
-                            driverNumber: 1,
-                            height: 5.8,
-                            raceStarts: 13,
-                            wins: 7,
-                            podiums: 2,
-                            points: 156,
-                            rating: 8.7,
-                            championships: 1
-                        )
+                        .tag(index)
                     }
-                    .padding(.horizontal)
                 }
-                .padding(.top, -80) // pull up slightly if needed
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .padding(.horizontal)
+                .padding(.top, -140)
+                
+                HStack(spacing: 8) {
+                    ForEach(0..<4, id: \.self) { index in
+                        Circle()
+                            .fill(index == selectedCardIndex ? Color.white : Color.white.opacity(0.4))
+                            .animation(.easeInOut, value: selectedCardIndex)
+                            .frame(width: 8, height: 8)
+                    }
+                }
             }
             .frame(maxWidth: .infinity)
             .padding(.top)
