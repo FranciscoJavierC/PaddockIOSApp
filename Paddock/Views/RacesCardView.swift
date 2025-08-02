@@ -64,7 +64,7 @@ struct RacesCardView: View {
                                         endPoint: .trailing))
                                     .overlay(
                                         Capsule()
-                                            .stroke(Color.green, lineWidth: 1)
+                                            .stroke(Color.purple, lineWidth: 1)
                                     )
                             )
                     }

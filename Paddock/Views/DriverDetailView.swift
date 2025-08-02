@@ -92,6 +92,10 @@ struct DriverDetailView: View {
                             
                         )
                         .tag(2)
+                        CareerCardView(
+                            
+                        )
+                        .tag(3)
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
