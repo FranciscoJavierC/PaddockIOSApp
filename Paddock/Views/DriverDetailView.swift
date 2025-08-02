@@ -88,6 +88,10 @@ struct DriverDetailView: View {
                             teamName: "Red Bull"
                         )
                         .tag(1)
+                        StatsCardView(
+                            
+                        )
+                        .tag(2)
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
