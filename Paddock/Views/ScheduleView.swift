@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ScheduleView: View {
-    @State private var activeTab1: TabBar = .previous
+    @State private var activeTab1: TabBar = .upcoming
     @Environment(\.colorScheme) var colorScheme
     @State private var showSearch: Bool = false
 

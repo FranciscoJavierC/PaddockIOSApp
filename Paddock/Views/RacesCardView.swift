@@ -20,80 +20,39 @@ struct RacesCardView: View {
         ZStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 5) {
                 HStack {
-                    Image("RedBull")
+                    Image(teamLogo)
                         .resizable()
                         .scaledToFill()
                         .frame(width: 50, height: 42)
                     
-                    Text("Red Bull")
+                    Text(teamName)
                         .font(.custom("SFPro-ExpandedBold", size: 20))
                 }
                 
                 Divider()
                 
                 HStack {
-                    Image("AustrailianFlag")
+                    Image(raceFlag)
                         .resizable()
                         .scaledToFill()
                         .frame(width: 50, height: 50)
                         .clipShape(Circle())
                     
                     VStack {
-                        Text("Australia GP")
+                        Text(raceName)
                             .font(.custom("SFPro-ExpandedRegular", size: 20))
                         
-                        Text("16 March 2025")
+                        Text(raceDate)
                             .font(.custom("SFPro-ExpandedRegular", size: 20))
                     }
                     
                     Spacer()
                     
                     VStack {
-                        Text("5th")
+                        Text("\(placeFinished)st")
                             .font(.custom("SFPro-ExpandedRegular", size: 20))
                         
-                        Text("8.0")
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
-                            .padding(.horizontal, 9)
-                            .padding(.vertical, 8)
-                            .background(
-                                Capsule()
-                                    .fill(LinearGradient(
-                                        colors: [Color.green.opacity(0.7), Color.green.opacity(0.3)],
-                                        startPoint: .leading,
-                                        endPoint: .trailing))
-                                    .overlay(
-                                        Capsule()
-                                            .stroke(Color.green, lineWidth: 1)
-                                    )
-                            )
-                    }
-                }
-                
-                Divider()
-                
-                HStack {
-                    Image("AustrailianFlag")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                    
-                    VStack {
-                        Text("Australia GP")
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
-                        
-                        Text("16 March 2025")
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
-                    }
-                    
-                    Spacer()
-                    
-                    VStack {
-                        Text("1st")
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
-                        
-                        Text("10.0")
+                        Text(String(format: "%.1f", rating))
                             .font(.custom("SFPro-ExpandedRegular", size: 20))
                             .padding(.horizontal, 9)
                             .padding(.vertical, 8)
@@ -110,89 +69,6 @@ struct RacesCardView: View {
                             )
                     }
                 }
-
-                Divider()
-                
-                HStack {
-                    Image("AustrailianFlag")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                    
-                    VStack {
-                        Text("Australia GP")
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
-                        
-                        Text("16 March 2025")
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
-                    }
-                    
-                    Spacer()
-                    
-                    VStack {
-                        Text("20th")
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
-                        
-                        Text("1.0")
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
-                            .padding(.horizontal, 9)
-                            .padding(.vertical, 8)
-                            .background(
-                                Capsule()
-                                    .fill(LinearGradient(
-                                        colors: [Color.red.opacity(0.7), Color.red.opacity(0.3)],
-                                        startPoint: .leading,
-                                        endPoint: .trailing))
-                                    .overlay(
-                                        Capsule()
-                                            .stroke(Color.green, lineWidth: 1)
-                                    )
-                            )
-                    }
-                }
-
-                Divider()
-                
-                HStack {
-                    Image("AustrailianFlag")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                    
-                    VStack {
-                        Text("Australia GP")
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
-                        
-                        Text("16 March 2025")
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
-                    }
-                    
-                    Spacer()
-                    
-                    VStack {
-                        Text("14th")
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
-                        
-                        Text("5.0")
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
-                            .padding(.horizontal, 9)
-                            .padding(.vertical, 8)
-                            .background(
-                                Capsule()
-                                    .fill(LinearGradient(
-                                        colors: [Color.yellow.opacity(0.7), Color.yellow.opacity(0.3)],
-                                        startPoint: .leading,
-                                        endPoint: .trailing))
-                                    .overlay(
-                                        Capsule()
-                                            .stroke(Color.green, lineWidth: 1)
-                                    )
-                            )
-                    }
-                }
-
             }
             .padding()
             .frame(width: 400)

@@ -14,10 +14,10 @@ enum TabBar: String, CaseIterable, Hashable {
     @ViewBuilder
         func view(hasFloatingTabBar: Bool) -> some View {
             switch self {
-            case .previous:
-                PreviousView(hasFloatingTabBar: hasFloatingTabBar)
             case .upcoming:
                 UpcomingView(hasFloatingTabBar: hasFloatingTabBar)
+            case .previous:
+                PreviousView(hasFloatingTabBar: hasFloatingTabBar)
             }
         }
 }

@@ -78,6 +78,16 @@ struct DriverDetailView: View {
                             championships: 4
                         )
                         .tag(0)
+                        RacesCardView(
+                            raceFlag: "AustrailianFlag",
+                            raceName: "Australia GP",
+                            raceDate: "16 March 2025",
+                            placeFinished: 1,
+                            rating: 10.0,
+                            teamLogo: "RedBull",
+                            teamName: "Red Bull"
+                        )
+                        .tag(1)
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
