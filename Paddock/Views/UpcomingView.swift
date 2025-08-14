@@ -29,42 +29,39 @@ struct UpcomingView: View {
                         RoundedRectangle(cornerRadius: 20)
                             .fill(cardBackground)
                             .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 0)
-                            .frame(width: 400, height: 550)
+                            .frame(width: 400, height: 500)
                         
                         VStack(spacing: 13) {
-                            HStack(alignment: .top) {
-                                VStack(alignment: .leading, spacing: 15) {
-                                    HStack {
-                                        Text("Round 1")
-                                            .font(.custom("SFPro-ExpandedBold", size: 20))
-                                            .foregroundColor(.red)
-                                    }
-                                    
-                                    HStack(spacing: 8) {
-                                        Text("AUSTRALIA")
-                                            .foregroundColor(.adaptiveText)
-                                            .font(.custom("SFPro-ExpandedBold", size: 30))
-                                        
-                                        Image("AustrailianFlag")
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 50, height: 30)
-                                            .cornerRadius(8)
-                                    }
-                                    
-                                    Text("13-15 Mar")
-                                        .foregroundColor(.secondary)
-                                        .font(.custom("SFPro-ExpandedRegular", size: 20))
+                            VStack(spacing: 8) {
+                                HStack(spacing: 8) {
+                                    Text("AUSTRALIA")
+                                        .foregroundColor(.adaptiveText)
+                                        .font(.custom("SFPro-ExpandedBold", size: 30))
+
+                                    Image("AustrailianFlag")
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 50, height: 30)
+                                        .cornerRadius(8)
                                 }
+                               
+                                HStack(spacing: 30) {
+                                    Text("Round 1")
+                                        .font(.custom("SFPro-ExpandedRegular", size: 18))
+
+                                    Text("13-15 Mar")
+                                        .font(.custom("SFPro-ExpandedRegular", size: 18))
+                                }
+                                .padding(.horizontal, 30)
+                                .frame(maxWidth: .infinity)
                             }
-                            .padding(.leading, 30)
-                            .frame(maxWidth: .infinity, alignment: .leading)
                             
                             VStack {
                                 Image("AustrailianGP")
                                     .resizable()
                                     .scaledToFill()
                                     .frame(width: 350, height: 200)
+                                
                                 Text("Albert Park Circuit")
                                     .foregroundColor(.adaptiveText)
                                     .font(.custom("SFPro-ExpandedRegular", size: 20))
@@ -100,7 +97,7 @@ struct UpcomingView: View {
                         flagImage: "AustrailianFlag",
                         circuitImage: "AustrailianGP",
                         shortDate: "13–15",
-                        shortMonth: "MAR"
+                        shortMonth: "Mar"
                     )
                 }
             }
@@ -180,15 +177,22 @@ struct MiniRaceCard: View {
                         .foregroundColor(.adaptiveText)
 
                     HStack(spacing: 8) {
+                        Text(country)
+                            .font(.custom("SFPro-ExpandedBold", size: 18))
+                            .foregroundColor(.adaptiveText)
+                        
                         Image(flagImage)
                             .resizable()
                             .scaledToFill()
                             .frame(width: 35, height: 25)
                             .cornerRadius(8)
-
-                        Text(country)
-                            .font(.custom("SFPro-ExpandedBold", size: 18))
-                            .foregroundColor(.adaptiveText)
+                    }
+                    
+                    HStack {
+                        Text(shortDate)
+                            .font(.custom("SFPro-ExpandedRegular", size: 17))
+                        Text(shortMonth)
+                            .font(.custom("SFPro-ExpandedRegular", size: 17))
                     }
                 }
 
@@ -196,19 +200,8 @@ struct MiniRaceCard: View {
 
                 Image(circuitImage)
                     .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 100)
-
-                VStack(spacing: 2) {
-                    Text(shortDate)
-                        .font(.custom("SFPro-ExpandedBold", size: 12))
-                    Text(shortMonth)
-                        .font(.custom("SFPro-ExpandedBold", size: 10))
-                }
-                .foregroundColor(.white)
-                .frame(width: 55, height: 50)
-                .background(Color.red)
-                .cornerRadius(8)
+                    .scaledToFill()
+                    .frame(width: 140, height: 100)
             }
             .padding(.horizontal, 20)
         }

@@ -29,11 +29,11 @@ struct PreviousView: View {
                         RoundedRectangle(cornerRadius: 20)
                             .fill(cardBackground)
                             .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 0)
-                            .frame(width: 400, height: 300)
+                            .frame(width: 400, height: 540)
                         
-                        VStack(spacing: 13) {
+                        VStack(spacing: 5) {
                             HStack(alignment: .top) {
-                                VStack(alignment: .leading, spacing: 19) {
+                                VStack(alignment: .leading, spacing: 8) {
                                     HStack {
                                         Text("Round 1")
                                             .font(.custom("SFPro-ExpandedRegular", size: 17))
@@ -41,40 +41,43 @@ struct PreviousView: View {
                                     }
                                     
                                     HStack(spacing: 8) {
+                                        Text("AUSTRALIA")
+                                            .foregroundColor(.adaptiveText)
+                                            .font(.custom("SFPro-ExpandedBold", size: 20))
+                                        
                                         Image("AustrailianFlag")
                                             .resizable()
                                             .scaledToFill()
                                             .frame(width: 50, height: 30)
                                             .cornerRadius(8)
-                                        Text("AUSTRALIA")
-                                            .foregroundColor(.adaptiveText)
-                                            .font(.custom("SFPro-ExpandedBold", size: 20))
                                     }
                                     
                                     Text("13-15 Mar")
                                         .foregroundColor(.adaptiveText)
                                         .font(.custom("SFPro-ExpandedRegular", size: 17))
                                 }
-                                
-                                VStack(spacing: -30) {
-                                    Image("AustrailianGP")
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 150, height: 100)
-                                        .padding(.bottom, 20)
-                                    
-                                    Text("Albert Park Circuit")
-                                        .foregroundColor(.adaptiveText)
-                                        .font(.custom("SFPro-ExpandedRegular", size: 15))
-                                }
                             }
                             .padding(.leading, 10)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
+                            VStack {
+                                Image("AustrailianGP")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 350, height: 200)
+                                
+                                Text("Albert Park Circuit")
+                                    .foregroundColor(.adaptiveText)
+                                    .font(.custom("SFPro-ExpandedRegular", size: 15))
+                            }
+                            
                             HStack(alignment: .bottom, spacing: 20) {
-                                PodiumCard(position: 1, code: "VER",teamColor: .blue, driverImage: "Verstappen", lapTime: "1:42:06.304")
-                                PodiumCard(position: 2, code: "VER",teamColor: .red, driverImage: "Verstappen", lapTime: "+0.895")
+                                PodiumCard(position: 2, code: "VER",teamColor: .blue, driverImage: "Verstappen", lapTime: "1:42:06.304")
+                                    .frame(height: 120)
+                                PodiumCard(position: 1, code: "VER",teamColor: .red, driverImage: "Verstappen", lapTime: "+0.895")
+                                    .frame(height: 150)
                                 PodiumCard(position: 3, code: "VER",teamColor: .orange, driverImage: "Verstappen", lapTime: "+8.481")
+                                    .frame(height: 100)
                             }
                         }
                         .frame(width: 400)
@@ -154,9 +157,9 @@ struct PreviousView: View {
 
 struct PodiumCard: View {
     let position: Int
-    let code: String // Driver code like "VER"
+    let code: String
     let teamColor: Color
-    let driverImage: String // Image asset name
+    let driverImage: String
     let lapTime: String
 
     var body: some View {
@@ -177,6 +180,7 @@ struct PodiumCard: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 200, height: 70)
+                    .background(Circle().fill(Color(red: 0.05, green: 0.20, blue: 0.51)))
                     .clipShape(Circle())
 
                 Text(lapTime)
