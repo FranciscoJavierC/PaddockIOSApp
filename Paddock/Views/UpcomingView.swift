@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct UpcomingView: View {
+    @Environment(\.dismiss) var dismiss
+    @State private var selectedScheduleID: String? = nil
+    @State private var isExpanded = false
+    
     @Environment(\.colorScheme) var colorScheme
 
     var cardBackground: Color {
@@ -29,7 +33,7 @@ struct UpcomingView: View {
                         RoundedRectangle(cornerRadius: 20)
                             .fill(cardBackground)
                             .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 0)
-                            .frame(width: 400, height: 500)
+                            .frame(width: 400, height: isExpanded ? 770 : 510)
                         
                         VStack(spacing: 13) {
                             VStack(spacing: 8) {
@@ -67,10 +71,12 @@ struct UpcomingView: View {
                                     .font(.custom("SFPro-ExpandedRegular", size: 20))
                             }
                             
+                            // Main countdown section with the tap gesture
                             ZStack {
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(Color(.red))
-                                    .frame(width: 380, height: 140)
+                                // Height will adjust based on expanded content
+                                    .frame(width: 380, height: isExpanded ? 420 : 160)
                                 
                                 VStack(spacing: 8) {
                                     Text("Practice 1")
@@ -82,6 +88,62 @@ struct UpcomingView: View {
                                         TimeUnitBox(label: "DAYS", value: "02")
                                         TimeUnitBox(label: "HRS", value: "13")
                                         TimeUnitBox(label: "MIN", value: "45")
+                                    }
+                                    
+                                    // This is the new tappable area
+                                    VStack {
+                                        HStack(spacing: 170) {
+                                            Text("Full Schedule")
+                                                .font(.custom("SFPro-ExpandedBold", size: 20))
+                                                .foregroundColor(.white)
+                                            
+                                            Image(systemName: "chevron.down")
+                                                .foregroundColor(.white)
+                                                .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                                        }
+                                        .padding(.horizontal, 20)
+                                        
+                                        if isExpanded {
+                                            VStack(alignment: .leading, spacing: 10) {
+                                                ForEach(scheduleStages) { stage in
+                                                    HStack(alignment: .top, spacing: 20) { // Main horizontal stack for each row
+                                                        // Left side: Day and Date
+                                                        VStack(alignment: .leading) {
+                                                            Text("\(stage.day)")
+                                                                .font(.custom("SFPro-ExpandedRegular", size: 15))
+                                                                .foregroundColor(.white)
+                                                            
+                                                            Text("\(stage.shortDate)")
+                                                                .font(.custom("SFPro-ExpandedRegular", size: 15))
+                                                                .foregroundColor(.white)
+                                                        }
+                                                        
+                                                        // Right side: Session and Time
+                                                        VStack(alignment: .leading) { // A new VStack for session and time
+                                                            HStack(alignment: .top) {
+                                                                Text(stage.session)
+                                                                    .font(.custom("SFPro-ExpandedBold", size: 18))
+                                                                    .foregroundColor(.white)
+                                                                
+                                                                Spacer()
+                                                                
+                                                                Text("\(stage.time)")
+                                                                    .font(.custom("SFPro-ExpandedRegular", size: 15))
+                                                                    .foregroundColor(.white.opacity(0.8))
+                                                            }
+                                                        }
+                                                    }
+                                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                                    .padding(.horizontal, 20)
+                                                }
+                                            }
+                                            .padding()
+                                        }
+                                    }
+                                    .onTapGesture {
+                                        withAnimation(.bouncy()) {
+                                            isExpanded.toggle()
+                                        }
                                     }
                                 }
                             }
@@ -141,7 +203,10 @@ struct TimeUnitBox: View {
                 .foregroundColor(.white)
         }
         .frame(width: 115, height: 80)
-        .background(RoundedRectangle(cornerRadius: 10).fill(Color(red: 0.8, green: 0, blue: 0)))
+        .background(RoundedRectangle(
+            cornerRadius: 10)
+            .fill(Color(red: 0.8, green: 0, blue: 0))
+        )
     }
 }
 
