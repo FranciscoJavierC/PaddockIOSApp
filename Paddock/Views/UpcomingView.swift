@@ -29,139 +29,41 @@ struct UpcomingView: View {
         ScrollView {
             LazyVStack(spacing: 15) {
                 NavigationLink(destination: PreviousRaceDetailView()) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(cardBackground)
-                            .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 0)
-                            .frame(width: 400, height: isExpanded ? 770 : 510)
+                    VStack(alignment: .leading, spacing: 30) {
+                        UpcomingRaceCard(
+                            backgroundImage: "AustrailianFlag",
+                            raceTitle: "Australia",
+                            roundNumber: "Round 1",
+                            raceDate: "13–15 Mar",
+                            raceNameFull: "Albert Park Circuit"
+                        )
                         
-                        VStack(spacing: 13) {
-                            VStack(spacing: 8) {
-                                HStack(spacing: 8) {
-                                    Text("AUSTRALIA")
-                                        .foregroundColor(.adaptiveText)
-                                        .font(.custom("SFPro-ExpandedBold", size: 30))
+                        UpcomingRaceCard(
+                            backgroundImage: "AustrailianFlag",
+                            raceTitle: "Australia",
+                            roundNumber: "Round 1",
+                            raceDate: "13–15 Mar",
+                            raceNameFull: "Albert Park Circuit"
+                        )
+                        UpcomingRaceCard(
+                            backgroundImage: "AustrailianFlag",
+                            raceTitle: "Australia",
+                            roundNumber: "Round 1",
+                            raceDate: "13–15 Mar",
+                            raceNameFull: "Albert Park Circuit"
+                        )
 
-                                    Image("AustrailianFlag")
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 50, height: 30)
-                                        .cornerRadius(8)
-                                }
-                               
-                                HStack(spacing: 30) {
-                                    Text("Round 1")
-                                        .font(.custom("SFPro-ExpandedRegular", size: 18))
+                        UpcomingRaceCard(
+                            backgroundImage: "AustrailianFlag",
+                            raceTitle: "Australia",
+                            roundNumber: "Round 1",
+                            raceDate: "13–15 Mar",
+                            raceNameFull: "Albert Park Circuit"
+                        )
 
-                                    Text("13-15 Mar")
-                                        .font(.custom("SFPro-ExpandedRegular", size: 18))
-                                }
-                                .padding(.horizontal, 30)
-                                .frame(maxWidth: .infinity)
-                            }
-                            
-                            VStack {
-                                Image("AustrailianGP")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 350, height: 200)
-                                
-                                Text("Albert Park Circuit")
-                                    .foregroundColor(.adaptiveText)
-                                    .font(.custom("SFPro-ExpandedRegular", size: 20))
-                            }
-                            
-                            // Main countdown section with the tap gesture
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 20)
-                                    .fill(Color(.red))
-                                // Height will adjust based on expanded content
-                                    .frame(width: 380, height: isExpanded ? 420 : 160)
-                                
-                                VStack(spacing: 8) {
-                                    Text("Practice 1")
-                                        .font(.custom("SFPro-ExpandedBold", size: 20))
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(.white)
-                                    
-                                    HStack(spacing: 8) {
-                                        TimeUnitBox(label: "DAYS", value: "02")
-                                        TimeUnitBox(label: "HRS", value: "13")
-                                        TimeUnitBox(label: "MIN", value: "45")
-                                    }
-                                    
-                                    // This is the new tappable area
-                                    VStack {
-                                        HStack(spacing: 170) {
-                                            Text("Full Schedule")
-                                                .font(.custom("SFPro-ExpandedBold", size: 20))
-                                                .foregroundColor(.white)
-                                            
-                                            Image(systemName: "chevron.down")
-                                                .foregroundColor(.white)
-                                                .rotationEffect(.degrees(isExpanded ? 180 : 0))
-                                        }
-                                        .padding(.horizontal, 20)
-                                        
-                                        if isExpanded {
-                                            VStack(alignment: .leading, spacing: 10) {
-                                                ForEach(scheduleStages) { stage in
-                                                    HStack(alignment: .top, spacing: 20) { // Main horizontal stack for each row
-                                                        // Left side: Day and Date
-                                                        VStack(alignment: .leading) {
-                                                            Text("\(stage.day)")
-                                                                .font(.custom("SFPro-ExpandedRegular", size: 15))
-                                                                .foregroundColor(.white)
-                                                            
-                                                            Text("\(stage.shortDate)")
-                                                                .font(.custom("SFPro-ExpandedRegular", size: 15))
-                                                                .foregroundColor(.white)
-                                                        }
-                                                        
-                                                        // Right side: Session and Time
-                                                        VStack(alignment: .leading) { // A new VStack for session and time
-                                                            HStack(alignment: .top) {
-                                                                Text(stage.session)
-                                                                    .font(.custom("SFPro-ExpandedBold", size: 18))
-                                                                    .foregroundColor(.white)
-                                                                
-                                                                Spacer()
-                                                                
-                                                                Text("\(stage.time)")
-                                                                    .font(.custom("SFPro-ExpandedRegular", size: 15))
-                                                                    .foregroundColor(.white.opacity(0.8))
-                                                            }
-                                                        }
-                                                    }
-                                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                                    .padding(.horizontal, 20)
-                                                }
-                                            }
-                                            .padding()
-                                        }
-                                    }
-                                    .onTapGesture {
-                                        withAnimation(.bouncy()) {
-                                            isExpanded.toggle()
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
                 .buttonStyle(.plain)
-                
-                ForEach(0..<6) { _ in
-                    MiniRaceCard(
-                        round: "Round 1",
-                        country: "AUSTRALIA",
-                        flagImage: "AustrailianFlag",
-                        circuitImage: "AustrailianGP",
-                        shortDate: "13–15",
-                        shortMonth: "Mar"
-                    )
-                }
             }
         }
         .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 115 : 0) {
@@ -189,91 +91,95 @@ struct RoundedCorner: Shape {
     }
 }
 
-struct TimeUnitBox: View {
-    let label: String
-    let value: String
-
+struct UpcomingRaceCard: View {
+    let backgroundImage: String
+    let raceTitle: String
+    let roundNumber: String
+    let raceDate: String
+    let raceNameFull: String
+    
     var body: some View {
-        VStack(spacing: 2) {
-            Text(value)
-                .font(.custom("SFPro-ExpandedBold", size: 35))
-                .foregroundStyle(.white)
-            Text(label)
-                .font(.custom("SFPro-ExpandedRegular", size: 13))
+        ZStack(alignment: .top) {
+            // Background Image
+            Image(backgroundImage)
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity, maxHeight: 200)
+                .clipped()
+                .cornerRadius(20)
+            
+            // Dark overlay for readability
+            Rectangle()
+                .fill(Color.black.opacity(0.5))
+                .frame(maxWidth: .infinity, maxHeight: 130)
+                .cornerRadius(20)
+            
+            // Race Title at the top center
+            Text(raceTitle.uppercased())
+                .font(.custom("SFPro-ExpandedBold", size: 28))
                 .foregroundColor(.white)
-        }
-        .frame(width: 115, height: 80)
-        .background(RoundedRectangle(
-            cornerRadius: 10)
-            .fill(Color(red: 0.8, green: 0, blue: 0))
-        )
-    }
-}
+                .shadow(radius: 5)
+                .offset(y: 40)
+            
+            // Bottom Info Box
+            VStack(alignment: .leading, spacing: 5) {
+                // Top row with "Testing Round" and date
+                HStack {
+                    Text(roundNumber)
+                        .font(.custom("SFPro-ExpandedBold", size: 16))
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text(raceDate)
+                        .font(.custom("SFPro-ExpandedRegular", size: 16))
+                        .foregroundColor(.white)
+                }
+                .padding(.top, 10)
+                
+                // Thin dashed line
+                Rectangle()
+                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
+                    .foregroundColor(.white.opacity(0.4))
+                    .frame(height: 1)
+                
+                // Second row with race name and button
+                HStack {
+                    Image(systemName: "mappin")
+                        .foregroundColor(.white)
 
-struct MiniRaceCard: View {
-    let round: String
-    let country: String
-    let flagImage: String
-    let circuitImage: String
-    let shortDate: String
-    let shortMonth: String
-
-    @Environment(\.colorScheme) var colorScheme
-
-    var cardBackground: Color {
-        colorScheme == .dark ? Color(.systemGray6) : .white
-    }
-
-    var cardShadow: Color {
-        colorScheme == .dark ? .white.opacity(0.2) : .black.opacity(0.2)
-    }
-
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 20)
-                .fill(cardBackground)
-                .frame(height: 120)
-                .shadow(color: cardShadow, radius: 6, x: 0, y: 3)
-
-            HStack {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text(round)
-                        .font(.custom("SFPro-ExpandedRegular", size: 17))
-                        .foregroundColor(.adaptiveText)
-
-                    HStack(spacing: 8) {
-                        Text(country)
-                            .font(.custom("SFPro-ExpandedBold", size: 18))
-                            .foregroundColor(.adaptiveText)
-                        
-                        Image(flagImage)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 35, height: 25)
+                    Text(raceNameFull)
+                        .font(.custom("SFPro-ExpandedRegular", size: 13))
+                        .foregroundColor(.white)
+                        .lineLimit(2)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                    }) {
+                        Text("View Details")
+                            .font(.custom("SFPro-ExpandedBold", size: 13))
+                            .foregroundColor(.red)
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 15)
+                            .background(Color.white)
                             .cornerRadius(8)
                     }
-                    
-                    HStack {
-                        Text(shortDate)
-                            .font(.custom("SFPro-ExpandedRegular", size: 17))
-                        Text(shortMonth)
-                            .font(.custom("SFPro-ExpandedRegular", size: 17))
-                    }
                 }
-
-                Spacer()
-
-                Image(circuitImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 140, height: 100)
             }
-            .padding(.horizontal, 20)
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: 95) // Fixed height for info box
+            .background(Color(.red))
+            .cornerRadius(20)
+            .overlay( // This adds the thin border
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.white.opacity(1.0), lineWidth: 1.5)
+            )
+            .offset(y: 109) // Adjust position to appear at the bottom of the card
+            
         }
+        .frame(height: 200) // Total height of the card
         .padding(.horizontal)
     }
 }
-
 
 #Preview {
     UpcomingView(hasFloatingTabBar: true)
