@@ -39,28 +39,27 @@ struct UpcomingView: View {
                         )
                         
                         UpcomingRaceCard(
-                            backgroundImage: "AustrailianFlag",
-                            raceTitle: "Australia",
-                            roundNumber: "Round 1",
-                            raceDate: "13–15 Mar",
-                            raceNameFull: "Albert Park Circuit"
+                            backgroundImage: "ChinaFlag",
+                            raceTitle: "China",
+                            roundNumber: "Round 2",
+                            raceDate: "20–23 Mar",
+                            raceNameFull: "Shangai International Circuit"
                         )
                         UpcomingRaceCard(
-                            backgroundImage: "AustrailianFlag",
-                            raceTitle: "Australia",
-                            roundNumber: "Round 1",
-                            raceDate: "13–15 Mar",
-                            raceNameFull: "Albert Park Circuit"
+                            backgroundImage: "JapanFlag",
+                            raceTitle: "Japan",
+                            roundNumber: "Round 3",
+                            raceDate: "05–06 Apr",
+                            raceNameFull: "Suzuka Circuit"
                         )
 
                         UpcomingRaceCard(
-                            backgroundImage: "AustrailianFlag",
-                            raceTitle: "Australia",
-                            roundNumber: "Round 1",
-                            raceDate: "13–15 Mar",
-                            raceNameFull: "Albert Park Circuit"
+                            backgroundImage: "BahrainFlag",
+                            raceTitle: "Bahrain",
+                            roundNumber: "Round 4",
+                            raceDate: "11–13 Apr",
+                            raceNameFull: "Bahrain International Circuit"
                         )
-
                     }
                 }
                 .buttonStyle(.plain)
@@ -98,6 +97,8 @@ struct UpcomingRaceCard: View {
     let raceDate: String
     let raceNameFull: String
     
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         ZStack(alignment: .top) {
             // Background Image
@@ -127,11 +128,11 @@ struct UpcomingRaceCard: View {
                 HStack {
                     Text(roundNumber)
                         .font(.custom("SFPro-ExpandedBold", size: 16))
-                        .foregroundColor(.white)
+                        .foregroundColor(.adaptiveText)
                     Spacer()
                     Text(raceDate)
                         .font(.custom("SFPro-ExpandedRegular", size: 16))
-                        .foregroundColor(.white)
+                        .foregroundColor(.adaptiveText)
                 }
                 .padding(.top, 10)
                 
@@ -144,30 +145,33 @@ struct UpcomingRaceCard: View {
                 // Second row with race name and button
                 HStack {
                     Image(systemName: "mappin")
-                        .foregroundColor(.white)
+                        .foregroundColor(.adaptiveText)
 
                     Text(raceNameFull)
                         .font(.custom("SFPro-ExpandedRegular", size: 13))
-                        .foregroundColor(.white)
+                        .foregroundColor(.adaptiveText)
                         .lineLimit(2)
                     
                     Spacer()
                     
                     Button(action: {
                     }) {
-                        Text("View Details")
+                        Text("Race Info")
                             .font(.custom("SFPro-ExpandedBold", size: 13))
-                            .foregroundColor(.red)
+                            .foregroundColor(.adaptiveText)
                             .padding(.vertical, 8)
                             .padding(.horizontal, 15)
-                            .background(Color.white)
                             .cornerRadius(8)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color.white.opacity(0.9), lineWidth: 1.2)
+                            )
                     }
                 }
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: 95) // Fixed height for info box
-            .background(Color(.red))
+            .background(.ultraThinMaterial)
             .cornerRadius(20)
             .overlay( // This adds the thin border
                 RoundedRectangle(cornerRadius: 20)
