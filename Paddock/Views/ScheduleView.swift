@@ -67,7 +67,7 @@ struct ScheduleView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
         .background(
-               colorScheme == .dark ? Color.black : Color(UIColor.systemGray6) // Light gray bg
+            Color.black//colorScheme == .dark ? Color.black : Color(UIColor.systemGray6) // Light gray bg
            )
         .ignoresSafeArea(edges: .bottom)
     }

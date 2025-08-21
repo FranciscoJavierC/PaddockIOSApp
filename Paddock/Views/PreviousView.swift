@@ -151,11 +151,15 @@ struct PreviousRaceCard: View {
                         .foregroundColor(.white)
                         .padding(.vertical, 8)
                         .padding(.horizontal, 15)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color.red)
+                        )
                         .overlay(
                             RoundedRectangle(cornerRadius: 16)
                                 .stroke(Color.white.opacity(0.9), lineWidth: 1.2)
                         )
-                        .cornerRadius(8)
+                        .cornerRadius(16)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.top, 5)
@@ -178,7 +182,6 @@ struct PreviousRaceCard: View {
 struct PodiumChip: View {
     let position: Int
     let driver: String
-    //let code: String       // 3-letter code (e.g. VER, HAM, LEC)
     let points: Int
     let gap: String
     let image: String      // Driver headshot

@@ -128,11 +128,11 @@ struct UpcomingRaceCard: View {
                 HStack {
                     Text(roundNumber)
                         .font(.custom("SFPro-ExpandedBold", size: 16))
-                        .foregroundColor(.adaptiveText)
+                        .foregroundColor(.white)
                     Spacer()
                     Text(raceDate)
                         .font(.custom("SFPro-ExpandedRegular", size: 16))
-                        .foregroundColor(.adaptiveText)
+                        .foregroundColor(.white)
                 }
                 .padding(.top, 10)
                 
@@ -145,11 +145,11 @@ struct UpcomingRaceCard: View {
                 // Second row with race name and button
                 HStack {
                     Image(systemName: "mappin")
-                        .foregroundColor(.adaptiveText)
+                        .foregroundColor(.white)
 
                     Text(raceNameFull)
                         .font(.custom("SFPro-ExpandedRegular", size: 13))
-                        .foregroundColor(.adaptiveText)
+                        .foregroundColor(.white)
                         .lineLimit(2)
                     
                     Spacer()
@@ -158,10 +158,14 @@ struct UpcomingRaceCard: View {
                     }) {
                         Text("Race Info")
                             .font(.custom("SFPro-ExpandedBold", size: 13))
-                            .foregroundColor(.adaptiveText)
+                            .foregroundColor(.white)
                             .padding(.vertical, 8)
                             .padding(.horizontal, 15)
-                            .cornerRadius(8)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color.red)
+                            )
+                            .cornerRadius(16)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 16)
                                     .stroke(Color.white.opacity(0.9), lineWidth: 1.2)
