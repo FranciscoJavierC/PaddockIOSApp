@@ -50,7 +50,8 @@ struct ScheduleView: View {
                         }
                     }
                 }
-                .background(colorScheme == .dark ? Color(.systemGray6) : Color.white)
+                //.background(colorScheme == .dark ? Color(.systemGray6) : Color.white)
+                .background(.ultraThickMaterial)
                 .clipShape(Capsule())
                 .shadow(color: .black.opacity(0.1), radius: 5, x: 5, y: 5)
                 .shadow(color: .black.opacity(0.05), radius: 5, x: -5, y: -5)
@@ -66,7 +67,7 @@ struct ScheduleView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
         .background(
-               colorScheme == .dark ? Color.black : Color(UIColor.systemGray6) // Light gray bg
+            Color.black//colorScheme == .dark ? Color.black : Color(UIColor.systemGray6) // Light gray bg
            )
         .ignoresSafeArea(edges: .bottom)
     }
@@ -76,8 +77,7 @@ struct ScheduleView: View {
         HStack(spacing: 0) {
             ForEach(TabBar.allCases, id: \.rawValue) { tab in
                 Text(tab.rawValue)
-                    .font(.callout)
-                    .fontWeight(weight)
+                    .font(.custom("SFPro-ExpandedBold", size: 15))
                     .foregroundStyle(tint)
                     .padding(.vertical, 10)
                     .frame(maxWidth: .infinity)

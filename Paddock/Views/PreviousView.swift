@@ -25,133 +25,38 @@ struct PreviousView: View {
         ScrollView {
             LazyVStack(spacing: 15) {
                 NavigationLink(destination: PreviousRaceDetailView()) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(cardBackground)
-                            .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 0)
-                            .frame(width: 400, height: 310)// Without circuit image 280
+                    VStack(alignment: .leading, spacing: 140) {
+                        PreviousRaceCard(
+                            backgroundImage: "AustrailianFlag",
+                            raceTitle: "Australia",
+                            roundNumber: "Round 1",
+                            raceDate: "13–15 Mar",
+                        )
                         
-                        VStack(spacing: 12) {
-                            VStack(spacing: 8) {
-                                HStack(spacing: 8) {
-                                    Text("AUSTRALIA")
-                                        .foregroundColor(.adaptiveText)
-                                        .font(.custom("SFPro-ExpandedBold", size: 30))
+                        PreviousRaceCard(
+                            backgroundImage: "ChinaFlag",
+                            raceTitle: "China",
+                            roundNumber: "Round 2",
+                            raceDate: "20–23 Mar",
+                        )
+                        
+                        PreviousRaceCard(
+                            backgroundImage: "JapanFlag",
+                            raceTitle: "Japan",
+                            roundNumber: "Round 3",
+                            raceDate: "05–06 Apr",
+                        )
 
-                                    Image("AustrailianFlag")
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 50, height: 30)
-                                        .cornerRadius(8)
-                                }
-                               
-                                HStack(spacing: 30) {
-                                    Text("Round 1")
-                                        .font(.custom("SFPro-ExpandedRegular", size: 18))
-
-                                    Text("13-15 Mar")
-                                        .font(.custom("SFPro-ExpandedRegular", size: 18))
-                                }
-                                .padding(.horizontal, 30)
-                                .frame(maxWidth: .infinity)
-                            }
-                            
-                            HStack(alignment: .bottom, spacing: 20) {
-                                PodiumCard(
-                                    position: 2,
-                                    points: 18,
-                                    driverName: "Verstappen",
-                                    driverImage: "Verstappen",
-                                    teamColor: .blue,
-                                    cardHeight: 200
-                                )
-                                
-                                PodiumCard(
-                                    position: 1,
-                                    points: 25,
-                                    driverName: "Verstappen",
-                                    driverImage: "Verstappen",
-                                    teamColor: .red,
-                                    cardHeight: 210
-                                )
-                                
-                                PodiumCard(
-                                    position: 3,
-                                    points: 15,
-                                    driverName: "Verstappen",
-                                    driverImage: "Verstappen",
-                                    teamColor: .orange,
-                                    cardHeight: 190
-                                )
-                            }
-                        }
-                        .frame(width: 400)
+                        PreviousRaceCard(
+                            backgroundImage: "BahrainFlag",
+                            raceTitle: "Bahrain",
+                            roundNumber: "Round 4",
+                            raceDate: "11–13 Apr",
+                        )
                     }
-                    .contentShape(Rectangle())
+
                 }
                 .buttonStyle(.plain) // 👈 add this line
-                
-                ForEach(0..<6) { _ in
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(cardBackground)
-                            .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 0)
-                            .frame(width: 400, height: 190)
-                        
-                        VStack(spacing: 13) {
-                            VStack(spacing: 8) {
-                                HStack(spacing: 8) {
-                                    Text("AUSTRALIA")
-                                        .foregroundColor(.adaptiveText)
-                                        .font(.custom("SFPro-ExpandedBold", size: 30))
-
-                                    Image("AustrailianFlag")
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 50, height: 30)
-                                        .cornerRadius(8)
-                                }
-                               
-                                HStack(spacing: 30) {
-                                    Text("Round 1")
-                                        .font(.custom("SFPro-ExpandedRegular", size: 18))
-
-                                    Text("13-15 Mar")
-                                        .font(.custom("SFPro-ExpandedRegular", size: 18))
-                                }
-                                .padding(.horizontal, 30)
-                                .frame(maxWidth: .infinity)
-                            }
-                            
-                            HStack(alignment: .bottom, spacing: 20) {
-                                PodiumCardMini(
-                                    position: 1,
-                                    points: 25,
-                                    driverCodeName: "Ver",
-                                    driverImage: "Verstappen",
-                                    teamColor: .blue,
-                                )
-                                
-                                PodiumCardMini(
-                                    position: 2,
-                                    points: 18,
-                                    driverCodeName: "Ver",
-                                    driverImage: "Verstappen",
-                                    teamColor: .red,
-                                )
-                                
-                                PodiumCardMini(
-                                    position: 3,
-                                    points: 15,
-                                    driverCodeName: "Ver",
-                                    driverImage: "Verstappen",
-                                    teamColor: .orange,
-                                )
-                            }
-                        }
-                        .frame(width: 400)
-                    }
-                }
             }
         }
         .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 110 : 0) {
@@ -162,91 +67,6 @@ struct PreviousView: View {
         .safeAreaInset(edge: .top, spacing: 0) {
                    Color.clear.frame(height: 10)
                }
-    }
-}
-
-struct PodiumCard: View {
-    let position: Int
-    let points: Int
-    let driverName: String
-    let driverImage: String
-    let teamColor: Color
-    let cardHeight: CGFloat
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            // Top Bar
-            Text("P\(position)")
-                .font(.custom("SFPro-ExpandedBold", size: 20))
-                .foregroundColor(.white)
-                .frame(height: 35)
-            
-            // Driver Image
-            Image(driverImage)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 90, height: 100, alignment: .top) // Set your desired size
-                .clipShape(RoundedRectangle(cornerRadius: 15))
-                .shadow(color: .black.opacity(0.9), radius: 5, x: 0, y: 3) 
-            
-            // Name & Logo
-            VStack(spacing: 4) {
-                Text(driverName.uppercased())
-                    .font(.custom("SFPro-ExpandedBold", size: 11))
-                    .foregroundColor(.white)
-                
-                Text("\(points) PTS")
-                    .font(.custom("SFPro-ExpandedBold", size: 16))
-                    .foregroundColor(.white)
-                
-            }
-            .padding(.vertical, 10)
-        }
-        .frame(width: 110, height: cardHeight)
-        .background(teamColor)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
-    }
-}
-
-struct PodiumCardMini: View {
-    let position: Int
-    let points: Int
-    let driverCodeName: String
-    let driverImage: String
-    let teamColor: Color
-    var body: some View {
-        HStack(spacing: 5) {
-            // Top Bar
-            Text("P\(position)")
-                .font(.custom("SFPro-ExpandedBold", size: 20))
-                .foregroundColor(.white)
-            
-            // Driver Image
-            Image(driverImage)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 50, height: 50, alignment: .top)
-                .clipShape(Circle())
-                .shadow(color: .black.opacity(0.9), radius: 5, x: 0, y: 3)
-            
-            // Name & Logo
-            VStack(spacing: 4) {
-                Text(driverCodeName.uppercased())
-                    .font(.custom("SFPro-ExpandedBold", size: 11))
-                    .foregroundColor(.white)
-                
-                Text("\(points) PTS")
-                    .font(.custom("SFPro-ExpandedBold", size: 16))
-                    .foregroundColor(.white)
-                
-            }
-            .padding(.vertical, 10)
-        }
-        .frame(width: 110, height: 50)
-        .background(teamColor)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
     }
 }
 
@@ -265,6 +85,162 @@ extension Color {
         })
     }
 }
+
+struct PreviousRaceCard: View {
+    let backgroundImage: String
+    let raceTitle: String
+    let roundNumber: String
+    let raceDate: String
+    
+    var body: some View {
+        ZStack(alignment: .top) {
+            // Background Image
+            Image(backgroundImage)
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity, maxHeight: 200)
+                .clipped()
+                .cornerRadius(20)
+            
+            // Dark overlay for readability
+            Rectangle()
+                .fill(Color.black.opacity(0.5))
+                .frame(maxWidth: .infinity, maxHeight: 130)
+                .cornerRadius(20)
+            
+            // Race Title at the top center
+            Text(raceTitle.uppercased())
+                .font(.custom("SFPro-ExpandedBold", size: 28))
+                .foregroundColor(.white)
+                .shadow(radius: 5)
+                .offset(y: 40)
+            
+            // Bottom Info Box
+            VStack(spacing: 10) {
+                // Top row with round + date
+                HStack {
+                    Text(roundNumber)
+                        .font(.custom("SFPro-ExpandedBold", size: 16))
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text(raceDate)
+                        .font(.custom("SFPro-ExpandedRegular", size: 16))
+                        .foregroundColor(.white)
+                }
+                
+                // Thin dashed line
+                Rectangle()
+                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
+                    .foregroundColor(.white.opacity(0.4))
+                    .frame(height: 1)
+                
+                // Podium row
+                VStack(spacing: 10) {
+                    PodiumChip(position: 1, driver: "Max Verstappen", points: 25, gap: "1:36:49:904", image: "VerstappenStand")
+                    PodiumChip(position: 2, driver: "Lewis Hamilton", points: 18, gap: "1:36:49:904", image: "VerstappenStand")
+                    PodiumChip(position: 3, driver: "Charles Leclerc", points: 15, gap: "1:36:49:904", image: "VerstappenStand")
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                
+                // Full Results Button
+                Button(action: {
+                    // Navigate to full results
+                }) {
+                    Text("See Full Results")
+                        .font(.custom("SFPro-ExpandedBold", size: 13))
+                        .foregroundColor(.white)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 15)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color.red)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.white.opacity(0.9), lineWidth: 1.2)
+                        )
+                        .cornerRadius(16)
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.top, 5)
+            }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: 400)
+            .background(.ultraThinMaterial)
+            .cornerRadius(20)
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.white.opacity(1.0), lineWidth: 1.5)
+            )
+            .offset(y: 109)
+        }
+        //.frame(height: 200)
+        .padding(.horizontal)
+    }
+}
+
+struct PodiumChip: View {
+    let position: Int
+    let driver: String
+    let points: Int
+    let gap: String
+    let image: String      // Driver headshot
+
+    var body: some View {
+        HStack(spacing: 12) {
+            // Position
+            Text("P\(position)")
+                .font(.custom("SFPro-ExpandedBold", size: 18))
+                .foregroundColor(.white)
+                .frame(width: 36)
+
+            VStack(alignment: .leading, spacing: 2) {
+                // Driver + Points
+                HStack {
+                    Text("\(driver)")
+                        .font(.custom("SFPro-ExpandedBold", size: 16))
+                        .foregroundColor(.white)
+
+                    Spacer()
+
+                    Text("\(points) pts")
+                        .font(.custom("SFPro-ExpandedBold", size: 14))
+                        .foregroundColor(.white)
+                }
+
+                // Gap (secondary info)
+                Text(gap)
+                    .font(.custom("SFPro-ExpandedRegular", size: 12))
+                    .foregroundColor(.white)
+            }
+
+            Spacer()
+
+            // Driver Headshot
+            Image(image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 40, height: 40, alignment: .top)
+                .clipShape(Circle())
+                .overlay(
+                    Circle().stroke(Color.white, lineWidth: 1)
+                )
+                .background(
+                    Circle()
+                        .fill(Color.blue)
+                )
+        }
+        .padding(.vertical, 10)
+        .padding(.horizontal, 12)
+        .frame(maxWidth: .infinity)
+        .cornerRadius(16)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color.white.opacity(0.9), lineWidth: 1.2)
+        )
+    }
+}
+
 
 #Preview {
     PreviousView(hasFloatingTabBar: true)

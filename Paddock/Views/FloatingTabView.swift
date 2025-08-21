@@ -81,7 +81,7 @@ struct FloatingTabView: View {
                                     .opacity(isActive ? 1 : 0)
                                 
                                 Capsule(style: .continuous)
-                                    .fill(.background)
+                                    .fill(.red)
                             }
                             .compositingGroup()
                             .frame(width: tabItemWidth, height: tabItemHeight)
@@ -146,15 +146,14 @@ struct FloatingTabView: View {
         VStack(spacing: 6) {
             Image(systemName: tab.symbol)
                 .font(.title2)
-                .symbolVariant(.fill)
-            
+                .symbolVariant(activeTab == tab ? .fill : .none)
             if !isSearchExpanded {
                 Text(tab.rawValue)
                     .font(.caption2)
                     .lineLimit(1)
             }
         }
-        .foregroundStyle(activeTab == tab ? accentColor : Color.primary)
+        .foregroundStyle(activeTab == tab ? accentColor : Color.white)
         .frame(width: width, height: height)
         .contentShape(.capsule)
         .simultaneousGesture(
@@ -250,7 +249,7 @@ struct FloatingTabView: View {
     }
     
     var accentColor: Color {
-        .red
+        .white
     }
 }
 
