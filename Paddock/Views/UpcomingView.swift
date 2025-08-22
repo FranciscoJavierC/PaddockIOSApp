@@ -65,7 +65,7 @@ struct UpcomingView: View {
                 .buttonStyle(.plain)
             }
         }
-        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 115 : 0) {
+        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 100 : 0) {
             if hasFloatingTabBar {
                 Color.clear.frame(height: 10)
             }

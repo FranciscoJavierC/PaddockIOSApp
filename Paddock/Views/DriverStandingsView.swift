@@ -14,20 +14,17 @@ struct DriverStandingsView: View {
         ScrollView {
             NavigationLink(destination: DriverDetailView()) {
                 LazyVStack(spacing: 15) {
-                    DriverStandingCard(position: 1, name: "Max Verstappen", team: "Red Bull", driverNumber: "1", teamColor: .blue, points: 165, wins: 5, podiums: 7, poles: 3, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
-                    
-                    MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
-                    
-                    MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
-                    
-                    MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
-                    
-                    MiniDriverStandingCard(position: 2, name: "Oscar Piastri", team: "Red Bull", driverNumber: "81", points: 165, teamColor: .orange, driverImage: Image("VerstappenStand"), teamLogo: Image("RedBull"), driverCountry: Image("AustrailianFlag"))
+                    VStack(alignment: .leading, spacing: 70) {
+                        DriverStandingsCard(driverImage: "Piastri", driverFlag: "AustrailianFlag", driverName: "Oscar Piastri", driverNumber: 81, position: 1, points: 284, teamLogo: "McLaren", teamColor: .orange)
+                        DriverStandingsCard(driverImage: "Norris", driverFlag: "UKFlag", driverName: "Lando Norris", driverNumber: 4, position: 2, points: 275, teamLogo: "McLaren", teamColor: .orange)
+                        DriverStandingsCard(driverImage: "VerstappenStand", driverFlag: "NetherlandsFlag", driverName: "Max Verstappen", driverNumber: 1, position: 3, points: 187, teamLogo: "RedBull", teamColor: .blue)
+                        DriverStandingsCard(driverImage: "Russel", driverFlag: "UKFlag", driverName: "George Russell", driverNumber: 63, position: 4, points: 172, teamLogo: "Mercedes", teamColor: .teal)
+                    }
                 }
             }
             .buttonStyle(.plain) // 👈 add this line
         }
-        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 110 : 0) {
+        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 140 : 0) {
             if hasFloatingTabBar {
                 Color.clear.frame(height: 10)
             }
@@ -38,196 +35,104 @@ struct DriverStandingsView: View {
     }
 }
 
-struct DriverStandingCard: View {
+struct DriverStandingsCard: View {
+    let driverImage: String
+    let driverFlag: String
+    let driverName: String
+    let driverNumber: Int
     let position: Int
-    let name: String
-    let team: String
-    let driverNumber: String
-    let teamColor: Color
     let points: Int
-    let wins: Int
-    let podiums: Int
-    let poles: Int
-    let driverImage: Image
-    let teamLogo: Image
-    let driverCountry: Image
-
-    var body: some View {
-        VStack(spacing: 0) {
-            ZStack {
-                teamColor
-                    .frame(height: 80)
-                    .clipShape(RoundedCorner(radius: 12, corners: [.topLeft, .topRight]))
-                
-                HStack {
-                    Text("\(name) #\(driverNumber)")
-                        .font(.custom("SFPro-ExpandedBold", size: 22))
-                        .foregroundStyle(.white)
-                    
-                    Spacer()
-                    
-                    driverCountry
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 70, height: 40)
-                        .cornerRadius(8)
-                }
-                .padding(.horizontal, 12)
-            }
-            
-            HStack(spacing: 6) {
-                VStack (spacing: 20){
-                    HStack {
-                        Text(team)
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
-                        teamLogo
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 70, height: 40)
-                    }
-                    
-                    HStack(spacing: 30) {
-                        VStack {
-                            Text("\(position)")
-                                .font(.custom("SFPro-ExpandedBold", size: 30))
-                            Text("POS")
-                                .font(.custom("SFPro-ExpandedRegular", size: 15))
-                        }
-                        
-                        VStack {
-                            Text("\(points)")
-                                .font(.custom("SFPro-ExpandedBold", size: 30))
-                            Text("PTS")
-                                .font(.custom("SFPro-ExpandedRegular", size: 15))
-                        }
-                    }
-                    
-                    HStack(spacing: 6) {
-                        VStack {
-                            Text("\(wins)")
-                                .font(.custom("SFPro-ExpandedRegular", size: 17))
-                            Text("Wins")
-                                .font(.custom("SFPro-ExpandedRegular", size: 17))
-
-                        }
-                        
-                        VStack {
-                            Text("\(podiums)")
-                                .font(.custom("SFPro-ExpandedRegular", size: 17))
-                            Text("Podiums")
-                                .font(.custom("SFPro-ExpandedRegular", size: 17))
-                        }
-                        
-                        VStack {
-                            Text("\(poles)")
-                                .font(.custom("SFPro-ExpandedRegular", size: 17))
-                            Text("Poles")
-                                .font(.custom("SFPro-ExpandedRegular", size: 17))
-                        }
-                    }
-                    .padding(.leading, 8)
-                }
-                
-                driverImage
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 190, height: 210, alignment: .top)
-                    .clipped()
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .offset(x: 15)
-            }
-            .frame(maxWidth: .infinity)
-            .background(Color(.systemBackground))
-        }
-        .frame(width: 400)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(radius: 1)
+    let teamLogo: String
+    let teamColor: Color
+    
+    var firstName: String {
+        return driverName.components(separatedBy: " ").first ?? ""
     }
-}
 
-struct MiniDriverStandingCard: View {
-    let position: Int
-    let name: String
-    let team: String
-    let driverNumber: String
-    let points: Int
-    let teamColor: Color
-    let driverImage: Image
-    let teamLogo: Image
-    let driverCountry: Image
-
+    var lastName: String {
+        return driverName.components(separatedBy: " ").last ?? ""
+    }
+    
     var body: some View {
-        VStack(spacing: 0) {
-            // HEADER
-            ZStack {
-                teamColor
-                    .clipShape(RoundedCorner(radius: 12, corners: [.topLeft, .topRight]))
-                
-                HStack {
-                    Text("\(name) #\(driverNumber)")
-                        .font(.custom("SFPro-ExpandedBold", size: 20))
-                        .foregroundStyle(.white)
+        ZStack(alignment: .top) {
+            // Background Image
+            Image(driverFlag)
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity, maxHeight: 200)
+                .clipped()
+                .cornerRadius(20)
+            
+            // Dark overlay for readability
+            Rectangle()
+                .fill(Color.black.opacity(0.5))
+                .frame(maxWidth: .infinity, maxHeight: 170)
+                .cornerRadius(20)
+            
+           // Driver Image
+           Image(driverImage)
+               .resizable()
+               .scaledToFill() // Changed to scaledToFill
+               .frame(width: 200, height: 200, alignment: .top) // Reduced height and aligned to top
+               .clipped() // Ensure it's clipped
+               //.offset(y: 50)
+            
+            VStack(alignment: .trailing, spacing: -5) {
+                Text("\(driverNumber)")
+                    .font(.custom("SFPro-ExpandedBold", size: 75))
+                    .foregroundColor(.white)
+                    .shadow(radius: 5)
+            }
+            .offset(x: 130, y: 45)
 
-                    Spacer()
-
-                    driverCountry
+            
+            // Bottom Info Box
+            VStack(alignment: .center, spacing: 5) {
+                // Top section: Name & Team Logo
+                HStack(alignment: .center, spacing: 8) {
+                    Text(driverName.uppercased())
+                        .font(.custom("SFPro-ExpandedBold", size: 16))
+                        .foregroundColor(.white)
+                    
+                    Image(teamLogo)
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 50, height: 30)
-                        .cornerRadius(4)
+                        .frame(width: 40, height: 30)
                 }
-                .padding(.horizontal, 12)
+                .padding(.top, 10)
+                
+                // Thin dashed line
+                Rectangle()
+                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
+                    .foregroundColor(.white.opacity(0.4))
+                    .frame(height: 1)
+                
+                // Bottom section: Position & Points
+                HStack {
+                    Text("Pos. \(position)")
+                        .font(.custom("SFPro-ExpandedBold", size: 16))
+                        .foregroundColor(.white)
+                    
+                    Spacer()
+                    
+                    Text("\(points) pts")
+                        .font(.custom("SFPro-ExpandedBold", size: 16))
+                        .foregroundColor(.white)
+                }
             }
-            .frame(height: 60) // Fixed header height
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: 95) // Fixed height for info box
+            .background(.ultraThinMaterial)
+            .cornerRadius(20)
+            .overlay( // This adds the thin border
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(teamColor.opacity(1.0), lineWidth: 1.5)
+            )
+            .offset(y: 150) // Adjust position to appear at the bottom of the card
             
-            // CONTENT
-            HStack(spacing: 12) {
-                VStack(alignment: .leading, spacing: 10) {
-                    // Team + logo
-                    HStack(spacing: 8) {
-                        Text(team)
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
-                        teamLogo
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 50, height: 50)
-                    }
-
-                    // Position + Points
-                    HStack(spacing: 20) {
-                        VStack {
-                            Text("\(position)")
-                                .font(.custom("SFPro-ExpandedBold", size: 22))
-                            Text("POS")
-                                .font(.custom("SFPro-ExpandedRegular", size: 10))
-                        }
-
-                        VStack {
-                            Text("\(points)")
-                                .font(.custom("SFPro-ExpandedBold", size: 22))
-                            Text("PTS")
-                                .font(.custom("SFPro-ExpandedRegular", size: 10))
-                        }
-                    }
-                }
-                .padding(.bottom)
-
-                Spacer()
-
-                driverImage
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 130, height: 100, alignment: .top)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .shadow(radius: 1)
-            }
-            .padding(.top, 10)
-            .padding(.horizontal, 15)
-            .background(Color(.systemBackground))
         }
-        .frame(width: 400, height: 170)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(radius: 1)
+        .frame(height: 200) // Total height of the card
+        .padding(.horizontal)
     }
 }
 
