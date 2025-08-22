@@ -88,21 +88,25 @@ struct SettingsRow: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.red)
+                .fill(.ultraThinMaterial)
+                .overlay( // This adds the thin border
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(1.0), lineWidth: 1.5)
+                )
                 .frame(height: 65)
             
             HStack {
                 Text(title)
                     .foregroundStyle(.white)
-                    .font(.title3)
-                    .fontWeight(.bold)
+                    .font(.custom("SFPro-ExpandedBold", size: 20))
+
                 
                 Spacer()
                 
                 Image(systemName: icon)
                     .foregroundStyle(.white)
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .font(.custom("SFPro-ExpandedBold", size: 20))
+
                 
                 if isInteractive {
                     Image(systemName: "chevron.right")
