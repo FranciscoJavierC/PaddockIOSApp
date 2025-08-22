@@ -22,7 +22,7 @@ struct ConstructorStandingsView: View {
                 
             }
         }
-        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 140 : 0) {
+        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 170 : 0) {
             if hasFloatingTabBar {
                 Color.clear.frame(height: 10)
             }
