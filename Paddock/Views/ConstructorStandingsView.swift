@@ -13,10 +13,16 @@ struct ConstructorStandingsView: View {
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 15) {
+                VStack(alignment: .leading, spacing: 100) {
+                    ConstructorStandingsCard(constructorName: "McLaren", position: 1, points: 559, constructorLogo: "McLaren", constructorColor: .orange, driver1Name: "Lando Norris", driver1Points: 284, driver2Name: "Oscar Piastri", driver2Points: 275)
+                    ConstructorStandingsCard(constructorName: "Ferrari", position: 2, points: 260, constructorLogo: "Ferrari", constructorColor: .red, driver1Name: "Charles Leclerc", driver1Points: 151, driver2Name: "Lewis Hamilton", driver2Points: 109)
+                    ConstructorStandingsCard(constructorName: "Mercedes", position: 3, points: 236, constructorLogo: "Mercedes", constructorColor: .teal, driver1Name: "George Russell", driver1Points: 172, driver2Name: "Kimi Antonelli", driver2Points: 64)
+                    ConstructorStandingsCard(constructorName: "Red Bull", position: 4, points: 194, constructorLogo: "RedBull", constructorColor: .blue, driver1Name: "Max Verstappen", driver1Points: 187, driver2Name: "Yuki Tsunoda", driver2Points: 10)
+                }
                 
             }
         }
-        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 110 : 0) {
+        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 140 : 0) {
             if hasFloatingTabBar {
                 Color.clear.frame(height: 10)
             }
@@ -28,68 +34,44 @@ struct ConstructorStandingsView: View {
 }
 
 struct ConstructorStandingsCard: View {
-    let driverImage: String
-    let driverFlag: String
-    let driverName: String
-    let driverNumber: Int
+    let constructorName: String
     let position: Int
     let points: Int
-    let teamLogo: String
-    let teamColor: Color
-    
-    var firstName: String {
-        return driverName.components(separatedBy: " ").first ?? ""
-    }
-
-    var lastName: String {
-        return driverName.components(separatedBy: " ").last ?? ""
-    }
+    let constructorLogo: String
+    let constructorColor: Color
+    let driver1Name: String
+    let driver1Points: Int
+    let driver2Name: String
+    let driver2Points: Int
     
     var body: some View {
         ZStack(alignment: .top) {
             // Background Image
-            Image(driverFlag)
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity, maxHeight: 200)
-                .clipped()
+            Rectangle()
+                .fill(constructorColor)
+                .frame(maxWidth: .infinity, maxHeight: 170)
                 .cornerRadius(20)
-            
+
             // Dark overlay for readability
             Rectangle()
                 .fill(Color.black.opacity(0.5))
                 .frame(maxWidth: .infinity, maxHeight: 170)
                 .cornerRadius(20)
             
-           // Driver Image
-           Image(driverImage)
-               .resizable()
-               .scaledToFill() // Changed to scaledToFill
-               .frame(width: 200, height: 200, alignment: .top) // Reduced height and aligned to top
-               .clipped() // Ensure it's clipped
-               //.offset(y: 50)
-            
-            VStack(alignment: .trailing, spacing: -5) {
-                Text("\(driverNumber)")
-                    .font(.custom("SFPro-ExpandedBold", size: 75))
-                    .foregroundColor(.white)
-                    .shadow(radius: 5)
-            }
-            .offset(x: 130, y: 45)
-
+            Image(constructorLogo)
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity, maxHeight: 200)
+                .clipped()
+                .cornerRadius(20)
             
             // Bottom Info Box
             VStack(alignment: .center, spacing: 5) {
                 // Top section: Name & Team Logo
                 HStack(alignment: .center, spacing: 8) {
-                    Text(driverName.uppercased())
+                    Text(constructorName.uppercased())
                         .font(.custom("SFPro-ExpandedBold", size: 16))
                         .foregroundColor(.white)
-                    
-                    Image(teamLogo)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 40, height: 30)
                 }
                 .padding(.top, 10)
                 
@@ -100,25 +82,50 @@ struct ConstructorStandingsCard: View {
                     .frame(height: 1)
                 
                 // Bottom section: Position & Points
-                HStack {
-                    Text("Pos. \(position)")
-                        .font(.custom("SFPro-ExpandedBold", size: 16))
-                        .foregroundColor(.white)
-                    
-                    Spacer()
-                    
-                    Text("\(points) pts")
-                        .font(.custom("SFPro-ExpandedBold", size: 16))
-                        .foregroundColor(.white)
-                }
+                HStack(alignment: .top) {
+                     VStack(alignment: .leading, spacing: 5) {
+                         // Driver 1
+                         VStack(alignment: .leading) {
+                             Text(driver1Name)
+                                 .font(.custom("SFPro-ExpandedRegular", size: 14))
+                                 .foregroundColor(.white)
+                             Text("\(driver1Points) pts")
+                                 .font(.custom("SFPro-ExpandedRegular", size: 12))
+                                 .foregroundColor(.gray)
+                         }
+                         
+                         // Driver 2
+                         VStack(alignment: .leading) {
+                             Text(driver2Name)
+                                 .font(.custom("SFPro-ExpandedRegular", size: 14))
+                                 .foregroundColor(.white)
+                             Text("\(driver2Points) pts")
+                                 .font(.custom("SFPro-ExpandedRegular", size: 12))
+                                 .foregroundColor(.gray)
+                         }
+                     }
+                     
+                     Spacer()
+                     
+                     // Total Position & Points
+                     VStack(alignment: .trailing, spacing: 20) {
+                         Text("Pos. \(position)")
+                             .font(.custom("SFPro-ExpandedBold", size: 16))
+                             .foregroundColor(.white)
+                         
+                         Text("\(points) pts")
+                             .font(.custom("SFPro-ExpandedBold", size: 16))
+                             .foregroundColor(.white)
+                     }
+                 }
             }
             .padding()
-            .frame(maxWidth: .infinity, maxHeight: 95) // Fixed height for info box
+            .frame(maxWidth: .infinity, maxHeight: 125) // Fixed height for info box
             .background(.ultraThinMaterial)
             .cornerRadius(20)
             .overlay( // This adds the thin border
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(teamColor.opacity(1.0), lineWidth: 1.5)
+                    .stroke(constructorColor.opacity(1.0), lineWidth: 1.5)
             )
             .offset(y: 150) // Adjust position to appear at the bottom of the card
             

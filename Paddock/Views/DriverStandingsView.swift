@@ -56,17 +56,22 @@ struct DriverStandingsCard: View {
     var body: some View {
         ZStack(alignment: .top) {
             // Background Image
-            Image(driverFlag)
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity, maxHeight: 200)
-                .clipped()
+            Rectangle()
+                .fill(teamColor)
+                .frame(maxWidth: .infinity, maxHeight: 170)
                 .cornerRadius(20)
             
             // Dark overlay for readability
             Rectangle()
                 .fill(Color.black.opacity(0.5))
                 .frame(maxWidth: .infinity, maxHeight: 170)
+                .cornerRadius(20)
+            
+            Image(teamLogo)
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity, maxHeight: 200)
+                .clipped()
                 .cornerRadius(20)
             
            // Driver Image
@@ -94,10 +99,11 @@ struct DriverStandingsCard: View {
                         .font(.custom("SFPro-ExpandedBold", size: 16))
                         .foregroundColor(.white)
                     
-                    Image(teamLogo)
+                    Image(driverFlag)
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 40, height: 30)
+                        .frame(width: 30, height: 25)
+                        .cornerRadius(20)
                 }
                 .padding(.top, 10)
                 
