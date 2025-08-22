@@ -75,13 +75,6 @@ struct ContentView: View {
                         .zIndex(1)
                 }
             }
-            
-            // ✅ MiniCountdown bar
-            MiniCoutdown()
-                .padding(.vertical, 5)
-                .background(.ultraThinMaterial, in: .rect(cornerRadius: 15, style: .continuous))
-                .padding(.horizontal, 25)
-                .offset(y: -65)
 
             FloatingTabView(
                 showSearchBar: true,
