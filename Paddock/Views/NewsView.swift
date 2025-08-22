@@ -15,91 +15,81 @@ struct NewsView: View {
             }
 
             ScrollView {
-                LazyVStack(spacing: 16) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            // 2. Change the fill color based on the colorScheme
-                            .fill(colorScheme == .dark ? Color.black : Color.white)
-                            .shadow(color: colorScheme == .dark ? Color.white.opacity(0.2) : Color.black.opacity(0.1), radius: 6, x: 0, y: 3)
-                        VStack(alignment: .leading, spacing: 12) {
-                            Image("NewsHulk")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(height: 220)
-                                .clipped()
-                                .cornerRadius(16)
-
-                            VStack(alignment: .leading, spacing: 6) {
-                                Text("Nico Hulkenberg celebrates his maiden F1 podium at British Grand Prix at Silverstone")
-                                    .foregroundStyle(.red) // This remains red
-                                    .font(.headline)
-
-                                HStack(spacing: 8) {
-                                    Image("F1Logo")
-                                        .resizable()
-                                        .frame(width: 24, height: 24)
-                                        .clipShape(Circle())
-                                    Text("Formula 1 • 18 min ago")
-                                        .font(.caption)
-                                        // 3. Use .primary or .secondary for adaptive text colors
-                                        .foregroundStyle(.secondary) // .gray might be too light/dark depending on mode
-                                }
-                            }
-                            .padding(.horizontal)
-                            .padding(.bottom)
-                        }
-                        .padding()
-                    }
-                    .padding(.horizontal)
-
-                    // 📰 Smaller News Cards
-                    ForEach(0..<4) { _ in
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 16)
-                                // 4. Change the fill color for smaller cards too
-                                .fill(colorScheme == .dark ? Color.black : Color.white)
-                                .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
-
-                            HStack(alignment: .top, spacing: 12) {
-                                // Left image
-                                Image("NewsHulk")
-                                    .resizable()
-                                    .frame(width: 120, height: 90)
-                                    .cornerRadius(10)
-
-                                // Right text
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text("Hulkenberg gets his maiden podium at Silverstone")
-                                        .font(.headline)
-                                        .foregroundStyle(.red) // This remains red
-                                        .lineLimit(3)
-
-                                    HStack(spacing: 8) {
-                                        Image("F1Logo")
-                                            .resizable()
-                                            .frame(width: 20, height: 20)
-                                            .clipShape(Circle())
-                                        Text("Formula 1 • 18 min ago")
-                                            .font(.caption)
-                                            // 5. Use .primary or .secondary for adaptive text colors
-                                            .foregroundStyle(.secondary) // .gray might be too light/dark depending on mode
-                                    }
-                                }
-
-                                Spacer()
-                            }
-                            .padding()
-                        }
-                        .padding(.horizontal)
+                LazyVStack(spacing: 15) {
+                    VStack(alignment: .leading, spacing: 160) {
+                        NewsCard(newsThumbnail: "NewsHulk", newsContent: "Nico Hulkenberg celebrates his maiden F1 podium at Brtish Grand Prix.", newsSource: "Formula 1", newsSourceImage: "F1Logo")
+                        
+                        NewsCard(newsThumbnail: "NewsHulk", newsContent: "Nico Hulkenberg celebrates his maiden F1 podium at Brtish Grand Prix.", newsSource: "Formula 1", newsSourceImage: "F1Logo")
+                        
+                        NewsCard(newsThumbnail: "NewsHulk", newsContent: "Nico Hulkenberg celebrates his maiden F1 podium at Brtish Grand Prix.", newsSource: "Formula 1", newsSourceImage: "F1Logo")
+                        
+                        NewsCard(newsThumbnail: "NewsHulk", newsContent: "Nico Hulkenberg celebrates his maiden F1 podium at Brtish Grand Prix.", newsSource: "Formula 1", newsSourceImage: "F1Logo")
                     }
                 }
-                .padding(.vertical)
             }
-            .safeAreaPadding(.bottom, 50)
+            .safeAreaInset(edge: .bottom, spacing: 230) {
+                Color.clear.frame(height: 10)
+            }
+            .safeAreaInset(edge: .top, spacing: 0) {
+                Color.clear.frame(height: 10)
+            }
         }
     }
 }
 
+struct NewsCard: View {
+    let newsThumbnail: String
+    let newsContent: String
+    let newsSource: String
+    let newsSourceImage: String
+    
+    @Environment(\.colorScheme) var colorScheme
+    
+    var body: some View {
+        ZStack(alignment: .top) {
+            // Background Image
+            Image(newsThumbnail)
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity, maxHeight: 200)
+                .clipped()
+                .cornerRadius(20)
+            
+            // Bottom Info Box
+            VStack(alignment: .leading, spacing: 5) {
+                // Top row with "Testing Round" and date
+                HStack {
+                    Text(newsContent)
+                        .font(.custom("SFPro-ExpandedBold", size: 16))
+                        .foregroundColor(.white)
+                }
+                .padding(.top, 10)
+                
+                HStack {
+                    Image(newsSourceImage)
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                    Text("\(newsSource) - 18 min ago")
+                        .font(.custom("SFPro-ExpandedRegular", size: 14))
+                        .foregroundColor(.white)
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: 150) // Fixed height for info box
+            .background(.ultraThinMaterial)
+            .cornerRadius(20)
+            .overlay( // This adds the thin border
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.white.opacity(1.0), lineWidth: 1.5)
+            )
+            .offset(y: 180) // Adjust position to appear at the bottom of the card
+            
+        }
+        .frame(height: 200) // Total height of the card
+        .padding(.horizontal)
+    }
+}
+
 #Preview {
-    ContentView()
+    NewsView()
 }
