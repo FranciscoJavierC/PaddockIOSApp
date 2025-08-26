@@ -11,6 +11,7 @@ struct UpcomingView: View {
     @Environment(\.dismiss) var dismiss
     @State private var selectedScheduleID: String? = nil
     @State private var isExpanded = false
+    @State private var navigateToDetails = false
     
     @Environment(\.colorScheme) var colorScheme
 
@@ -26,53 +27,66 @@ struct UpcomingView: View {
 
 
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 15) {
-                NavigationLink(destination: PreviousRaceDetailView()) {
+        NavigationStack {
+            ScrollView {
+                LazyVStack(spacing: 15) {
                     VStack(alignment: .leading, spacing: 30) {
+                        
                         UpcomingRaceCard(
                             backgroundImage: "AustrailianFlag",
                             raceTitle: "Australia",
                             roundNumber: "Round 1",
                             raceDate: "13–15 Mar",
                             raceNameFull: "Albert Park Circuit"
-                        )
+                        ) {
+                            navigateToDetails = true
+                        }
                         
                         UpcomingRaceCard(
                             backgroundImage: "ChinaFlag",
                             raceTitle: "China",
                             roundNumber: "Round 2",
                             raceDate: "20–23 Mar",
-                            raceNameFull: "Shangai International Circuit"
-                        )
+                            raceNameFull: "Shanghai International Circuit"
+                        ) {
+                            navigateToDetails = true
+                        }
+                        
                         UpcomingRaceCard(
                             backgroundImage: "JapanFlag",
                             raceTitle: "Japan",
                             roundNumber: "Round 3",
                             raceDate: "05–06 Apr",
                             raceNameFull: "Suzuka Circuit"
-                        )
-
+                        ) {
+                            navigateToDetails = true
+                        }
+                        
                         UpcomingRaceCard(
                             backgroundImage: "BahrainFlag",
                             raceTitle: "Bahrain",
                             roundNumber: "Round 4",
                             raceDate: "11–13 Apr",
                             raceNameFull: "Bahrain International Circuit"
-                        )
+                        ) {
+                            navigateToDetails = true
+                        }
                     }
                 }
-                .buttonStyle(.plain)
             }
-        }
-        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 100 : 0) {
-            if hasFloatingTabBar {
+            .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 100 : 0) {
+                if hasFloatingTabBar {
+                    Color.clear.frame(height: 10)
+                }
+            }
+            .safeAreaInset(edge: .top, spacing: 0) {
                 Color.clear.frame(height: 10)
             }
+            // ✅ New way to navigate in iOS 16+
+            .navigationDestination(isPresented: $navigateToDetails) {
+                PreviousRaceDetailView()
+            }
         }
-        .safeAreaInset(edge: .top, spacing: 0) {
-                   Color.clear.frame(height: 10)
-               }
     }
 }
 
@@ -96,6 +110,7 @@ struct UpcomingRaceCard: View {
     let roundNumber: String
     let raceDate: String
     let raceNameFull: String
+    let onRaceInfoTap: () -> Void
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -155,6 +170,7 @@ struct UpcomingRaceCard: View {
                     Spacer()
                     
                     Button(action: {
+                        onRaceInfoTap()
                     }) {
                         Text("Race Info")
                             .font(.custom("SFPro-ExpandedBold", size: 13))
