@@ -91,7 +91,7 @@ struct OverviewView: View {
                         .stroke(Color.white.opacity(0.8), lineWidth: 1)
                 )
                 
-                // MARK: - Circuit Card
+                // MARK: - Circuit Header Card
                 VStack {
                     HStack {
                         Image("AustrailianFlag")
@@ -123,17 +123,57 @@ struct OverviewView: View {
                         .stroke(Color.white.opacity(0.8), lineWidth: 1)
                 )
                 
-                // MARK: - Weekend Facts
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Weekend Facts")
+                // MARK: - Circuit Info Card
+                
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("Track Details")
                         .font(.custom("SFPro-ExpandedBold", size: 18))
-                    Text("2024 Winner: Charles Leclerc")
-                        .font(.custom("SFPro-ExpandedRegular", size: 16))
-                    Text("Most Wins at Australia: Michael Schumacher (4)")
-                        .font(.custom("SFPro-ExpandedRegular", size: 16))
+                    HStack {
+                        statBlock(title: "Track Length", value: "5.278 km", alignment: .leading)
+                        Spacer()
+                        statBlock(title: "First Grand Prix", value: "1996", alignment: .trailing)
+                    }
+                    
+                    HStack {
+                        statBlock(title: "Lap Record", value: "1:19.813", subtitle: "Leclerc, 2024", alignment: .leading)
+                        Spacer()
+                        statBlock(title: "Number of Laps", value: "58", alignment: .trailing)
+                    }
+                    
+                    HStack {
+                        statBlock(title: "Elevation", value: "2.45 m", alignment: .leading)
+                        Spacer()
+                        statBlock(title: "Top Speed", value: "339.9 km/h", alignment: .trailing)
+                    }
                 }
                 .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity)
+                .background(.ultraThinMaterial)
+                .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .stroke(Color.white.opacity(0.8), lineWidth: 1)
+                )
+
+                
+                // MARK: - Weekend Facts
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("Weekend Facts")
+                        .font(.custom("SFPro-ExpandedBold", size: 18))
+                    HStack {
+                        statBlock(title: "Most Driver Wins", value: "M.Schumacher", subtitle: "(4)", alignment: .leading)
+                        Spacer()
+                        statBlock(title: "Most Constructor Wins", value: "Ferrari", subtitle: "(11)", alignment: .trailing)
+                    }
+                    
+                    HStack {
+                        statBlock(title: "Most Poles", value: "L.Hamilton", subtitle: "(8)", alignment: .leading)
+                        Spacer()
+                        statBlock(title: "Most Recent Winner", value: "C. Leclerc", subtitle: "2024", alignment: .trailing)
+                    }
+                }
+                .padding()
+                .frame(maxWidth: .infinity)
                 .background(.ultraThinMaterial)
                 .cornerRadius(20)
                 .overlay(
@@ -143,6 +183,27 @@ struct OverviewView: View {
             }
             .padding()
             .padding(.bottom, 80) // so it doesn’t get cut off
+        }
+    }
+}
+
+// MARK: - Reusable Block
+@ViewBuilder
+private func statBlock(title: String, value: String, subtitle: String? = nil, alignment: HorizontalAlignment) -> some View {
+    VStack(alignment: alignment, spacing: 2) {
+        Text(title)
+            .font(.custom("SFPro-ExpandedRegular", size: 14))
+            .foregroundColor(.gray)
+        
+        Text(value)
+            .font(.custom("SFPro-ExpandedBold", size: 18))
+            .multilineTextAlignment(alignment == .leading ? .leading : .trailing)
+        
+        if let subtitle = subtitle {
+            Text(subtitle)
+                .font(.custom("SFPro-ExpandedRegular", size: 12))
+                .foregroundColor(.gray)
+                .multilineTextAlignment(alignment == .leading ? .leading : .trailing)
         }
     }
 }

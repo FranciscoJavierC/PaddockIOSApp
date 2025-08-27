@@ -37,6 +37,8 @@ struct PreviousRaceDetailView: View {
 
                         Image(systemName: "chevron.left")
                             .foregroundColor(.white)
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+
                     }
                 }
             }
