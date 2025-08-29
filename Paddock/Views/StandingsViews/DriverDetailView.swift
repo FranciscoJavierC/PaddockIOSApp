@@ -1,121 +1,153 @@
 //
-//  DriverDetailView.swift
-//  Paddock
+//  DriverDetailView.swift
+//  Paddock
 //
-//  Created by Francisco  Cortez on 7/18/25.
+//  Created by Francisco  Cortez on 7/18/25.
 //
 
 import SwiftUI
 
 struct DriverDetailView: View {
-    @State private var selectedCardIndex = 0
-    
-    let teamColor = LinearGradient(
-        colors: [Color(red: 0.0, green: 0.09, blue: 0.3), Color(red: 0.8, green: 0.0, blue: 0.0)],
-        startPoint: .topLeading,
-        endPoint: .bottomTrailing
-    )
+    @State private var activeTab: DriverDetailTab = .profile
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
-        ZStack {
-            teamColor
-                .ignoresSafeArea()
-
-            VStack(spacing: 20) {
-                // Name + Team
-                VStack(spacing: 4) {
-                    Text("Max Verstappen")
-                        .font(.custom("SFPro-ExpandedBold", size: 28))
-                        .foregroundStyle(.white)
-
-                    HStack(spacing: 8) {
-                        Image("RedBull")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 60, height: 20)
-                            .cornerRadius(4)
-
-                        Text("Red Bull Racing")
-                            .font(.custom("SFPro-ExpandedRegular", size: 20))
-                            .foregroundStyle(.white.opacity(0.9))
-                    }
-                }
-
-                // Driver Image (Cropped)
-                Image("VerstappenStand")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 280, height: 350, alignment: .top)
-                    .clipped()
-                    .cornerRadius(20)
-                    .shadow(radius: 10)
-                    .mask(
-                        LinearGradient(
-                            gradient: Gradient(stops: [
-                                .init(color: .black, location: 0),   // Start opaque (top of the image)
-                                .init(color: .black, location: 0.8), // Remain opaque until 80% down
-                                .init(color: .clear, location: 1.0)  // Fade to clear at the bottom
-                            ]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-
-                // Carousel of Floating Cards
-                TabView(selection: $selectedCardIndex) {
-                    ForEach(0..<4, id: \.self) { index in
-                        ProfileCardView(
-                            age: 26,
-                            birthDate: "Feb 7, 2004",
-                            driverFlag: "AustrailianFlag",
-                            driverNumber: 1,
-                            height: 5.8,
-                            raceStarts: 13,
-                            wins: 7,
-                            podiums: 2,
-                            points: 156,
-                            rating: 8.7,
-                            championships: 4
-                        )
-                        .tag(0)
-                        RacesCardView(
-                            raceFlag: "AustrailianFlag",
-                            raceName: "Australia GP",
-                            raceDate: "16 March 2025",
-                            placeFinished: 1,
-                            rating: 10.0,
-                            teamLogo: "RedBull",
-                            teamName: "Red Bull"
-                        )
-                        .tag(1)
-                        StatsCardView(
-                            
-                        )
-                        .tag(2)
-                        CareerCardView(
-                            
-                        )
-                        .tag(3)
-                    }
-                }
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                .padding(.horizontal)
-                .padding(.top, -140)
-                
-                HStack(spacing: 8) {
-                    ForEach(0..<4, id: \.self) { index in
+        VStack(spacing: 0) {
+            header
+            
+            VStack(spacing: 0) {
+                tabBar
+                tabContent
+            }
+            .frame(maxWidth: 450, minHeight: UIScreen.main.bounds.height - 400)
+            .background(.ultraThinMaterial)
+            .cornerRadius(20)
+            .overlay(
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .stroke(Color.white.opacity(0.8), lineWidth: 1)
+            )
+            .offset(y: -30)
+        }
+        .ignoresSafeArea(edges: .top)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) { // 2. Adds a custom button to the left
+                Button(action: {
+                    dismiss() // 3. The action to go back
+                }) {
+                    ZStack {
                         Circle()
-                            .fill(index == selectedCardIndex ? Color.white : Color.white.opacity(0.4))
-                            .animation(.easeInOut, value: selectedCardIndex)
-                            .frame(width: 8, height: 8)
+                            .fill(.ultraThinMaterial) // The ultraThinMaterial background
+                            .frame(width: 40, height: 40) // Adjust size as needed
+
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.white)
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+
                     }
                 }
             }
-            .frame(maxWidth: .infinity)
-            .padding(.top)
-            .padding(.bottom)
         }
     }
+
+    // MARK: - Header
+    private var header: some View {
+        ZStack(alignment: .bottomLeading) {
+            Rectangle()
+                .fill(.orange)
+                .frame(maxWidth: .infinity, maxHeight: 500)
+                .cornerRadius(20)
+            
+            LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]), startPoint: .top, endPoint: .bottom)
+                .frame(maxWidth: .infinity)
+                .frame(height: 450)
+            
+            Image("McLaren")
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity, maxHeight: 450)
+                .clipped()
+                .cornerRadius(20)
+            
+            // 2. Large background image that fills the space
+            Image("Piastri") // Using Messi image from your example
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity)
+                .frame(height: 400, alignment: .top)
+                .clipped()
+            
+            // 3. Dark gradient overlay for readability
+            LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]), startPoint: .top, endPoint: .bottom)
+                .frame(maxWidth: .infinity)
+                .frame(height: 400)
+            
+            VStack(alignment: .leading) { // Added spacing for better layout
+                // Aligned McLaren logo
+                Image("McLaren")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 100) // Adjust the height as needed for your logo size
+                    
+                // Player name
+                Text("Oscar Piastri")
+                    .font(.custom("SFPro-ExpandedBold", size: 28))
+                    .foregroundColor(.white)
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 60)
+        }
+        .frame(height: 450)
+    }
+
+    // MARK: - Tab Bar
+    private var tabBar: some View {
+        HStack {
+            ForEach(DriverDetailTab.allCases, id: \.self) { tab in
+                Button(action: { activeTab = tab }) {
+                    Text(tab.rawValue)
+                        .font(.custom("SFPro-ExpandedBold", size: 16))
+                        .foregroundColor(activeTab == tab ? .white : .gray)
+                        .padding(.vertical, 8)
+                        .frame(maxWidth: .infinity)
+                        .background(
+                            ZStack {
+                                if activeTab == tab {
+                                    Rectangle()
+                                        .fill(Color.red)
+                                        .frame(height: 3)
+                                        .offset(y: 25)
+                                }
+                            }
+                        )
+                }
+            }
+        }
+        .padding()
+    }
+
+    // MARK: - Tab Content
+    @ViewBuilder
+    private var tabContent: some View {
+        switch activeTab {
+        case .profile:
+            ProfileCardView()
+        case .races:
+            RacesCardView()
+        case .stats:
+            StatsCardView()
+        case .career:
+            CareerCardView()
+        }
+    }
+}
+
+// MARK: - Tabs enum
+enum DriverDetailTab: String, CaseIterable {
+    case profile = "Profile"
+    case races = "Races"
+    case stats = "Stats"
+    case career = "Career"
 }
 
 #Preview {

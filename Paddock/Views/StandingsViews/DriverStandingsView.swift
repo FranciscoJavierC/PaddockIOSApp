@@ -89,7 +89,6 @@ struct DriverStandingsCard: View {
                     .shadow(radius: 5)
             }
             .offset(x: 130, y: 45)
-
             
             // Bottom Info Box
             VStack(alignment: .center, spacing: 5) {
