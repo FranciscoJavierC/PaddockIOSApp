@@ -20,7 +20,6 @@ struct OverviewView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 28) {
-                
                 // MARK: - Header Card
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
@@ -124,7 +123,6 @@ struct OverviewView: View {
                 )
                 
                 // MARK: - Circuit Info Card
-                
                 VStack(alignment: .leading, spacing: 20) {
                     Text("Track Details")
                         .font(.custom("SFPro-ExpandedBold", size: 18))

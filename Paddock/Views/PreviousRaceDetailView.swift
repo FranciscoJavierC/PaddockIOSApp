@@ -11,7 +11,6 @@ struct PreviousRaceDetailView: View {
             
             VStack(spacing: 0) {
                 tabBar
-                Divider().background(Color.white.opacity(0.3))
                 tabContent
             }
             .frame(maxWidth: 450, minHeight: UIScreen.main.bounds.height - 200)
@@ -82,8 +81,10 @@ struct PreviousRaceDetailView: View {
                         .background(
                             ZStack {
                                 if activeTab == tab {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color.red)
+                                    Rectangle()
+                                       .fill(Color.red)
+                                       .frame(height: 3)
+                                       .offset(y: 25)
                                 }
                             }
                         )
@@ -99,8 +100,8 @@ struct PreviousRaceDetailView: View {
         switch activeTab {
         case .overview:
             OverviewView()
-        case .schedule:
-            ScheduleDetailView()
+        case .standings:
+            StandingsDetailView()
         case .circuit:
             CircuitInfoView()
         }
@@ -110,7 +111,7 @@ struct PreviousRaceDetailView: View {
 // MARK: - Tabs enum
 enum RaceDetailTab: String, CaseIterable {
     case overview = "Overview"
-    case schedule = "Schedule"
+    case standings = "Standings"
     case circuit = "Circuit"
 }
 

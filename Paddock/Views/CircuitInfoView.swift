@@ -38,59 +38,25 @@ struct CircuitInfoView: View {
                 )
                 
                 // MARK: - Circuit Info Card
-                VStack(spacing: 16) {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("Track Details")
+                        .font(.custom("SFPro-ExpandedBold", size: 18))
                     HStack {
-                        VStack {
-                            Text("Circuit Length")
-                                .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                .foregroundColor(.gray)
-                            Text("5.278 km")
-                                .font(.custom("SFPro-ExpandedBold", size: 18))
-                        }
+                        statBlock(title: "Track Length", value: "5.278 km", alignment: .leading)
                         Spacer()
-                        VStack {
-                            Text("Race Distance")
-                                .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                .foregroundColor(.gray)
-                            Text("306.124 km")
-                                .font(.custom("SFPro-ExpandedBold", size: 18))
-                        }
+                        statBlock(title: "First Grand Prix", value: "1996", alignment: .trailing)
                     }
                     
                     HStack {
-                        VStack {
-                            Text("Number of Laps")
-                                .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                .foregroundColor(.gray)
-                            Text("58")
-                                .font(.custom("SFPro-ExpandedBold", size: 18))
-                        }
+                        statBlock(title: "Lap Record", value: "1:19.813", subtitle: "Leclerc, 2024", alignment: .leading)
                         Spacer()
-                        VStack {
-                            Text("First GP")
-                                .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                .foregroundColor(.gray)
-                            Text("1996")
-                                .font(.custom("SFPro-ExpandedBold", size: 18))
-                        }
+                        statBlock(title: "Number of Laps", value: "58", alignment: .trailing)
                     }
                     
                     HStack {
-                        VStack {
-                            Text("Lap Record")
-                                .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                .foregroundColor(.gray)
-                            Text("1:20.235 (2022)")
-                                .font(.custom("SFPro-ExpandedBold", size: 18))
-                        }
+                        statBlock(title: "Elevation", value: "2.45 m", alignment: .leading)
                         Spacer()
-                        VStack {
-                            Text("Turns")
-                                .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                .foregroundColor(.gray)
-                            Text("14")
-                                .font(.custom("SFPro-ExpandedBold", size: 18))
-                        }
+                        statBlock(title: "Top Speed", value: "339.9 km/h", alignment: .trailing)
                     }
                 }
                 .padding()
@@ -107,6 +73,28 @@ struct CircuitInfoView: View {
         }
     }
 }
+
+// MARK: - Reusable Block
+@ViewBuilder
+private func statBlock(title: String, value: String, subtitle: String? = nil, alignment: HorizontalAlignment) -> some View {
+    VStack(alignment: alignment, spacing: 2) {
+        Text(title)
+            .font(.custom("SFPro-ExpandedRegular", size: 14))
+            .foregroundColor(.gray)
+        
+        Text(value)
+            .font(.custom("SFPro-ExpandedBold", size: 18))
+            .multilineTextAlignment(alignment == .leading ? .leading : .trailing)
+        
+        if let subtitle = subtitle {
+            Text(subtitle)
+                .font(.custom("SFPro-ExpandedRegular", size: 12))
+                .foregroundColor(.gray)
+                .multilineTextAlignment(alignment == .leading ? .leading : .trailing)
+        }
+    }
+}
+
 
 #Preview {
     CircuitInfoView()
