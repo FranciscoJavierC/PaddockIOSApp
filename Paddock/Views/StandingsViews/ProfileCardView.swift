@@ -12,81 +12,81 @@ struct ProfileCardView: View {
         ScrollView {
             VStack(spacing: 28) {
                 // MARK: - Top Card with 3x2 Layout
-                                VStack(spacing: 20) {
-                                    // Top row with 3 data points
-                                    HStack(spacing: 0) {
-                                        // Column 1: Country
-                                        VStack(spacing: 5) {
-                                            HStack(spacing: 5) {
-                                                Image("AustrailianFlag")
-                                                    .resizable()
-                                                    .scaledToFill()
-                                                    .frame(width: 25, height: 20)
-                                                    .cornerRadius(20)
+                VStack(spacing: 20) {
+                    // Top row with 3 data points
+                    HStack(spacing: 0) {
+                        // Column 1: Country
+                        VStack(spacing: 5) {
+                            HStack(spacing: 5) {
+                                Image("AustrailianFlag")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 25, height: 20)
+                                    .cornerRadius(20)
 
-                                                Text("AUS")
-                                                    .font(.custom("SFPro-ExpandedRegular", size: 18))
-                                            }
-                                            Text("Country")
-                                                .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                                .foregroundStyle(.secondary)
-                                        }
-                                        .frame(maxWidth: .infinity)
-                                        
-                                        // Column 2: Team
-                                        VStack(spacing: 5) {
-                                            Text("McLaren")
-                                                .font(.custom("SFPro-ExpandedRegular", size: 18))
+                                Text("AUS")
+                                    .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            }
+                            Text("Country")
+                                .font(.custom("SFPro-ExpandedRegular", size: 14))
+                                .foregroundStyle(.secondary)
+                        }
+                        .frame(maxWidth: .infinity)
+                        
+                        // Column 2: Team
+                        VStack(spacing: 5) {
+                            Text("McLaren")
+                                .font(.custom("SFPro-ExpandedRegular", size: 18))
 
-                                            Text("Team")
-                                                .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                                .foregroundStyle(.secondary)
-                                        }
-                                        .frame(maxWidth: .infinity)
+                            Text("Team")
+                                .font(.custom("SFPro-ExpandedRegular", size: 14))
+                                .foregroundStyle(.secondary)
+                        }
+                        .frame(maxWidth: .infinity)
 
-                                        // Column 3: Number
-                                        VStack(spacing: 5) {
-                                            Text("81") // Placeholder, assuming this is the number
-                                                .font(.custom("SFPro-ExpandedRegular", size: 18))
-                                            Text("Number")
-                                                .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                                .foregroundStyle(.secondary)
-                                        }
-                                        .frame(maxWidth: .infinity)
-                                    }
-                                    
-                                    // Bottom row with 2 data points
-                                    HStack(spacing: 0) {
-                                        // Column 1: Height
-                                        VStack(spacing: 5) {
-                                            Text("5.8 ft")
-                                                .font(.custom("SFPro-ExpandedRegular", size: 18))
-                                            Text("Height")
-                                                .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                                .foregroundStyle(.secondary)
-                                        }
-                                        .frame(maxWidth: .infinity)
-                                        
-                                        // Column 2: Date of Birth
-                                        VStack(spacing: 5) {
-                                            Text("Apr 6, 2001")
-                                                .font(.custom("SFPro-ExpandedRegular", size: 18))
-                                            Text("Birthday")
-                                                .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                                .foregroundStyle(.secondary)
-                                        }
-                                        .frame(maxWidth: .infinity)
-                                    }
-                                }
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .foregroundColor(.white) // Apply a consistent text color
-                                .background(.ultraThinMaterial)
-                                .cornerRadius(20)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                        .stroke(Color.white.opacity(0.8), lineWidth: 1)
-                                )
+                        // Column 3: Number
+                        VStack(spacing: 5) {
+                            Text("81") // Placeholder, assuming this is the number
+                                .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            Text("Number")
+                                .font(.custom("SFPro-ExpandedRegular", size: 14))
+                                .foregroundStyle(.secondary)
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    
+                    // Bottom row with 2 data points
+                    HStack(spacing: 0) {
+                        // Column 1: Height
+                        VStack(spacing: 5) {
+                            Text("5.8 ft")
+                                .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            Text("Height")
+                                .font(.custom("SFPro-ExpandedRegular", size: 14))
+                                .foregroundStyle(.secondary)
+                        }
+                        .frame(maxWidth: .infinity)
+                        
+                        // Column 2: Date of Birth
+                        VStack(spacing: 5) {
+                            Text("Apr 6, 2001")
+                                .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            Text("Birthday")
+                                .font(.custom("SFPro-ExpandedRegular", size: 14))
+                                .foregroundStyle(.secondary)
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                }
+                .padding()
+                .frame(maxWidth: .infinity)
+                .foregroundColor(.white) // Apply a consistent text color
+                .background(.ultraThinMaterial)
+                .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .stroke(Color.white.opacity(0.8), lineWidth: 1)
+                )
                 
                 VStack(alignment: .leading, spacing: 15) {
                     HStack(spacing: 8) {
