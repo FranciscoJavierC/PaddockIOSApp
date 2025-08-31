@@ -28,7 +28,7 @@ struct ProfileCardView: View {
                                     .font(.custom("SFPro-ExpandedRegular", size: 18))
                             }
                             Text("Country")
-                                .font(.custom("SFPro-ExpandedRegular", size: 14))
+                                .font(.custom("SFPro-ExpandedRegular", size: 12))
                                 .foregroundStyle(.secondary)
                         }
                         .frame(maxWidth: .infinity)
@@ -39,7 +39,7 @@ struct ProfileCardView: View {
                                 .font(.custom("SFPro-ExpandedRegular", size: 18))
 
                             Text("Team")
-                                .font(.custom("SFPro-ExpandedRegular", size: 14))
+                                .font(.custom("SFPro-ExpandedRegular", size: 12))
                                 .foregroundStyle(.secondary)
                         }
                         .frame(maxWidth: .infinity)
@@ -49,7 +49,7 @@ struct ProfileCardView: View {
                             Text("81") // Placeholder, assuming this is the number
                                 .font(.custom("SFPro-ExpandedRegular", size: 18))
                             Text("Number")
-                                .font(.custom("SFPro-ExpandedRegular", size: 14))
+                                .font(.custom("SFPro-ExpandedRegular", size: 12))
                                 .foregroundStyle(.secondary)
                         }
                         .frame(maxWidth: .infinity)
@@ -62,7 +62,7 @@ struct ProfileCardView: View {
                             Text("5.8 ft")
                                 .font(.custom("SFPro-ExpandedRegular", size: 18))
                             Text("Height")
-                                .font(.custom("SFPro-ExpandedRegular", size: 14))
+                                .font(.custom("SFPro-ExpandedRegular", size: 12))
                                 .foregroundStyle(.secondary)
                         }
                         .frame(maxWidth: .infinity)
@@ -72,7 +72,7 @@ struct ProfileCardView: View {
                             Text("Apr 6, 2001")
                                 .font(.custom("SFPro-ExpandedRegular", size: 18))
                             Text("Birthday")
-                                .font(.custom("SFPro-ExpandedRegular", size: 14))
+                                .font(.custom("SFPro-ExpandedRegular", size: 12))
                                 .foregroundStyle(.secondary)
                         }
                         .frame(maxWidth: .infinity)
@@ -104,9 +104,9 @@ struct ProfileCardView: View {
                         // Each VStack is a column
                         VStack(spacing: 5) {
                             Text("14")
-                                .font(.custom("SFPro-ExpandedRegular", size: 22))
+                                .font(.custom("SFPro-ExpandedRegular", size: 18))
                                 .foregroundColor(.white)
-                            Text("Race Starts")
+                            Text("Races")
                                 .font(.custom("SFPro-ExpandedRegular", size: 12))
                                 .foregroundStyle(.secondary)
                         }
@@ -114,7 +114,7 @@ struct ProfileCardView: View {
                         
                         VStack(spacing: 5) {
                             Text("6")
-                                .font(.custom("SFPro-ExpandedRegular", size: 22))
+                                .font(.custom("SFPro-ExpandedRegular", size: 18))
                                 .foregroundColor(.white)
                             Text("Wins")
                                 .font(.custom("SFPro-ExpandedRegular", size: 12))
@@ -124,7 +124,7 @@ struct ProfileCardView: View {
                         
                         VStack(spacing: 5) {
                             Text("12")
-                                .font(.custom("SFPro-ExpandedRegular", size: 22))
+                                .font(.custom("SFPro-ExpandedRegular", size: 18))
                                 .foregroundColor(.white)
                             Text("Podiums")
                                 .font(.custom("SFPro-ExpandedRegular", size: 12))
@@ -134,7 +134,7 @@ struct ProfileCardView: View {
                         
                         VStack(spacing: 5) {
                             Text("284")
-                                .font(.custom("SFPro-ExpandedRegular", size: 22))
+                                .font(.custom("SFPro-ExpandedRegular", size: 18))
                                 .foregroundColor(.white)
                             Text("Points")
                                 .font(.custom("SFPro-ExpandedRegular", size: 12))
@@ -144,7 +144,7 @@ struct ProfileCardView: View {
                         
                         VStack(spacing: 5) {
                             Text("9.0")
-                                .font(.custom("SFPro-ExpandedRegular", size: 22))
+                                .font(.custom("SFPro-ExpandedRegular", size: 18))
                                 .foregroundColor(.white)
                                 .padding(.horizontal, 7)
                                 .background(

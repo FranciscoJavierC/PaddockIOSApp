@@ -26,12 +26,12 @@ struct RacesCardView: View {
                     
                     HStack {
                         Text("Sun, Mar 15")
-                            .font(.custom("SFPro-ExpandedRegular", size: 13))
+                            .font(.custom("SFPro-ExpandedRegular", size: 12))
                         
                         Spacer()
                         
                         Text("F1 Race")
-                            .font(.custom("SFPro-ExpandedRegular", size: 13))
+                            .font(.custom("SFPro-ExpandedRegular", size: 12))
                             .padding(.horizontal, 7)
                             .background(
                                 Capsule()
@@ -59,13 +59,13 @@ struct RacesCardView: View {
                         Spacer()
                         
                         Text("P9")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                         
                         Text("2 PTS")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                         
                         Text("7.1")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                             .foregroundColor(.white)
                             .padding(.horizontal, 7)
                             .background(
@@ -85,12 +85,12 @@ struct RacesCardView: View {
                     
                     HStack {
                         Text("Sun, Mar 23")
-                            .font(.custom("SFPro-ExpandedRegular", size: 13))
+                            .font(.custom("SFPro-ExpandedRegular", size: 12))
                         
                         Spacer()
                         
                         Text("F1 Race")
-                            .font(.custom("SFPro-ExpandedRegular", size: 13))
+                            .font(.custom("SFPro-ExpandedRegular", size: 12))
                             .padding(.horizontal, 7)
                             .background(
                                 Capsule()
@@ -118,13 +118,13 @@ struct RacesCardView: View {
                         Spacer()
                         
                         Text("P1")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                         
                         Text("25 PTS")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                         
                         Text("9.3")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                             .foregroundColor(.white)
                             .padding(.horizontal, 7)
                             .background(
@@ -144,12 +144,12 @@ struct RacesCardView: View {
                     
                     HStack {
                         Text("Sun, Mar 23")
-                            .font(.custom("SFPro-ExpandedRegular", size: 13))
+                            .font(.custom("SFPro-ExpandedRegular", size: 12))
                         
                         Spacer()
                         
                         Text("F1 Sprint")
-                            .font(.custom("SFPro-ExpandedRegular", size: 13))
+                            .font(.custom("SFPro-ExpandedRegular", size: 12))
                             .padding(.horizontal, 7)
                             .background(
                                 Capsule()
@@ -177,13 +177,13 @@ struct RacesCardView: View {
                         Spacer()
                         
                         Text("P2")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                         
                         Text("7 PTS")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                         
                         Text("8.6")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                             .foregroundColor(.white)
                             .padding(.horizontal, 7)
                             .background(
@@ -203,12 +203,12 @@ struct RacesCardView: View {
                     
                     HStack {
                         Text("Sun, Apr 6")
-                            .font(.custom("SFPro-ExpandedRegular", size: 13))
+                            .font(.custom("SFPro-ExpandedRegular", size: 12))
                         
                         Spacer()
                         
                         Text("F1 Race")
-                            .font(.custom("SFPro-ExpandedRegular", size: 13))
+                            .font(.custom("SFPro-ExpandedRegular", size: 12))
                             .padding(.horizontal, 7)
                             .background(
                                 Capsule()
@@ -236,13 +236,13 @@ struct RacesCardView: View {
                         Spacer()
                         
                         Text("P3")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                         
                         Text("15 PTS")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                         
                         Text("8.3")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                             .foregroundColor(.white)
                             .padding(.horizontal, 7)
                             .background(
@@ -262,12 +262,12 @@ struct RacesCardView: View {
                     
                     HStack {
                         Text("Sun, Apr 13")
-                            .font(.custom("SFPro-ExpandedRegular", size: 13))
+                            .font(.custom("SFPro-ExpandedRegular", size: 12))
                         
                         Spacer()
                         
                         Text("F1 Race")
-                            .font(.custom("SFPro-ExpandedRegular", size: 13))
+                            .font(.custom("SFPro-ExpandedRegular", size: 12))
                             .padding(.horizontal, 7)
                             .background(
                                 Capsule()
@@ -295,13 +295,13 @@ struct RacesCardView: View {
                         Spacer()
                         
                         Text("P1")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                         
                         Text("25 PTS")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                         
                         Text("9.5")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                            .font(.custom("SFPro-ExpandedRegular", size: 13))
                             .foregroundColor(.white)
                             .padding(.horizontal, 7)
                             .background(
