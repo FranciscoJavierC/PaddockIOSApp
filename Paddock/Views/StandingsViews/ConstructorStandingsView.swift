@@ -12,15 +12,17 @@ struct ConstructorStandingsView: View {
 
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: 15) {
-                VStack(alignment: .leading, spacing: 100) {
-                    ConstructorStandingsCard(constructorName: "McLaren", position: 1, points: 559, constructorLogo: "McLaren", constructorColor: .orange, driver1Name: "Lando Norris", driver1Points: 284, driver2Name: "Oscar Piastri", driver2Points: 275)
-                    ConstructorStandingsCard(constructorName: "Ferrari", position: 2, points: 260, constructorLogo: "Ferrari", constructorColor: .red, driver1Name: "Charles Leclerc", driver1Points: 151, driver2Name: "Lewis Hamilton", driver2Points: 109)
-                    ConstructorStandingsCard(constructorName: "Mercedes", position: 3, points: 236, constructorLogo: "Mercedes", constructorColor: .teal, driver1Name: "George Russell", driver1Points: 172, driver2Name: "Kimi Antonelli", driver2Points: 64)
-                    ConstructorStandingsCard(constructorName: "Red Bull", position: 4, points: 194, constructorLogo: "RedBull", constructorColor: .blue, driver1Name: "Max Verstappen", driver1Points: 187, driver2Name: "Yuki Tsunoda", driver2Points: 10)
+            NavigationLink(destination: ConstructorDetailView()) {
+                LazyVStack(spacing: 15) {
+                    VStack(alignment: .leading, spacing: 100) {
+                        ConstructorStandingsCard(constructorName: "McLaren", position: 1, points: 559, constructorLogo: "McLaren", constructorColor: .orange, driver1Name: "Lando Norris", driver1Points: 284, driver2Name: "Oscar Piastri", driver2Points: 275)
+                        ConstructorStandingsCard(constructorName: "Ferrari", position: 2, points: 260, constructorLogo: "Ferrari", constructorColor: .red, driver1Name: "Charles Leclerc", driver1Points: 151, driver2Name: "Lewis Hamilton", driver2Points: 109)
+                        ConstructorStandingsCard(constructorName: "Mercedes", position: 3, points: 236, constructorLogo: "Mercedes", constructorColor: .teal, driver1Name: "George Russell", driver1Points: 172, driver2Name: "Kimi Antonelli", driver2Points: 64)
+                        ConstructorStandingsCard(constructorName: "Red Bull", position: 4, points: 194, constructorLogo: "RedBull", constructorColor: .blue, driver1Name: "Max Verstappen", driver1Points: 187, driver2Name: "Yuki Tsunoda", driver2Points: 10)
+                    }
                 }
-                
             }
+            .buttonStyle(.plain) // 👈 add this line
         }
         .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 170 : 0) {
             if hasFloatingTabBar {
@@ -52,11 +54,9 @@ struct ConstructorStandingsCard: View {
                 .frame(maxWidth: .infinity, maxHeight: 170)
                 .cornerRadius(20)
 
-            // Dark overlay for readability
-            Rectangle()
-                .fill(Color.black.opacity(0.5))
-                .frame(maxWidth: .infinity, maxHeight: 170)
-                .cornerRadius(20)
+            LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.3), Color.black.opacity(0.8)]), startPoint: .top, endPoint: .bottom)
+                .frame(maxWidth: .infinity)
+                .frame(height: 170)
             
             Image(constructorLogo)
                 .resizable()
