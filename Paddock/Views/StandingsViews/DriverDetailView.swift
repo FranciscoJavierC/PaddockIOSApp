@@ -106,7 +106,7 @@ struct DriverDetailView: View {
             ForEach(DriverDetailTab.allCases, id: \.self) { tab in
                 Button(action: { activeTab = tab }) {
                     Text(tab.rawValue)
-                        .font(.custom("SFPro-ExpandedBold", size: 16))
+                        .font(.custom("SFPro-ExpandedBold", size: 14))
                         .foregroundColor(activeTab == tab ? .white : .gray)
                         .padding(.vertical, 8)
                         .frame(maxWidth: .infinity)
@@ -116,7 +116,7 @@ struct DriverDetailView: View {
                                     Rectangle()
                                         .fill(Color.red)
                                         .frame(height: 3)
-                                        .offset(y: 25)
+                                        .offset(y: 20)
                                 }
                             }
                         )

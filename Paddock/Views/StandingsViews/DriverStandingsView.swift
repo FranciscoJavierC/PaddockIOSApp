@@ -61,11 +61,9 @@ struct DriverStandingsCard: View {
                 .frame(maxWidth: .infinity, maxHeight: 170)
                 .cornerRadius(20)
             
-            // Dark overlay for readability
-            Rectangle()
-                .fill(Color.black.opacity(0.5))
-                .frame(maxWidth: .infinity, maxHeight: 170)
-                .cornerRadius(20)
+            LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.3), Color.black.opacity(0.8)]), startPoint: .top, endPoint: .bottom)
+                .frame(maxWidth: .infinity)
+                .frame(height: 170)
             
             Image(teamLogo)
                 .resizable()

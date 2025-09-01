@@ -57,7 +57,6 @@ case drivers = "Drivers"
 case constructors = "Constructors"
 }
 
-
 #Preview {
     StandingsDetailView()
 }
