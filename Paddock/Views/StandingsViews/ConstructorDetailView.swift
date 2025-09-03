@@ -19,7 +19,7 @@ struct ConstructorDetailView: View {
                 tabBar
                 tabContent
             }
-            .frame(maxWidth: 450, minHeight: UIScreen.main.bounds.height - 400)
+            .frame(maxWidth: 500, minHeight: UIScreen.main.bounds.height - 400)
             .background(.ultraThinMaterial)
             .cornerRadius(20)
             .overlay(
@@ -115,7 +115,10 @@ struct ConstructorDetailView: View {
             ConstructorProfileView()
         case .races:
             ConstructorRacesView()
-
+        case .stats:
+            ConstructorStatsView()
+        case .history:
+            ConstructorHistoryView()
         }
     }
 }
@@ -124,6 +127,8 @@ struct ConstructorDetailView: View {
 enum ConstructorDetailTab: String, CaseIterable {
     case profile = "Profile"
     case races = "Races"
+    case stats = "Stats"
+    case history = "History"
 }
 
 #Preview {

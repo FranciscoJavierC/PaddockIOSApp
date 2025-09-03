@@ -27,25 +27,22 @@ struct ConstructorProfileView: View {
         ScrollView {
             VStack(spacing: 28) {
                 VStack(alignment: .leading, spacing: 20) {
+                    InfoCard()
                     Text("Drivers")
                         .font(.custom("SFPro-ExpandedBold", size: 20))
-                        //.padding(.horizontal)
                     
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(drivers) { driver in
                             DriverCard(driver: driver)
                         }
                     }
-                    //.padding(.horizontal)
                     
                     Text("Chasis")
                         .font(.custom("SFPro-ExpandedBold", size: 20))
-                        //.padding(.horizontal)
                     
                     ForEach(car) { chassis in
                         CarChasisCard(car: chassis)
                             .frame(height: 200) // same height as driver cards
-                            //.padding(.horizontal)
                     }
                 }
             }
@@ -173,6 +170,86 @@ struct CarChasisCard: View {
         .overlay(
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .stroke(Color.orange.opacity(0.5), lineWidth: 1)
+        )
+    }
+}
+
+struct InfoCard: View {
+    var body: some View {
+        // MARK: - Top Card with 3x2 Layout
+        VStack(spacing: 20) {
+            // Top row with 3 data points
+            HStack(spacing: 0) {
+                // Column 1: Country
+                VStack(spacing: 5) {
+                    HStack(spacing: 5) {
+                        Image("UKFlag")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 25, height: 20)
+                            .cornerRadius(20)
+
+                        Text("UK")
+                            .font(.custom("SFPro-ExpandedRegular", size: 18))
+                    }
+                    Text("Country")
+                        .font(.custom("SFPro-ExpandedRegular", size: 12))
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+                
+                // Column 2: Team
+                VStack(spacing: 5) {
+                    Text("Mercedes")
+                        .font(.custom("SFPro-ExpandedRegular", size: 18))
+                    Text("Power Unit")
+                        .font(.custom("SFPro-ExpandedRegular", size: 12))
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+
+                // Column 3: Number
+                VStack(spacing: 5) {
+                    Text("1966") // Placeholder, assuming this is the number
+                        .font(.custom("SFPro-ExpandedRegular", size: 18))
+                    Text("First Team Entry")
+                        .font(.custom("SFPro-ExpandedRegular", size: 12))
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+            }
+            
+            // Bottom row with 2 data points
+            HStack(spacing: 0) {
+                // Column 1: Height
+                VStack(spacing: 5) {
+                    Text("Andres Stella")
+                        .font(.custom("SFPro-ExpandedRegular", size: 18))
+                    Text("Team Chief")
+                        .font(.custom("SFPro-ExpandedRegular", size: 12))
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+                
+                // Column 2: Date of Birth
+                VStack(spacing: 5) {
+                    Text("1963")
+                        .font(.custom("SFPro-ExpandedRegular", size: 18))
+                    Text("Founded")
+                        .font(.custom("SFPro-ExpandedRegular", size: 12))
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity)
+        .foregroundColor(.white) // Apply a consistent text color
+        .background(.ultraThinMaterial)
+        .cornerRadius(20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(Color.white.opacity(0.8), lineWidth: 1)
         )
     }
 }
