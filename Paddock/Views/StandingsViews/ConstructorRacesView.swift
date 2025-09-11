@@ -282,7 +282,6 @@ struct ConstructorRacesView: View {
                 )
             }
             .padding()
-            .padding(.bottom, 80) // so it doesn’t get cut off
         }
     }
 }

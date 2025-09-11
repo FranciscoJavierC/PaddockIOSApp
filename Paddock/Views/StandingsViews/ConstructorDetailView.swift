@@ -2,7 +2,7 @@
 //  ConstructorDetailView.swift
 //  Paddock
 //
-//  Created by Francisco  Cortez on 7/18/25.
+//  Created by Francisco Cortez on 7/18/25.
 //
 
 import SwiftUI
@@ -11,77 +11,109 @@ struct ConstructorDetailView: View {
     @State private var activeTab: ConstructorDetailTab = .profile
     @Environment(\.dismiss) var dismiss
 
+    private let minHeight: CGFloat = 150
+    private let maxHeight: CGFloat = 450
+
+    @State private var contentHeight: CGFloat = 0
+    @State private var screenHeight: CGFloat = UIScreen.main.bounds.height
+
+    var collapseDistance: CGFloat { maxHeight - minHeight }
+    var thresholdContentHeight: CGFloat { screenHeight - minHeight + collapseDistance }
+
     var body: some View {
-        VStack(spacing: 0) {
-            header
-            
-            VStack(spacing: 0) {
-                tabBar
-                tabContent
+        ResizableHeaderScrollView(
+            minimumHeight: minHeight,
+            maximumHeight: maxHeight,
+            ignoresSafeAreaTop: true,
+            isSticky: true
+        ) { progress, safeArea in
+            // HEADER
+            GeometryReader { geo in
+                let height = geo.size.height
+                let fadeOutProgress = (height - minHeight) / collapseDistance
+
+                ZStack(alignment: .bottomLeading) {
+                    Rectangle()
+                        .fill(.orange)
+                        .cornerRadius(20)
+
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+
+                    Image("McLaren")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: height)
+                        .clipped()
+                        .cornerRadius(20)
+                        .opacity(fadeOutProgress)
+
+                    VStack(alignment: .leading) {
+                        Text("McLaren")
+                            .font(.custom("SFPro-ExpandedBold", size: 28))
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 60 * (height / maxHeight))
+                    .opacity(fadeOutProgress)
+
+                    VStack {
+                        Spacer()
+                        tabBar
+                    }
+                    .offset(y: -20)
+                }
+                .frame(height: height)
+                .overlay(
+                    HStack(spacing: 10) {
+                        Text("McLaren")
+                            .font(.custom("SFPro-ExpandedBold", size: 20))
+                            .foregroundColor(.white)
+                        Image("McLaren")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 40)
+                    }
+                    .padding(.horizontal, 16)
+                    .opacity(1 - fadeOutProgress)
+                )
             }
-            .frame(maxWidth: 500, minHeight: UIScreen.main.bounds.height - 400)
-            .background(.ultraThinMaterial)
-            .cornerRadius(20)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .stroke(Color.white.opacity(0.8), lineWidth: 1)
-            )
-            .offset(y: -30)
+        } content: {
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 0) {
+                    tabContent
+                        .background(HeightReader(height: $contentHeight))
+
+                    // Add spacer if content is too short
+                    if contentHeight < thresholdContentHeight {
+                        Color.clear
+                            .frame(height: thresholdContentHeight - contentHeight)
+                    }
+                }
+            }
         }
         .ignoresSafeArea(edges: .top)
         .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) { // 2. Adds a custom button to the left
-                Button(action: {
-                    dismiss() // 3. The action to go back
-                }) {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: { dismiss() }) {
                     ZStack {
                         Circle()
-                            .fill(.ultraThinMaterial) // The ultraThinMaterial background
-                            .frame(width: 40, height: 40) // Adjust size as needed
-
+                            .fill(.ultraThinMaterial)
+                            .frame(width: 40, height: 40)
                         Image(systemName: "chevron.left")
                             .foregroundColor(.white)
                             .font(.custom("SFPro-ExpandedBold", size: 16))
-
                     }
                 }
             }
         }
     }
 
-    // MARK: - Header
-    private var header: some View {
-        ZStack(alignment: .bottomLeading) {
-            Rectangle()
-                .fill(.orange)
-                .frame(maxWidth: .infinity, maxHeight: 500)
-                .cornerRadius(20)
-            
-            LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]), startPoint: .top, endPoint: .bottom)
-                .frame(maxWidth: .infinity)
-                .frame(height: 450)
-            
-            Image("McLaren")
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity, maxHeight: 450)
-                .clipped()
-                .cornerRadius(20)
-            
-            VStack(alignment: .leading) { // Added spacing for better layout
-                // Player name
-                Text("McLaren")
-                    .font(.custom("SFPro-ExpandedBold", size: 28))
-                    .foregroundColor(.white)
-            }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 60)
-        }
-        .frame(height: 450)
-    }
-
-    // MARK: - Tab Bar
     private var tabBar: some View {
         HStack {
             ForEach(ConstructorDetailTab.allCases, id: \.self) { tab in
@@ -95,7 +127,7 @@ struct ConstructorDetailView: View {
                             ZStack {
                                 if activeTab == tab {
                                     Rectangle()
-                                        .fill(Color.red)
+                                        .fill(Color.orange)
                                         .frame(height: 3)
                                         .offset(y: 20)
                                 }
@@ -104,10 +136,10 @@ struct ConstructorDetailView: View {
                 }
             }
         }
-        .padding()
+        .padding(.horizontal)
+        .padding(.top, 8)
     }
 
-    // MARK: - Tab Content
     @ViewBuilder
     private var tabContent: some View {
         switch activeTab {
@@ -123,7 +155,29 @@ struct ConstructorDetailView: View {
     }
 }
 
-// MARK: - Tabs enum
+// Helper to measure content height
+struct HeightReader: View {
+    @Binding var height: CGFloat
+
+    var body: some View {
+        GeometryReader { geo in
+            Color.clear
+                .preference(key: HeightKey.self, value: geo.size.height)
+        }
+        .onPreferenceChange(HeightKey.self) { value in
+            self.height = value
+        }
+    }
+}
+
+struct HeightKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
+// Tabs enum
 enum ConstructorDetailTab: String, CaseIterable {
     case profile = "Profile"
     case races = "Races"

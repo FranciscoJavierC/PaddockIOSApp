@@ -2,17 +2,131 @@
 //  ConstructorHistoryView.swift
 //  Paddock
 //
-//  Created by Francisco  Cortez on 9/3/25.
+//  Created by Francisco Cortez on 9/3/25.
 //
 
 import SwiftUI
+import Charts
 
 struct ConstructorHistoryView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            VStack(spacing: 28) {
+                Trophies()
+                HistoricalStandingPosition()
+            }
+            .padding()
+        }
     }
+}
+
+struct Trophies: View {
+    var body: some View {
+        VStack {
+            Text("Trophies")
+        }
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(.ultraThinMaterial)
+        .cornerRadius(20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(Color.white.opacity(0.8), lineWidth: 1)
+        )
+    }
+}
+
+struct HistoricalStandingPosition: View {
+    let historyData: [StandingHistory] = [
+        StandingHistory(year: "2011", position: 2),
+        StandingHistory(year: "2012", position: 3),
+        StandingHistory(year: "2013", position: 5),
+        StandingHistory(year: "2014", position: 5),
+        StandingHistory(year: "2015", position: 9),
+        StandingHistory(year: "2016", position: 6),
+        StandingHistory(year: "2017", position: 9),
+        StandingHistory(year: "2018", position: 6),
+        StandingHistory(year: "2019", position: 4),
+        StandingHistory(year: "2020", position: 3),
+        StandingHistory(year: "2021", position: 4),
+        StandingHistory(year: "2022", position: 5),
+        StandingHistory(year: "2023", position: 4),
+        StandingHistory(year: "2024", position: 1),
+    ]
+    
+    var body: some View {
+        VStack(alignment: .center, spacing: 12) {
+            Text("Historical table positions")
+                .font(.custom("SFPro-ExpandedBold", size: 15))
+                .foregroundColor(.white)
+                .padding(.horizontal)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                let reversedHistoryData = historyData.reversed() // newest year first
+
+                Chart(reversedHistoryData) { item in
+                    LineMark(
+                        x: .value("Year", item.year),
+                        y: .value("Position", item.position)
+                    )
+                    .foregroundStyle(Color.white)
+                    .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round))
+                    
+                    PointMark(
+                        x: .value("Year", item.year),
+                        y: .value("Position", item.position)
+                    )
+                    .symbolSize(500)
+                    .foregroundStyle(Color.orange)
+                    .annotation(position: .overlay) {
+                        Text("\(item.position)")
+                            .font(.custom("SFPro-ExpandedBold", size: 11))
+                            .foregroundColor(.white)
+                    }
+                }
+                .chartYScale(domain: .automatic(reversed: true))
+                .chartXAxis {
+                    AxisMarks(values: .automatic) { value in
+                        AxisGridLine(stroke: StrokeStyle(dash: [5]))
+                            .foregroundStyle(.gray.opacity(0.3))
+                        AxisTick()
+                        AxisValueLabel(anchor: .top) {
+                            Text(value.as(String.self) ?? "")
+                                .font(.custom("SFPro-ExpandedRegular", size: 12))
+                                .foregroundColor(.white)
+                                .offset(y: 10)
+                        }
+                    }
+                }
+                .chartYAxis(.hidden)
+                .chartYScale(domain: 1...10)
+                .frame(width: CGFloat(historyData.count) * 60, height: 250)
+                .padding(.bottom, 15) // extra space for X-axis labels
+                
+            }
+        }
+        .padding()
+        .background(.ultraThinMaterial)
+        .cornerRadius(20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(Color.white.opacity(0.8), lineWidth: 1)
+        )
+    }
+    
+    private func isCurrentYear(_ item: StandingHistory) -> Bool {
+        return item.year == historyData.last?.year
+    }
+}
+
+// MARK: - Model
+struct StandingHistory: Identifiable {
+    let id = UUID()
+    let year: String
+    let position: Int
 }
 
 #Preview {
     ConstructorHistoryView()
+        .preferredColorScheme(.dark)
 }

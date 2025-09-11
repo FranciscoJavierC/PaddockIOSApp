@@ -22,10 +22,7 @@ struct DriverDetailView: View {
             .frame(maxWidth: 450, minHeight: UIScreen.main.bounds.height - 400)
             .background(.ultraThinMaterial)
             .cornerRadius(20)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .stroke(Color.white.opacity(0.8), lineWidth: 1)
-            )
+            .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: -2)
             .offset(y: -30)
         }
         .ignoresSafeArea(edges: .top)

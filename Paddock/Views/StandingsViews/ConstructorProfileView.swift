@@ -11,7 +11,6 @@ struct ConstructorProfileView: View {
     let drivers = [
         Driver(name: "Lando Norris", image: "Norris", number: "4"),
         Driver(name: "Oscar Piastri", image: "Piastri", number: "81")
-
     ]
     
     let car = [
@@ -37,22 +36,20 @@ struct ConstructorProfileView: View {
                         }
                     }
                     
-                    Text("Chasis")
+                    Text("Chassis")
                         .font(.custom("SFPro-ExpandedBold", size: 20))
                     
                     ForEach(car) { chassis in
                         CarChasisCard(car: chassis)
-                            .frame(height: 200) // same height as driver cards
+                            .frame(height: 200)
                     }
                 }
             }
             .padding()
-            .padding(.bottom, 80)
+            //.padding(.bottom, 80)
         }
     }
 }
-
-
 
 struct DriverCard: View {
     let driver: Driver
