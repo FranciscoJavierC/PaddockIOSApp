@@ -36,11 +36,6 @@ struct ContentView: View {
                         }
                     }
                 }
-                .tabBarMinimizeBehavior(.onScrollDown)
-                .tint(.red)
-                .tabViewBottomAccessory {
-                    MiniCoutdown()
-                }
             } else {
                 NavigationStack {
                     CloneTabView()

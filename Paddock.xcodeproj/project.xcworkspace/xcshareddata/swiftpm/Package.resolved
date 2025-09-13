@@ -1,0 +1,24 @@
+{
+  "originHash" : "38849835f9c84aaccb29d756e57186e401a5ce5e99f713a83d4ae443625a04c8",
+  "pins" : [
+    {
+      "identity" : "scalingheaderscrollview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/ScalingHeaderScrollView.git",
+      "state" : {
+        "revision" : "e2a8d470fb70d46d782cf9d48eafe7d2d67be29e",
+        "version" : "2.0.1"
+      }
+    },
+    {
+      "identity" : "swiftui-introspect",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/siteline/swiftui-introspect",
+      "state" : {
+        "revision" : "9bedf1e79c7b7c34b35b74bef126f56d2400ef7f",
+        "version" : "1.4.0-beta.4"
+      }
+    }
+  ],
+  "version" : 3
+}
