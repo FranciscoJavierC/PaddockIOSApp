@@ -5,6 +5,22 @@
 //  Created by Francisco Cortez on 9/3/25.
 //
 
+// MARK: - API Endpoints Needed / Notes
+//
+// ConstructorHistoryView
+//
+// 1. Historical WCC Positions
+//    - Jolpica: https://api.jolpi.ca/ergast/f1/{year}/constructors/{constructorID}/constructorstandings
+//    - Replace {year} with each season and {constructorID} with the constructor (e.g., "mclaren").
+//    - Each call returns the final standing position for that season.
+//
+// 2. Implementation Note:
+//    - To avoid hitting the API for dozens of seasons every app launch, consider caching the results locally.
+//      Options include:
+//        • Storing the fetched data in a local JSON file bundled with the app.
+//        • Using UserDefaults or a local database (e.g., Core Data or SQLite) for persistent caching.
+//    - This also improves app performance and offline support.
+
 import SwiftUI
 import Charts
 
@@ -12,27 +28,10 @@ struct ConstructorHistoryView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 28) {
-                Trophies()
                 HistoricalStandingPosition()
             }
             .padding()
         }
-    }
-}
-
-struct Trophies: View {
-    var body: some View {
-        VStack {
-            Text("Trophies")
-        }
-        .padding()
-        .frame(maxWidth: .infinity)
-        .background(.ultraThinMaterial)
-        .cornerRadius(20)
-        .overlay(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .stroke(Color.white.opacity(0.8), lineWidth: 1)
-        )
     }
 }
 
@@ -56,7 +55,7 @@ struct HistoricalStandingPosition: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 12) {
-            Text("Historical table positions")
+            Text("Historical Standings Positions")
                 .font(.custom("SFPro-ExpandedBold", size: 15))
                 .foregroundColor(.white)
                 .padding(.horizontal)

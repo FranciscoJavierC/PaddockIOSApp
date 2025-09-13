@@ -5,6 +5,38 @@
 //  Created by Francisco  Cortez on 9/1/25.
 //
 
+// MARK: - API Endpoints Needed
+//
+// ConstructorProfileView
+//
+// 1. Constructor Basic Info (InfoCard)
+//    - Jolpica Endpoint: https://api.jolpi.ca/ergast/f1/constructors/{constructorID}
+//    - Data Provided:
+//         • constructorId
+//         • name
+//         • nationality
+//         • url (Wikipedia link for reference)
+//    - Missing / Extra Fields (must use static JSON, Wikipedia scraping, or Wikidata):
+//         • Power Unit Supplier
+//         • Team Principal
+//         • First Team Entry
+//         • Founded Year
+//
+// 2. Drivers (DriverCard)
+//    - Jolpica Endpoint: https://api.jolpi.ca/ergast/f1/{season}/constructors/{constructorID}/drivers
+//    - Data Provided:
+//         • full name
+//         • permanent number
+//         • nationality
+//    - Extra: Driver images must be provided locally or via asset mapping
+//
+// 3. Car / Chassis (CarChasisCard)
+//    - Not available via Ergast/Jolpica
+//    - Data Needed:
+//         • Car Name (e.g., MCL39)
+//         • Image asset
+//    - Can use Wikidata to get car name.
+
 import SwiftUI
 
 struct ConstructorProfileView: View {

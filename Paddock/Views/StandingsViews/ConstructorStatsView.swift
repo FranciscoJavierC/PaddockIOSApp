@@ -5,6 +5,34 @@
 //  Created by Francisco  Cortez on 9/3/25.
 //
 
+// MARK: - API Endpoints Needed
+//
+// ConstructorStatsView
+//
+// 1. Current Season Stats (CurrentSeasonStats)
+//    - Jolpica Endpoint: https://api.jolpi.ca/ergast/f1/2025/constructors/{constructorID}/constructorStandings
+//    - Data Provided:
+//         • Races completed (total rounds so far in season)
+//         • Wins (number of 1st-place finishes for constructor)
+//         • Podiums (number of top-3 finishes)
+//         • Points (total constructor points for season)
+//
+// 2. Head-to-Head Stats (HeadToHead)
+//    - Per-driver race results:
+//         • Endpoint: https://api.jolpi.ca/ergast/f1/2025/drivers/{driverID}/results
+//         • Use to calculate podiums: if driver earned ≥15 points in a race → podium
+//    - Driver Wins & Points:
+//         • Endpoint: https://api.jolpi.ca/ergast/f1/2025/driverstandings
+//         • Use to get total wins and total points for each driver
+//    - Qualifying & Pole Positions:
+//         • Endpoint: https://api.jolpi.ca/ergast/f1/2025/drivers/{driverID}/qualifying
+//         • Compare qualifying results to determine pole positions and qualifying stats
+//
+// Notes:
+// - Combine multiple endpoints to calculate Head-to-Head stats per driver pair
+// - All driver names/images: local assets for photos
+// - Derived stats like podiums or pole positions require some calculation on the client side
+
 import SwiftUI
 
 struct ConstructorStatsView: View {

@@ -5,6 +5,34 @@
 //  Created by Francisco  Cortez on 9/1/25.
 //
 
+// MARK: - API Endpoints Needed
+//
+// ConstructorRacesView
+//
+// 1. Constructor Info (Header with logo & name)
+//    - Jolpica: https://api.jolpi.ca/ergast/f1/constructors/{constructorID}
+//    - Data: constructor name, nationality (for flag), logo image (local asset)
+//
+// 2. Race Results (Each round in season)
+//    - Jolpica: https://api.jolpi.ca/ergast/f1/2025/constructors/{constructorID}/results
+//    - Data per race:
+//         • Race name
+//         • Race date
+//         • Constructor finishing positions for each driver (to display P1, P2, etc.)
+//         • Points earned
+//
+// 3. Sprint Races (Separate display for sprints)
+//    - Jolpica: https://api.jolpi.ca/ergast/f1/2025/constructors/{constructorID}/sprint
+//    - Data per sprint:
+//         • Race name & date
+//         • Driver finishing positions
+//         • Points earned
+//
+// Notes:
+// - Combine results and sprint endpoints to generate the full season view
+// - Flags: Use constructor nationality or race location to show country flags
+// - Local assets: Driver/constructor logos are local images
+
 import SwiftUI
 
 struct ConstructorRacesView: View {

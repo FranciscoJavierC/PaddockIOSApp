@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ConstructorDetailView: View {
     @State private var activeTab: ConstructorDetailTab = .profile
+    @State private var scrollToTop: Bool = false
     @Environment(\.dismiss) var dismiss
 
     private let minHeight: CGFloat = 150
@@ -82,16 +83,14 @@ struct ConstructorDetailView: View {
                 )
             }
         } content: {
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    tabContent
-                        .background(HeightReader(height: $contentHeight))
+            VStack(spacing: 0) {
+                tabContent
+                    .background(HeightReader(height: $contentHeight))
 
-                    // Add spacer if content is too short
-                    if contentHeight < thresholdContentHeight {
-                        Color.clear
-                            .frame(height: thresholdContentHeight - contentHeight)
-                    }
+                // Add spacer if content is too short
+                if contentHeight < thresholdContentHeight {
+                    Color.clear
+                        .frame(height: thresholdContentHeight - contentHeight)
                 }
             }
         }
