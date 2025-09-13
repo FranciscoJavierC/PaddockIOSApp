@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ConstructorDetailView: View {
     @State private var activeTab: ConstructorDetailTab = .profile
-    @State private var scrollToTop: Bool = false
     @Environment(\.dismiss) var dismiss
 
     private let minHeight: CGFloat = 150
