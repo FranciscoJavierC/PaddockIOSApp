@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SearchView: View {
-    @State private var query: String = ""
+    @Binding var query: String
     let allDrivers = ["Verstappen", "Hamilton", "Leclerc", "Norris", "Alonso"]
     
     var filteredDrivers: [String] {
@@ -17,7 +17,11 @@ struct SearchView: View {
             Text(driver)
         }
         .navigationTitle("Search")
-
-        .searchable(text: $query, prompt: "Search...")
+        // no `.searchable` here
     }
+}
+
+#Preview {
+    // For preview, just pass a constant binding
+    SearchView(query: .constant(""))
 }

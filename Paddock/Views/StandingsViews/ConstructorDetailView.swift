@@ -11,7 +11,7 @@ struct ConstructorDetailView: View {
     @State private var activeTab: ConstructorDetailTab = .profile
     @Environment(\.dismiss) var dismiss
 
-    private let minHeight: CGFloat = 150
+    private let minHeight: CGFloat = 170
     private let maxHeight: CGFloat = 450
 
     @State private var contentHeight: CGFloat = 0

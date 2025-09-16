@@ -11,19 +11,117 @@ struct DriverDetailView: View {
     @State private var activeTab: DriverDetailTab = .profile
     @Environment(\.dismiss) var dismiss
 
+    private let minHeight: CGFloat = 150
+    private let maxHeight: CGFloat = 450
+
+    @State private var contentHeight: CGFloat = 0
+    @State private var screenHeight: CGFloat = UIScreen.main.bounds.height
+
+    var collapseDistance: CGFloat { maxHeight - minHeight }
+    var thresholdContentHeight: CGFloat { screenHeight - minHeight + collapseDistance }
+
     var body: some View {
-        VStack(spacing: 0) {
-            header
-            
-            VStack(spacing: 0) {
-                tabBar
-                tabContent
+        ResizableHeaderScrollView(
+            minimumHeight: minHeight,
+            maximumHeight: maxHeight,
+            ignoresSafeAreaTop: true,
+            isSticky: true
+        ) { progress, safeArea in
+            GeometryReader { geo in
+                let height = geo.size.height
+                let fadeOutProgress = (height - minHeight) / collapseDistance
+                
+                // Keep your original header design
+                ZStack(alignment: .bottomLeading) {
+                    Rectangle()
+                        .fill(.orange)
+                        .frame(maxWidth: .infinity, maxHeight: 500)
+                        .cornerRadius(20)
+                    
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color.black.opacity(0),
+                            Color.black.opacity(0.8)
+                        ]), startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .frame(height: height)
+                    .ignoresSafeArea(edges: .top)
+                    
+                    Image("McLaren")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: height)
+                        .clipped()
+                        .cornerRadius(20)
+                        .opacity(fadeOutProgress)
+                    
+                    Image("Piastri")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 400, alignment: .top)
+                        .clipped()
+                        .opacity(fadeOutProgress)
+                    
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color.black.opacity(0),
+                            Color.black.opacity(0.8)
+                        ]), startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .frame(height: height)
+                    .ignoresSafeArea(edges: .top)
+                    
+                    VStack(alignment: .leading) {
+                        Image("McLaren")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 100)
+                            .opacity(fadeOutProgress)
+
+                        Text("Oscar Piastri")
+                            .font(.custom("SFPro-ExpandedBold", size: 28))
+                            .foregroundColor(.white)
+                            .opacity(fadeOutProgress)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 60 * fadeOutProgress)
+
+                    VStack {
+                        Spacer()
+                        tabBar
+                    }
+                }
+                .frame(height: height)
+                .overlay(
+                    HStack(spacing: 10) {
+                        Image("Piastri")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 50, height: 50)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color.white, lineWidth: 1))
+                            .background(Circle().fill(Color.orange))
+                        
+                        Text("Oscar Piastri")
+                            .font(.custom("SFPro-ExpandedBold", size: 15))
+                    }
+                    .padding(.horizontal, 16)
+                    .opacity(1 - fadeOutProgress)
+                )
             }
-            .frame(maxWidth: 450, minHeight: UIScreen.main.bounds.height - 400)
-            .background(.ultraThinMaterial)
-            .cornerRadius(20)
-            .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: -2)
-            .offset(y: -30)
+        } content: {
+            VStack(spacing: 0) {
+                tabContent
+                    .background(HeightReader(height: $contentHeight))
+                
+                if contentHeight < thresholdContentHeight {
+                    Color.clear
+                        .frame(height: thresholdContentHeight - contentHeight)
+                }
+            }
         }
         .ignoresSafeArea(edges: .top)
         .navigationBarBackButtonHidden(true)
@@ -47,56 +145,6 @@ struct DriverDetailView: View {
         }
     }
 
-    // MARK: - Header
-    private var header: some View {
-        ZStack(alignment: .bottomLeading) {
-            Rectangle()
-                .fill(.orange)
-                .frame(maxWidth: .infinity, maxHeight: 500)
-                .cornerRadius(20)
-            
-            LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]), startPoint: .top, endPoint: .bottom)
-                .frame(maxWidth: .infinity)
-                .frame(height: 450)
-            
-            Image("McLaren")
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity, maxHeight: 450)
-                .clipped()
-                .cornerRadius(20)
-            
-            // 2. Large background image that fills the space
-            Image("Piastri") // Using Messi image from your example
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity)
-                .frame(height: 400, alignment: .top)
-                .clipped()
-            
-            // 3. Dark gradient overlay for readability
-            LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]), startPoint: .top, endPoint: .bottom)
-                .frame(maxWidth: .infinity)
-                .frame(height: 400)
-            
-            VStack(alignment: .leading) { // Added spacing for better layout
-                // Aligned McLaren logo
-                Image("McLaren")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 100) // Adjust the height as needed for your logo size
-                    
-                // Player name
-                Text("Oscar Piastri")
-                    .font(.custom("SFPro-ExpandedBold", size: 28))
-                    .foregroundColor(.white)
-            }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 60)
-        }
-        .frame(height: 450)
-    }
-
     // MARK: - Tab Bar
     private var tabBar: some View {
         HStack {
@@ -111,7 +159,7 @@ struct DriverDetailView: View {
                             ZStack {
                                 if activeTab == tab {
                                     Rectangle()
-                                        .fill(Color.red)
+                                        .fill(Color.orange)
                                         .frame(height: 3)
                                         .offset(y: 20)
                                 }
