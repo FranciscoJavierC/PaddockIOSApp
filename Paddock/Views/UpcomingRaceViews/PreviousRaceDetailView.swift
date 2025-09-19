@@ -4,69 +4,115 @@ struct PreviousRaceDetailView: View {
     @State private var activeTab: RaceDetailTab = .overview
     @Environment(\.dismiss) var dismiss
 
+    private let minHeight: CGFloat = 150
+    private let maxHeight: CGFloat = 220
 
+    @State private var contentHeight: CGFloat = 0
+    @State private var screenHeight: CGFloat = UIScreen.main.bounds.height
+
+    var collapseDistance: CGFloat { maxHeight - minHeight }
+    var thresholdContentHeight: CGFloat { screenHeight - minHeight + collapseDistance }
+    
     var body: some View {
-        VStack(spacing: 0) {
-            header
-            
-            VStack(spacing: 0) {
-                tabBar
-                tabContent
+        ResizableHeaderScrollView(
+            minimumHeight: minHeight,
+            maximumHeight: maxHeight,
+            ignoresSafeAreaTop: true,
+            isSticky: true
+        ) { progress, safeArea in
+            // HEADER
+            GeometryReader { geo in
+                let height = geo.size.height
+                let fadeOutProgress = (height - minHeight) / collapseDistance
+
+                ZStack(alignment: .bottom) {
+                    // Your header background
+                    Image("AustrailianFlag")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: height)
+                        .clipped()
+                        .ignoresSafeArea(edges: .top)
+
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color.black.opacity(0),
+                            Color.black.opacity(0.6)
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .frame(height: height)
+                    .ignoresSafeArea(edges: .top)
+
+                    Text("AUSTRALIA")
+                        .font(.custom("SFPro-ExpandedBold", size: 28))
+                        .foregroundColor(.white)
+                        .shadow(radius: 5)
+                        .offset(y: -90 * (height / maxHeight))
+                        .opacity(fadeOutProgress)
+                    
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color.black.opacity(0),
+                            Color.black.opacity(0.6)
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .frame(height: height)
+                    .ignoresSafeArea(edges: .top)
+
+                    VStack {
+                        Spacer()
+                        tabBar
+                    }
+                }
+                .frame(height: height)
+                .overlay(
+                    HStack(spacing: 10) {
+                        Text("AUSTRALIA")
+                            .font(.custom("SFPro-ExpandedBold", size: 20))
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal, 16)
+                    .opacity(1 - fadeOutProgress)
+                )
             }
-            .frame(maxWidth: 450, minHeight: UIScreen.main.bounds.height - 200)
-            .background(.ultraThinMaterial)
-            .cornerRadius(20)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .stroke(Color.white.opacity(0.8), lineWidth: 1)
-            )
-            .offset(y: -30)
+        } content: {
+            VStack(spacing: 0) {
+                tabContent
+                    .background(HeightReader(height: $contentHeight))
+
+                // Add spacer if content is too short
+                if contentHeight < thresholdContentHeight {
+                    Color.clear
+                        .frame(height: thresholdContentHeight - contentHeight)
+                }
+            }
         }
         .ignoresSafeArea(edges: .top)
-        .navigationBarBackButtonHidden(true) // 1. Hides the default back button
+        .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) { // 2. Adds a custom button to the left
+            ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
-                    dismiss() // 3. The action to go back
+                    dismiss()
                 }) { 
                     ZStack {
                         Circle()
-                            .fill(.ultraThinMaterial) // The ultraThinMaterial background
-                            .frame(width: 40, height: 40) // Adjust size as needed
+                            .fill(.ultraThinMaterial)
+                            .frame(width: 40, height: 40)
 
                         Image(systemName: "chevron.left")
                             .foregroundColor(.white)
                             .font(.custom("SFPro-ExpandedBold", size: 16))
-
                     }
                 }
             }
         }
     }
 
-    // MARK: - Header
-    private var header: some View {
-        ZStack(alignment: .bottom) {
-            Image("AustrailianFlag")
-                .resizable()
-                .scaledToFill()
-                .frame(height: 300)
-                .clipped()
-                .ignoresSafeArea(edges: .top)
-
-            Rectangle()
-                .fill(Color.black.opacity(0.4))
-                .frame(height: 300)
-                .ignoresSafeArea(edges: .top)
-
-            Text("AUSTRALIA")
-                .font(.custom("SFPro-ExpandedBold", size: 28))
-                .foregroundColor(.white)
-                .shadow(radius: 5)
-                .offset(y: -130)
-        }
-        .frame(height: 300)
-    }
 
     // MARK: - Tab Bar
     private var tabBar: some View {

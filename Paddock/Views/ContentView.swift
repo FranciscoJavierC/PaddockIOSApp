@@ -8,38 +8,8 @@ struct ContentView: View {
     
     var body: some View {
         ThemeSwitcher {
-            if #available(iOS 26, *) {
-                TabView {
-                    Tab("Schedule", systemImage: "calendar") {
-                        NavigationStack {
-                            ScheduleView(hasFloatingTabBar: false)
-                        }
-                    }
-                    
-                    Tab("Standings", systemImage: "trophy") {
-                        NavigationStack {
-                            StandingsView(hasFloatingTabBar: false)
-                        }
-                    }
-                    
-                    Tab("News", systemImage: "newspaper") {
-                        NewsView()
-                    }
-                    
-                    Tab("Settings", systemImage: "gearshape") {
-                        SettingsView(appTheme: appTheme)
-                    }
-                    
-                    Tab("Search", systemImage: "magnifyingglass", role: .search) {
-                        NavigationStack {
-                            SearchView()
-                        }
-                    }
-                }
-            } else {
-                NavigationStack {
-                    CloneTabView()
-                }
+            NavigationStack {
+                CloneTabView()
             }
         }
     }
@@ -65,12 +35,12 @@ struct ContentView: View {
             
             if showSearch {
                 NavigationStack {
-                    SearchView()
+                    SearchView(query: $searchText)
                         .transition(.move(edge: .bottom))
                         .zIndex(1)
                 }
             }
-
+            
             FloatingTabView(
                 showSearchBar: true,
                 activeTab: $activeTab,
