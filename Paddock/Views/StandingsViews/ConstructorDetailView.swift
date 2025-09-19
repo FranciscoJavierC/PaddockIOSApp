@@ -94,9 +94,9 @@ struct ConstructorDetailView: View {
             }
         }
         .ignoresSafeArea(edges: .top)
-        .navigationBarBackButtonHidden(true)
+        //.navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
+        /*.toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: { dismiss() }) {
                     ZStack {
@@ -109,7 +109,7 @@ struct ConstructorDetailView: View {
                     }
                 }
             }
-        }
+        }*/
     }
 
     private var tabBar: some View {
