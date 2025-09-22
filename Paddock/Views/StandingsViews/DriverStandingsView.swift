@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct DriverStandingsView: View {
-    var hasFloatingTabBar: Bool
-
     var body: some View {
         ScrollView {
             NavigationLink(destination: DriverDetailView()) {
@@ -23,14 +21,6 @@ struct DriverStandingsView: View {
                 }
             }
             .buttonStyle(.plain) // 👈 add this line
-        }
-        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 140 : 0) {
-            if hasFloatingTabBar {
-                Color.clear.frame(height: 10)
-            }
-        }
-        .safeAreaInset(edge: .top, spacing: 0) {
-            Color.clear.frame(height: 10)
         }
     }
 }
@@ -140,5 +130,5 @@ struct DriverStandingsCard: View {
 }
 
 #Preview {
-    DriverStandingsView(hasFloatingTabBar: true)
+    DriverStandingsView()
 }

@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ConstructorStandingsView: View {
-    var hasFloatingTabBar: Bool
-
     var body: some View {
         ScrollView {
             NavigationLink(destination: ConstructorDetailView()) {
@@ -24,14 +22,6 @@ struct ConstructorStandingsView: View {
             }
             .buttonStyle(.plain) // 👈 add this line
         }
-        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 170 : 0) {
-            if hasFloatingTabBar {
-                Color.clear.frame(height: 10)
-            }
-        }
-        .safeAreaInset(edge: .top, spacing: 0) {
-                   Color.clear.frame(height: 10)
-               }
     }
 }
 
@@ -136,5 +126,5 @@ struct ConstructorStandingsCard: View {
 }
 
 #Preview {
-    ConstructorStandingsView(hasFloatingTabBar: true)
+    ConstructorStandingsView()
 }

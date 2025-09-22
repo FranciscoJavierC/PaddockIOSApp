@@ -10,21 +10,9 @@ import SwiftUI
 struct UpcomingView: View {
     @Environment(\.dismiss) var dismiss
     @State private var selectedScheduleID: String? = nil
-    @State private var isExpanded = false
     @State private var navigateToDetails = false
     
     @Environment(\.colorScheme) var colorScheme
-
-    var cardBackground: Color {
-        colorScheme == .dark ? Color(.systemGray6) : .white
-    }
-
-    var cardShadow: Color {
-        colorScheme == .dark ? .white.opacity(0.2) : .black.opacity(0.3)
-    }
-    
-    var hasFloatingTabBar: Bool
-
 
     var body: some View {
         NavigationStack {
@@ -72,17 +60,9 @@ struct UpcomingView: View {
                             navigateToDetails = true
                         }
                     }
+                    Spacer()
                 }
             }
-            .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 100 : 0) {
-                if hasFloatingTabBar {
-                    Color.clear.frame(height: 10)
-                }
-            }
-            .safeAreaInset(edge: .top, spacing: 0) {
-                Color.clear.frame(height: 10)
-            }
-            // ✅ New way to navigate in iOS 16+
             .navigationDestination(isPresented: $navigateToDetails) {
                 PreviousRaceDetailView()
             }
@@ -193,18 +173,27 @@ struct UpcomingRaceCard: View {
             .frame(maxWidth: .infinity, maxHeight: 95) // Fixed height for info box
             .background(.ultraThinMaterial)
             .cornerRadius(20)
-            .overlay( // This adds the thin border
+            .overlay(
                 RoundedRectangle(cornerRadius: 20)
                     .stroke(Color.white.opacity(1.0), lineWidth: 1.5)
             )
-            .offset(y: 109) // Adjust position to appear at the bottom of the card
+            .offset(y: 109)
             
         }
-        .frame(height: 200) // Total height of the card
+        .frame(height: 200)
         .padding(.horizontal)
     }
 }
 
+// Placeholder detail view
+struct RaceDetailView: View {
+    var body: some View {
+        Text("Race Details Screen")
+            .font(.title)
+            .padding()
+    }
+}
+
 #Preview {
-    UpcomingView(hasFloatingTabBar: true)
+    UpcomingView()
 }

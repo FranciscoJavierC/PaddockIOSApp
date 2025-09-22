@@ -75,6 +75,21 @@ struct ConstructorProfileView: View {
                         CarChasisCard(car: chassis)
                             .frame(height: 200)
                     }
+                    
+                    ForEach(car) { chassis in
+                        CarChasisCard(car: chassis)
+                            .frame(height: 200)
+                    }
+                    
+                    ForEach(car) { chassis in
+                        CarChasisCard(car: chassis)
+                            .frame(height: 200)
+                    }
+                    
+                    ForEach(car) { chassis in
+                        CarChasisCard(car: chassis)
+                            .frame(height: 200)
+                    }
                 }
             }
             .padding()

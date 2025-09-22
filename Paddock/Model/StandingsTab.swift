@@ -12,12 +12,12 @@ enum StandingsBar: String, CaseIterable, Hashable {
     case constructors = "Constructors"
     
     @ViewBuilder
-    func view(hasFloatingTabBar: Bool) -> some View {
+    func view() -> some View {
         switch self {
         case .drivers:
-            DriverStandingsView(hasFloatingTabBar: hasFloatingTabBar)
+            DriverStandingsView()
         case .constructors:
-            ConstructorStandingsView(hasFloatingTabBar: hasFloatingTabBar)
+            ConstructorStandingsView()
         }
     }
 }

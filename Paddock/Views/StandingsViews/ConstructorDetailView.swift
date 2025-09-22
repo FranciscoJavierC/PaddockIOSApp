@@ -10,92 +10,84 @@ import SwiftUI
 struct ConstructorDetailView: View {
     @State private var activeTab: ConstructorDetailTab = .profile
     @Environment(\.dismiss) var dismiss
-
-    private let minHeight: CGFloat = 170
-    private let maxHeight: CGFloat = 450
-
-    @State private var contentHeight: CGFloat = 0
-    @State private var screenHeight: CGFloat = UIScreen.main.bounds.height
-
-    var collapseDistance: CGFloat { maxHeight - minHeight }
-    var thresholdContentHeight: CGFloat { screenHeight - minHeight + collapseDistance }
+    
+    // State to track if the content header is visible.
+    @State private var isHeaderVisible: Bool = true
 
     var body: some View {
-        ResizableHeaderScrollView(
-            minimumHeight: minHeight,
-            maximumHeight: maxHeight,
-            ignoresSafeAreaTop: true,
-            isSticky: true
-        ) { progress, safeArea in
-            // HEADER
-            GeometryReader { geo in
-                let height = geo.size.height
-                let fadeOutProgress = (height - minHeight) / collapseDistance
-
-                ZStack(alignment: .bottomLeading) {
-                    Rectangle()
-                        .fill(.orange)
-                        .cornerRadius(20)
-
-                    LinearGradient(
-                        gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-
-                    Image("McLaren")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: height)
-                        .clipped()
-                        .cornerRadius(20)
-                        .opacity(fadeOutProgress)
-
-                    VStack(alignment: .leading) {
-                        Text("McLaren")
-                            .font(.custom("SFPro-ExpandedBold", size: 28))
-                            .foregroundColor(.white)
+            NavigationStack {
+                ScrollView {
+                    VStack(spacing: 0) {
+                        ZStack(alignment: .bottomLeading) {
+                            Rectangle()
+                                .fill(.orange)
+                                .cornerRadius(20)
+                            
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                            .frame(height: 400)
+                            .ignoresSafeArea(edges: .top)
+                            
+                            Image("McLaren")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 450)
+                                .clipped()
+                                .cornerRadius(20)
+                            
+                            VStack(alignment: .leading) {
+                                Text("McLaren")
+                                    .font(.custom("SFPro-ExpandedBold", size: 28))
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 60)
+                            
+                        }
+                        .frame(height: 450)
+                        // Apply onScrollVisibilityChange directly to the header ZStack
+                        .onScrollVisibilityChange { isVisible in
+                            withAnimation {
+                                isHeaderVisible = isVisible
+                            }
+                        }
+                        
+                        VStack {
+                            Spacer()
+                            tabBar
+                        }
+                        
+                        VStack(spacing: 0) {
+                            tabContent
+                        }
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 60 * (height / maxHeight))
-                    .opacity(fadeOutProgress)
-
-                    VStack {
-                        Spacer()
-                        tabBar
-                    }
-                    .offset(y: -20)
                 }
-                .frame(height: height)
-                .overlay(
-                    HStack(spacing: 10) {
-                        Text("McLaren")
-                            .font(.custom("SFPro-ExpandedBold", size: 20))
-                            .foregroundColor(.white)
-                        Image("McLaren")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 40)
+                .ignoresSafeArea(edges: .top)
+                // Conditionally apply the title within the toolbar.
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        // Show the toolbar title only when the header is NOT visible.
+                        if !isHeaderVisible {
+                            HStack {
+                                Image("McLaren")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 30)
+                                    .clipped()
+                                    .cornerRadius(20)
+                                
+                                Text("McLaren")
+                                    .font(.custom("SFPro-ExpandedBold", size: 16))
+                            }
+                        }
                     }
-                    .padding(.horizontal, 16)
-                    .opacity(1 - fadeOutProgress)
-                )
-            }
-        } content: {
-            VStack(spacing: 0) {
-                tabContent
-                    .background(HeightReader(height: $contentHeight))
-
-                // Add spacer if content is too short
-                if contentHeight < thresholdContentHeight {
-                    Color.clear
-                        .frame(height: thresholdContentHeight - contentHeight)
                 }
             }
         }
-        .ignoresSafeArea(edges: .top)
         //.navigationBarBackButtonHidden(true)
-        .navigationBarTitleDisplayMode(.inline)
         /*.toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: { dismiss() }) {
@@ -110,8 +102,7 @@ struct ConstructorDetailView: View {
                 }
             }
         }*/
-    }
-
+    
     private var tabBar: some View {
         HStack {
             ForEach(ConstructorDetailTab.allCases, id: \.self) { tab in

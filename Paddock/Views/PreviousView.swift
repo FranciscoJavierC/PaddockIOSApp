@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PreviousView: View {
     @Environment(\.colorScheme) var colorScheme
+    @State private var navigateToDetails = false
 
     var cardBackground: Color {
         colorScheme == .dark ? Color(.systemGray6) : .white
@@ -17,56 +18,56 @@ struct PreviousView: View {
     var cardShadow: Color {
         colorScheme == .dark ? .white.opacity(0.2) : .black.opacity(0.3)
     }
-    
-    var hasFloatingTabBar: Bool
-
 
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 15) {
-                NavigationLink(destination: PreviousRaceDetailView()) {
+        NavigationStack {
+            ScrollView {
+                LazyVStack(spacing: 15) {
                     VStack(alignment: .leading, spacing: 140) {
                         PreviousRaceCard(
                             backgroundImage: "AustrailianFlag",
                             raceTitle: "Australia",
                             roundNumber: "Round 1",
                             raceDate: "13–15 Mar",
-                        )
+                        ){
+                            navigateToDetails = true
+                        }
+
                         
                         PreviousRaceCard(
                             backgroundImage: "ChinaFlag",
                             raceTitle: "China",
                             roundNumber: "Round 2",
                             raceDate: "20–23 Mar",
-                        )
+                        ){
+                            navigateToDetails = true
+                        }
                         
                         PreviousRaceCard(
                             backgroundImage: "JapanFlag",
                             raceTitle: "Japan",
                             roundNumber: "Round 3",
                             raceDate: "05–06 Apr",
-                        )
-
+                        ){
+                            navigateToDetails = true
+                        }
+                        
                         PreviousRaceCard(
                             backgroundImage: "BahrainFlag",
                             raceTitle: "Bahrain",
                             roundNumber: "Round 4",
                             raceDate: "11–13 Apr",
-                        )
+                        ){
+                            navigateToDetails = true
+                        }
                     }
-
+                    Spacer().frame(height: 115)
                 }
-                .buttonStyle(.plain) // 👈 add this line
+            }
+            .navigationDestination(isPresented: $navigateToDetails) {
+                PreviousRaceDetailView()
             }
         }
-        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 200 : 0) {
-            if hasFloatingTabBar {
-                Color.clear.frame(height: 10)
-            }
-        }
-        .safeAreaInset(edge: .top, spacing: 0) {
-                   Color.clear.frame(height: 10)
-               }
     }
 }
 
@@ -91,6 +92,8 @@ struct PreviousRaceCard: View {
     let raceTitle: String
     let roundNumber: String
     let raceDate: String
+    let onFullResultsTap: () -> Void
+
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -145,6 +148,7 @@ struct PreviousRaceCard: View {
                 // Full Results Button
                 Button(action: {
                     // Navigate to full results
+                    onFullResultsTap()
                 }) {
                     Text("See Full Results")
                         .font(.custom("SFPro-ExpandedBold", size: 13))
@@ -243,5 +247,5 @@ struct PodiumChip: View {
 
 
 #Preview {
-    PreviousView(hasFloatingTabBar: true)
+    PreviousView()
 }
