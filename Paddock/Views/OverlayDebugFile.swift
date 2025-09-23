@@ -1,57 +1,78 @@
 import SwiftUI
 
-struct ConditionalTitleWithVisibility: View {
-    // State to track if the content title is visible.
-    @State private var isContentTitleVisible: Bool = true
-    
-    // A separate, visible title view that is not the top-most item
-    private var contentTitle: some View {
-        Text("Content Title Here")
-            .font(.largeTitle)
-            .bold()
-            .padding(.vertical, 50)
-            .onScrollVisibilityChange { visibility in
-                isContentTitleVisible = visibility
-            }
-    }
-
+struct OverlayDebugFile: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVStack(spacing: 20) {
-                    // Placeholder item to ensure the content title is not the top-most
-                    Text("Header Space")
-                        .padding(.top, 1)
-                        .padding(.bottom, 20)
-                        .opacity(0.001) // Make it nearly invisible
+                VStack(spacing: 0) {
+                    // MARK: - Header
+                    ZStack(alignment: .bottom) {
+                        Image("AustrailianFlag")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(height: 220)
+                            .clipped()
+                            .ignoresSafeArea(edges: .top)
+                        
+                        // Subtle top gradient for legibility over the image
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color.black.opacity(0.35), .clear]),
+                            startPoint: .top,
+                            endPoint: .center
+                        )
+                        .ignoresSafeArea(edges: .top)
+                        
+                        Text("AUSTRALIA")
+                            .font(.custom("SFPro-ExpandedBold", size: 28))
+                            .foregroundColor(.white)
+                            .shadow(radius: 5)
+                            .padding(.bottom, 90)
+                    }
+
                     
-                    contentTitle // Our content title to be tracked
-                    
-                    ForEach(0..<50) { i in
-                        Text("Item \(i)")
-                            .id("item_\(i)")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(8)
+                    VStack {
+                        Spacer()
+                        
                     }
                 }
-                .padding()
             }
-            
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    // Show the toolbar title only when the content title is NOT visible.
-                    if !isContentTitleVisible {
-                        Text("Content Title Is Hidden")
-                            .font(.headline)
-                    }
-                }
-            }
+            .ignoresSafeArea(edges: .top)
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.clear, for: .navigationBar)
+        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
     }
 }
 
-#Preview {
-    ConditionalTitleWithVisibility()
+struct SongRow: View {
+    var songTitle: String
+    var albumTitle: String
+
+    var body: some View {
+        HStack {
+            Image("albumArtPlaceholder") // Placeholder image
+                .resizable()
+                .frame(width: 44, height: 44)
+                .cornerRadius(4)
+            VStack(alignment: .leading) {
+                Text(songTitle)
+                    .font(.subheadline)
+                    .foregroundColor(.white)
+                Text(albumTitle)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+            Spacer()
+            Image(systemName: "ellipsis")
+                .foregroundColor(.gray)
+        }
+        .padding(.horizontal)
+    }
+}
+
+// Preview Provider
+struct CentralCeeProfileView_Previews: PreviewProvider {
+    static var previews: some View {
+        OverlayDebugFile()
+    }
 }

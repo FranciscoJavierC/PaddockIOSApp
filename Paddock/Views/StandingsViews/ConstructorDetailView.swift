@@ -16,71 +16,145 @@ struct ConstructorDetailView: View {
 
     var body: some View {
             NavigationStack {
-                ScrollView {
-                    VStack(spacing: 0) {
-                        ZStack(alignment: .bottomLeading) {
-                            Rectangle()
-                                .fill(.orange)
-                                .cornerRadius(20)
-                            
-                            LinearGradient(
-                                gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]),
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                            .frame(height: 400)
-                            .ignoresSafeArea(edges: .top)
-                            
-                            Image("McLaren")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 450)
-                                .clipped()
-                                .cornerRadius(20)
-                            
-                            VStack(alignment: .leading) {
-                                Text("McLaren")
-                                    .font(.custom("SFPro-ExpandedBold", size: 28))
-                                    .foregroundColor(.white)
-                            }
-                            .padding(.horizontal, 20)
-                            .padding(.bottom, 60)
-                            
-                        }
-                        .frame(height: 450)
-                        // Apply onScrollVisibilityChange directly to the header ZStack
-                        .onScrollVisibilityChange { isVisible in
-                            withAnimation {
-                                isHeaderVisible = isVisible
-                            }
-                        }
-                        
-                        VStack {
-                            Spacer()
-                            tabBar
-                        }
-                        
+                if #available(iOS 26.0, *) {
+                    ScrollView {
                         VStack(spacing: 0) {
-                            tabContent
-                        }
-                    }
-                }
-                .ignoresSafeArea(edges: .top)
-                // Conditionally apply the title within the toolbar.
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        // Show the toolbar title only when the header is NOT visible.
-                        if !isHeaderVisible {
-                            HStack {
+                            ZStack(alignment: .bottomLeading) {
+                                Rectangle()
+                                    .fill(.orange)
+                                    .cornerRadius(20)
+                                
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]),
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                                .frame(height: 400)
+                                .ignoresSafeArea(edges: .top)
+                                
                                 Image("McLaren")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(height: 30)
+                                    .frame(height: 450)
                                     .clipped()
                                     .cornerRadius(20)
                                 
-                                Text("McLaren")
-                                    .font(.custom("SFPro-ExpandedBold", size: 16))
+                                VStack(alignment: .leading) {
+                                    Text("McLaren")
+                                        .font(.custom("SFPro-ExpandedBold", size: 28))
+                                        .foregroundColor(.white)
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.bottom, 60)
+                                
+                            }
+                            .frame(height: 450)
+                            // Apply onScrollVisibilityChange directly to the header ZStack
+                            .onScrollVisibilityChange { isVisible in
+                                withAnimation {
+                                    isHeaderVisible = isVisible
+                                }
+                            }
+                            
+                            VStack {
+                                Spacer()
+                                tabBar
+                            }
+                            
+                            VStack(spacing: 0) {
+                                tabContent
+                            }
+                        }
+                    }
+                    .ignoresSafeArea(edges: .top)
+                    .scrollEdgeEffectHidden(isHeaderVisible)
+                    // Conditionally apply the title within the toolbar.
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            // Show the toolbar title only when the header is NOT visible.
+                            if !isHeaderVisible {
+                                HStack {
+                                    Image("McLaren")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 30)
+                                        .clipped()
+                                        .cornerRadius(20)
+                                    
+                                    Text("McLaren")
+                                        .font(.custom("SFPro-ExpandedBold", size: 16))
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // Fallback on earlier versions
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            ZStack(alignment: .bottomLeading) {
+                                Rectangle()
+                                    .fill(.orange)
+                                    .cornerRadius(20)
+                                
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]),
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                                .frame(height: 400)
+                                .ignoresSafeArea(edges: .top)
+                                
+                                Image("McLaren")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 450)
+                                    .clipped()
+                                    .cornerRadius(20)
+                                
+                                VStack(alignment: .leading) {
+                                    Text("McLaren")
+                                        .font(.custom("SFPro-ExpandedBold", size: 28))
+                                        .foregroundColor(.white)
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.bottom, 60)
+                                
+                            }
+                            .frame(height: 450)
+                            // Apply onScrollVisibilityChange directly to the header ZStack
+                            .onScrollVisibilityChange { isVisible in
+                                withAnimation {
+                                    isHeaderVisible = isVisible
+                                }
+                            }
+                            
+                            VStack {
+                                Spacer()
+                                tabBar
+                            }
+                            
+                            VStack(spacing: 0) {
+                                tabContent
+                            }
+                        }
+                    }
+                    .ignoresSafeArea(edges: .top)
+                    // Conditionally apply the title within the toolbar.
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            // Show the toolbar title only when the header is NOT visible.
+                            if !isHeaderVisible {
+                                HStack {
+                                    Image("McLaren")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 30)
+                                        .clipped()
+                                        .cornerRadius(20)
+                                    
+                                    Text("McLaren")
+                                        .font(.custom("SFPro-ExpandedBold", size: 16))
+                                }
                             }
                         }
                     }

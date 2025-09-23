@@ -18,6 +18,7 @@ struct DriverStandingsView: View {
                         DriverStandingsCard(driverImage: "VerstappenStand", driverFlag: "NetherlandsFlag", driverName: "Max Verstappen", driverNumber: 1, position: 3, points: 187, teamLogo: "RedBull", teamColor: .blue)
                         DriverStandingsCard(driverImage: "Russel", driverFlag: "UKFlag", driverName: "George Russell", driverNumber: 63, position: 4, points: 172, teamLogo: "Mercedes", teamColor: .teal)
                     }
+                    Spacer().frame(height: 15)
                 }
             }
             .buttonStyle(.plain) // 👈 add this line
