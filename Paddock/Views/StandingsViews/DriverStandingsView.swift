@@ -8,18 +8,25 @@
 import SwiftUI
 
 struct DriverStandingsView: View {
+    @StateObject private var viewModel = DriverStandingsModel()
+
     var body: some View {
         ScrollView {
             NavigationLink(destination: DriverDetailView()) {
                 LazyVStack(spacing: 15) {
                     VStack(alignment: .leading, spacing: 70) {
-                        DriverStandingsCard(driverImage: "Piastri", driverFlag: "AustrailianFlag", driverName: "Oscar Piastri", driverNumber: 81, position: 1, points: 284, teamLogo: "McLaren", teamColor: .orange)
-                        DriverStandingsCard(driverImage: "Norris", driverFlag: "UKFlag", driverName: "Lando Norris", driverNumber: 4, position: 2, points: 275, teamLogo: "McLaren", teamColor: .orange)
-                        DriverStandingsCard(driverImage: "VerstappenStand", driverFlag: "NetherlandsFlag", driverName: "Max Verstappen", driverNumber: 1, position: 3, points: 187, teamLogo: "RedBull", teamColor: .blue)
-                        DriverStandingsCard(driverImage: "Russel", driverFlag: "UKFlag", driverName: "George Russell", driverNumber: 63, position: 4, points: 172, teamLogo: "Mercedes", teamColor: .teal)
-                        DriverStandingsCard(driverImage: "Russel", driverFlag: "UKFlag", driverName: "George Russell", driverNumber: 63, position: 4, points: 172, teamLogo: "Mercedes", teamColor: .teal)
-                        DriverStandingsCard(driverImage: "Russel", driverFlag: "UKFlag", driverName: "George Russell", driverNumber: 63, position: 4, points: 172, teamLogo: "Mercedes", teamColor: .teal)
-                        DriverStandingsCard(driverImage: "Russel", driverFlag: "UKFlag", driverName: "George Russell", driverNumber: 63, position: 4, points: 172, teamLogo: "Mercedes", teamColor: .teal)
+                        ForEach(viewModel.drivers, id: \.id) { driver in
+                            DriverStandingsCard(
+                                driverImage: "\(driver.FullName)",
+                                driverFlag: "\(driver.CountryName)Flag",
+                                driverName: driver.FullName,
+                                driverNumber: driver.DriverNumber,
+                                position: driver.Position,
+                                points: driver.Points,
+                                teamLogo: driver.ConstructorNames.first ?? "Default",
+                                teamColor: driver.TeamColor
+                            )
+                        }
                     }
                     Spacer().frame(height: 40)
                 }
@@ -125,6 +132,17 @@ struct DriverStandingsCard: View {
     }
 }
 
+extension Color {
+    init(hex: UInt, opacity: Double = 1) {
+        self.init(
+            .sRGB,
+            red: Double((hex >> 16) & 0xff) / 255,
+            green: Double((hex >> 08) & 0xff) / 255,
+            blue: Double((hex >> 00) & 0xff) / 255,
+            opacity: opacity
+        )
+    }
+}
 #Preview {
     DriverStandingsView()
 }

@@ -9,6 +9,9 @@ struct ContentView: View {
     var body: some View {
         if #available(iOS 26, *) {
             TabView {
+                Tab("Home", systemImage: "house") {
+                    ScheduleView()
+                }
                 Tab("Schedule", systemImage: "calendar") {
                     NavigationStack {
                         ScheduleView()
@@ -24,12 +27,6 @@ struct ContentView: View {
                 Tab("News", systemImage: "newspaper") {
                     NavigationStack {
                         NewsView()
-                    }
-                }
-                
-                Tab("Settings", systemImage: "gearshape") {
-                    NavigationStack {
-                        SettingsView(appTheme: appTheme)
                     }
                 }
                 

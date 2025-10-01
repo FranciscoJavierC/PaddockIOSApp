@@ -165,15 +165,6 @@ struct UpcomingRaceCard: View {
     }
 }
 
-// Placeholder detail view
-struct RaceDetailView: View {
-    var body: some View {
-        Text("Race Details Screen")
-            .font(.title)
-            .padding()
-    }
-}
-
 #Preview {
     UpcomingView()
 }
