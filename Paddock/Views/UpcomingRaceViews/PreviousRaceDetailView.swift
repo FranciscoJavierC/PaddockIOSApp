@@ -10,46 +10,52 @@ struct PreviousRaceDetailView: View {
     var body: some View {
         NavigationStack {
             if #available(iOS 26.0, *) {
-                ScrollView {
-                    VStack(spacing: 0) {
-                        // MARK: - Header
-                        ZStack(alignment: .bottom) {
-                            Image("AustrailianFlag")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(height: 220)
-                                .clipped()
+                GeometryReader { geometry in
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            // MARK: - Header
+                            ZStack(alignment: .bottom) {
+                                Image("AustrailianFlag")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: geometry.size.width, height: 300) // 1. Use the geometry reader's width
+                                    .clipped()
+                                    .ignoresSafeArea(edges: .top)
+                                
+                                LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color.black.opacity(0),
+                                        Color.black.opacity(0.7)
+                                    ]),
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                                .frame(width: geometry.size.width, height: 300) // 1. Use the geometry reader's width
                                 .ignoresSafeArea(edges: .top)
-                            
-                            // Subtle top gradient for legibility over the image
-                            LinearGradient(
-                                gradient: Gradient(colors: [Color.black.opacity(0.35), .clear]),
-                                startPoint: .top,
-                                endPoint: .center
-                            )
-                            .ignoresSafeArea(edges: .top)
-                            
-                            Text("AUSTRALIA")
-                                .font(.custom("SFPro-ExpandedBold", size: 28))
-                                .foregroundColor(.white)
-                                .shadow(radius: 5)
-                                .padding(.bottom, 90)
-                        }
-                        // Apply onScrollVisibilityChange directly to the header ZStack
-                        .onScrollVisibilityChange { isVisible in
-                            withAnimation {
-                                isHeaderVisible = isVisible
+                                
+                                Text("AUSTRALIA")
+                                    .font(.custom("SFPro-ExpandedBold", size: 28))
+                                    .foregroundColor(.white)
+                                    .shadow(radius: 5)
+                                    .padding(.bottom, 130)
+                                
+                                if isHeaderVisible {
+                                    tabBar
+                                }
                             }
-                        }
-                        
-                        VStack {
-                            Spacer()
-                            tabBar
-                        }
-                        
-                        // MARK: - Tab Content
-                        tabContent
+                            .onScrollVisibilityChange { isVisible in
+                                withAnimation {
+                                    isHeaderVisible = isVisible
+                                }
+                            }
+                            
+                            // MARK: - Tab Bar and Tab Content
+                            VStack(spacing: 16) {
+                                tabContent
+                            }
+                            .frame(width: geometry.size.width) // 2. Explicitly set width to screen width
                             .padding(.top, 16)
+                        }
                     }
                 }
                 .ignoresSafeArea(edges: .top)
@@ -67,13 +73,19 @@ struct PreviousRaceDetailView: View {
                                     .frame(height: 20)
                                     .cornerRadius(3)
                                 
-                                
                                 Text("Australia")
                                     .font(.custom("SFPro-ExpandedBold", size: 16))
                             }
                         }
                     }
                 }
+                .safeAreaInset(edge: .top) {
+                    if !isHeaderVisible {
+                        tabBar
+                            .background(Color.black.opacity(0.6))
+                    }
+                }
+                
             } else {
                 // Fallback on earlier versions
                 ScrollView {
@@ -110,7 +122,9 @@ struct PreviousRaceDetailView: View {
                         
                         VStack {
                             Spacer()
-                            tabBar
+                            if isHeaderVisible {
+                                tabBar
+                            }
                         }
                         
                         // MARK: - Tab Content
@@ -137,6 +151,12 @@ struct PreviousRaceDetailView: View {
                                     .font(.custom("SFPro-ExpandedBold", size: 16))
                             }
                         }
+                    }
+                }
+                .safeAreaInset(edge: .top) {
+                    if !isHeaderVisible {
+                        tabBar
+                            .background(Color.black.opacity(0.6))
                     }
                 }
             }

@@ -10,6 +10,14 @@ import SwiftUI
 struct PreviousView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var navigateToDetails = false
+    @StateObject private var viewModel = ScheduleViewModel()
+    
+    // Filter past races
+    var pastRaces: [RaceSchedule] {
+        viewModel.races
+            .filter { $0.Session5Date < Date() }
+            .sorted { $0.Session1Date > $1.Session1Date }
+    }
 
     var cardBackground: Color {
         colorScheme == .dark ? Color(.systemGray6) : .white
@@ -24,41 +32,15 @@ struct PreviousView: View {
             ScrollView {
                 LazyVStack(spacing: 15) {
                     VStack(alignment: .leading, spacing: 140) {
-                        PreviousRaceCard(
-                            backgroundImage: "AustrailianFlag",
-                            raceTitle: "Australia",
-                            roundNumber: "Round 1",
-                            raceDate: "13–15 Mar",
-                        ){
-                            navigateToDetails = true
-                        }
-
-                        
-                        PreviousRaceCard(
-                            backgroundImage: "ChinaFlag",
-                            raceTitle: "China",
-                            roundNumber: "Round 2",
-                            raceDate: "20–23 Mar",
-                        ){
-                            navigateToDetails = true
-                        }
-                        
-                        PreviousRaceCard(
-                            backgroundImage: "JapanFlag",
-                            raceTitle: "Japan",
-                            roundNumber: "Round 3",
-                            raceDate: "05–06 Apr",
-                        ){
-                            navigateToDetails = true
-                        }
-                        
-                        PreviousRaceCard(
-                            backgroundImage: "BahrainFlag",
-                            raceTitle: "Bahrain",
-                            roundNumber: "Round 4",
-                            raceDate: "11–13 Apr",
-                        ){
-                            navigateToDetails = true
+                        ForEach(pastRaces, id: \.id) { race in
+                            PreviousRaceCard(
+                                backgroundImage: "\(race.Country)Flag", // your naming convention
+                                raceTitle: race.Country == "United Arab Emirates" ? "Abu Dhabi" : race.Country,
+                                roundNumber: "Round \(race.RoundNumber)",
+                                raceDate: race.dayRangeWithMonth
+                            ) {
+                                navigateToDetails = true
+                            }
                         }
                     }
                     Spacer().frame(height: 115)
@@ -244,7 +226,6 @@ struct PodiumChip: View {
         )
     }
 }
-
 
 #Preview {
     PreviousView()

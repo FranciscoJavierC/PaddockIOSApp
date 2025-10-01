@@ -17,8 +17,11 @@ struct DriverStandingsView: View {
                         DriverStandingsCard(driverImage: "Norris", driverFlag: "UKFlag", driverName: "Lando Norris", driverNumber: 4, position: 2, points: 275, teamLogo: "McLaren", teamColor: .orange)
                         DriverStandingsCard(driverImage: "VerstappenStand", driverFlag: "NetherlandsFlag", driverName: "Max Verstappen", driverNumber: 1, position: 3, points: 187, teamLogo: "RedBull", teamColor: .blue)
                         DriverStandingsCard(driverImage: "Russel", driverFlag: "UKFlag", driverName: "George Russell", driverNumber: 63, position: 4, points: 172, teamLogo: "Mercedes", teamColor: .teal)
+                        DriverStandingsCard(driverImage: "Russel", driverFlag: "UKFlag", driverName: "George Russell", driverNumber: 63, position: 4, points: 172, teamLogo: "Mercedes", teamColor: .teal)
+                        DriverStandingsCard(driverImage: "Russel", driverFlag: "UKFlag", driverName: "George Russell", driverNumber: 63, position: 4, points: 172, teamLogo: "Mercedes", teamColor: .teal)
+                        DriverStandingsCard(driverImage: "Russel", driverFlag: "UKFlag", driverName: "George Russell", driverNumber: 63, position: 4, points: 172, teamLogo: "Mercedes", teamColor: .teal)
                     }
-                    Spacer().frame(height: 15)
+                    Spacer().frame(height: 40)
                 }
             }
             .buttonStyle(.plain) // 👈 add this line
@@ -35,14 +38,6 @@ struct DriverStandingsCard: View {
     let points: Int
     let teamLogo: String
     let teamColor: Color
-    
-    var firstName: String {
-        return driverName.components(separatedBy: " ").first ?? ""
-    }
-
-    var lastName: String {
-        return driverName.components(separatedBy: " ").last ?? ""
-    }
     
     var body: some View {
         ZStack(alignment: .top) {

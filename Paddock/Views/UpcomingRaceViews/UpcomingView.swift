@@ -11,56 +11,33 @@ struct UpcomingView: View {
     @Environment(\.dismiss) var dismiss
     @State private var selectedScheduleID: String? = nil
     @State private var navigateToDetails = false
+    @StateObject private var viewModel = ScheduleViewModel()
     
     @Environment(\.colorScheme) var colorScheme
+    
+    // Filter upcoming races (Session5Date >= today)
+    var upcomingRaces: [RaceSchedule] {
+        viewModel.races.filter { $0.Session5Date >= Date() }
+    }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 LazyVStack(spacing: 15) {
-                    VStack(alignment: .leading, spacing: 30) {
-                        
-                        UpcomingRaceCard(
-                            backgroundImage: "AustrailianFlag",
-                            raceTitle: "Australia",
-                            roundNumber: "Round 1",
-                            raceDate: "13–15 Mar",
-                            raceNameFull: "Albert Park Circuit"
-                        ) {
-                            navigateToDetails = true
-                        }
-                        
-                        UpcomingRaceCard(
-                            backgroundImage: "ChinaFlag",
-                            raceTitle: "China",
-                            roundNumber: "Round 2",
-                            raceDate: "20–23 Mar",
-                            raceNameFull: "Shanghai International Circuit"
-                        ) {
-                            navigateToDetails = true
-                        }
-                        
-                        UpcomingRaceCard(
-                            backgroundImage: "JapanFlag",
-                            raceTitle: "Japan",
-                            roundNumber: "Round 3",
-                            raceDate: "05–06 Apr",
-                            raceNameFull: "Suzuka Circuit"
-                        ) {
-                            navigateToDetails = true
-                        }
-                        
-                        UpcomingRaceCard(
-                            backgroundImage: "BahrainFlag",
-                            raceTitle: "Bahrain",
-                            roundNumber: "Round 4",
-                            raceDate: "11–13 Apr",
-                            raceNameFull: "Bahrain International Circuit"
-                        ) {
-                            navigateToDetails = true
+                    VStack(alignment: .leading, spacing: 50) {
+                        ForEach(upcomingRaces, id: \.id) { race in
+                            UpcomingRaceCard(
+                                backgroundImage: "\(race.Country)Flag",
+                                raceTitle: race.displayCountry,
+                                roundNumber: "Round \(race.RoundNumber)",
+                                raceDate: race.dayRangeWithMonth,
+                                raceNameFull: race.circuitName ?? "Unknown Circuit"
+                            ) {
+                                navigateToDetails = true
+                            }
                         }
                     }
-                    Spacer()
+                    Spacer().frame(height: 20)
                 }
             }
             .navigationDestination(isPresented: $navigateToDetails) {
@@ -104,18 +81,21 @@ struct UpcomingRaceCard: View {
                 .clipped()
                 .cornerRadius(20)
             
-            // Dark overlay for readability
-            Rectangle()
-                .fill(Color.black.opacity(0.5))
-                .frame(maxWidth: .infinity, maxHeight: 130)
-                .cornerRadius(20)
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color.black.opacity(0.5),
+                    Color.black.opacity(0)
+                ]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
             
             // Race Title at the top center
             Text(raceTitle.uppercased())
                 .font(.custom("SFPro-ExpandedBold", size: 28))
                 .foregroundColor(.white)
                 .shadow(radius: 5)
-                .offset(y: 40)
+                .offset(y: 80)
             
             // Bottom Info Box
             VStack(alignment: .leading, spacing: 5) {
@@ -177,7 +157,7 @@ struct UpcomingRaceCard: View {
                 RoundedRectangle(cornerRadius: 20)
                     .stroke(Color.white.opacity(1.0), lineWidth: 1.5)
             )
-            .offset(y: 109)
+            .offset(y: 130)
             
         }
         .frame(height: 200)
@@ -197,3 +177,4 @@ struct RaceDetailView: View {
 #Preview {
     UpcomingView()
 }
+

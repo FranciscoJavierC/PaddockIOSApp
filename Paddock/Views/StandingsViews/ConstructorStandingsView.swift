@@ -17,6 +17,9 @@ struct ConstructorStandingsView: View {
                         ConstructorStandingsCard(constructorName: "Ferrari", position: 2, points: 260, constructorLogo: "Ferrari", constructorColor: .red, driver1Name: "Charles Leclerc", driver1Points: 151, driver2Name: "Lewis Hamilton", driver2Points: 109)
                         ConstructorStandingsCard(constructorName: "Mercedes", position: 3, points: 236, constructorLogo: "Mercedes", constructorColor: .teal, driver1Name: "George Russell", driver1Points: 172, driver2Name: "Kimi Antonelli", driver2Points: 64)
                         ConstructorStandingsCard(constructorName: "Red Bull", position: 4, points: 194, constructorLogo: "RedBull", constructorColor: .blue, driver1Name: "Max Verstappen", driver1Points: 187, driver2Name: "Yuki Tsunoda", driver2Points: 10)
+                        ConstructorStandingsCard(constructorName: "Red Bull", position: 4, points: 194, constructorLogo: "RedBull", constructorColor: .blue, driver1Name: "Max Verstappen", driver1Points: 187, driver2Name: "Yuki Tsunoda", driver2Points: 10)
+                        ConstructorStandingsCard(constructorName: "Red Bull", position: 4, points: 194, constructorLogo: "RedBull", constructorColor: .blue, driver1Name: "Max Verstappen", driver1Points: 187, driver2Name: "Yuki Tsunoda", driver2Points: 10)
+                        ConstructorStandingsCard(constructorName: "Red Bull", position: 4, points: 194, constructorLogo: "RedBull", constructorColor: .blue, driver1Name: "Max Verstappen", driver1Points: 187, driver2Name: "Yuki Tsunoda", driver2Points: 10)
                     }
                     Spacer().frame(height: 80)
                 }

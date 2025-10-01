@@ -17,52 +17,56 @@ struct ConstructorDetailView: View {
     var body: some View {
             NavigationStack {
                 if #available(iOS 26.0, *) {
-                    ScrollView {
-                        VStack(spacing: 0) {
-                            ZStack(alignment: .bottomLeading) {
-                                Rectangle()
-                                    .fill(.orange)
-                                    .cornerRadius(20)
-                                
-                                LinearGradient(
-                                    gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]),
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                )
-                                .frame(height: 400)
-                                .ignoresSafeArea(edges: .top)
-                                
-                                Image("McLaren")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 450)
-                                    .clipped()
-                                    .cornerRadius(20)
-                                
-                                VStack(alignment: .leading) {
-                                    Text("McLaren")
-                                        .font(.custom("SFPro-ExpandedBold", size: 28))
-                                        .foregroundColor(.white)
-                                }
-                                .padding(.horizontal, 20)
-                                .padding(.bottom, 60)
-                                
-                            }
-                            .frame(height: 450)
-                            // Apply onScrollVisibilityChange directly to the header ZStack
-                            .onScrollVisibilityChange { isVisible in
-                                withAnimation {
-                                    isHeaderVisible = isVisible
-                                }
-                            }
-                            
-                            VStack {
-                                Spacer()
-                                tabBar
-                            }
-                            
+                    GeometryReader { geometry in
+                        ScrollView {
                             VStack(spacing: 0) {
-                                tabContent
+                                ZStack(alignment: .bottomLeading) {
+                                    Rectangle()
+                                        .fill(.orange)
+                                        .cornerRadius(20)
+                                    
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]),
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                    .frame(height: 400)
+                                    .ignoresSafeArea(edges: .top)
+                                    
+                                    Image("McLaren")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 450)
+                                        .clipped()
+                                        .cornerRadius(20)
+                                    
+                                    VStack(alignment: .leading) {
+                                        Text("McLaren")
+                                            .font(.custom("SFPro-ExpandedBold", size: 28))
+                                            .foregroundColor(.white)
+                                    }
+                                    .padding(.horizontal, 20)
+                                    .padding(.bottom, 60)
+                                    
+                                    if isHeaderVisible {
+                                        tabBar
+                                            .padding(.bottom, 16)
+                                    }
+                                }
+                                .frame(height: 450)
+                                // Apply onScrollVisibilityChange directly to the header ZStack
+                                .onScrollVisibilityChange { isVisible in
+                                    withAnimation {
+                                        isHeaderVisible = isVisible
+                                    }
+                                }
+                                
+                                // MARK: - Tab Bar and Tab Content
+                                VStack(spacing: 16) {
+                                    tabContent
+                                }
+                                .frame(width: geometry.size.width) // 2. Explicitly set width to screen width
+                                .padding(.top, 16)
                             }
                         }
                     }
@@ -85,6 +89,31 @@ struct ConstructorDetailView: View {
                                         .font(.custom("SFPro-ExpandedBold", size: 16))
                                 }
                             }
+                        }
+                    }
+                    .safeAreaInset(edge: .top) {
+                        if !isHeaderVisible {
+                            tabBar
+                                .background(
+                                    ZStack {
+                                        Rectangle()
+                                            .fill(.orange)
+                                            .frame(height: 180)
+                                            .cornerRadius(20)
+                                            .ignoresSafeArea(edges: .top)
+
+                                        LinearGradient(
+                                            gradient: Gradient(colors: [
+                                                Color.black.opacity(0.0),
+                                                Color.black.opacity(0.8)
+                                            ]),
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
+                                        .frame(height: 180)
+                                        .ignoresSafeArea(edges: .top)
+                                    }
+                                )
                         }
                     }
                 } else {
