@@ -9,6 +9,15 @@ import SwiftUI
 
 struct PreviousView: View {
     @Environment(\.colorScheme) var colorScheme
+    @State private var navigateToDetails = false
+    @StateObject private var viewModel = ScheduleViewModel()
+    
+    // Filter past races
+    var pastRaces: [RaceSchedule] {
+        viewModel.races
+            .filter { $0.Session5Date < Date() }
+            .sorted { $0.Session1Date > $1.Session1Date }
+    }
 
     var cardBackground: Color {
         colorScheme == .dark ? Color(.systemGray6) : .white
@@ -17,56 +26,30 @@ struct PreviousView: View {
     var cardShadow: Color {
         colorScheme == .dark ? .white.opacity(0.2) : .black.opacity(0.3)
     }
-    
-    var hasFloatingTabBar: Bool
-
 
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 15) {
-                NavigationLink(destination: PreviousRaceDetailView()) {
+        NavigationStack {
+            ScrollView {
+                LazyVStack(spacing: 15) {
                     VStack(alignment: .leading, spacing: 140) {
-                        PreviousRaceCard(
-                            backgroundImage: "AustrailianFlag",
-                            raceTitle: "Australia",
-                            roundNumber: "Round 1",
-                            raceDate: "13–15 Mar",
-                        )
-                        
-                        PreviousRaceCard(
-                            backgroundImage: "ChinaFlag",
-                            raceTitle: "China",
-                            roundNumber: "Round 2",
-                            raceDate: "20–23 Mar",
-                        )
-                        
-                        PreviousRaceCard(
-                            backgroundImage: "JapanFlag",
-                            raceTitle: "Japan",
-                            roundNumber: "Round 3",
-                            raceDate: "05–06 Apr",
-                        )
-
-                        PreviousRaceCard(
-                            backgroundImage: "BahrainFlag",
-                            raceTitle: "Bahrain",
-                            roundNumber: "Round 4",
-                            raceDate: "11–13 Apr",
-                        )
+                        ForEach(pastRaces, id: \.id) { race in
+                            PreviousRaceCard(
+                                backgroundImage: "\(race.Country)Flag", // your naming convention
+                                raceTitle: race.Country == "United Arab Emirates" ? "Abu Dhabi" : race.Country,
+                                roundNumber: "Round \(race.RoundNumber)",
+                                raceDate: race.dayRangeWithMonth
+                            ) {
+                                navigateToDetails = true
+                            }
+                        }
                     }
-
+                    Spacer().frame(height: 115)
                 }
-                .buttonStyle(.plain) // 👈 add this line
+            }
+            .navigationDestination(isPresented: $navigateToDetails) {
+                PreviousRaceDetailView()
             }
         }
-        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 200 : 0) {
-            if hasFloatingTabBar {
-                Color.clear.frame(height: 10)
-            }
-        }
-        .safeAreaInset(edge: .top, spacing: 0) {
-                   Color.clear.frame(height: 10)
-               }
     }
 }
 
@@ -91,6 +74,8 @@ struct PreviousRaceCard: View {
     let raceTitle: String
     let roundNumber: String
     let raceDate: String
+    let onFullResultsTap: () -> Void
+
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -116,63 +101,128 @@ struct PreviousRaceCard: View {
                 .offset(y: 40)
             
             // Bottom Info Box
-            VStack(spacing: 10) {
-                // Top row with round + date
-                HStack {
-                    Text(roundNumber)
-                        .font(.custom("SFPro-ExpandedBold", size: 16))
-                        .foregroundColor(.white)
-                    Spacer()
-                    Text(raceDate)
-                        .font(.custom("SFPro-ExpandedRegular", size: 16))
-                        .foregroundColor(.white)
-                }
-                
-                // Thin dashed line
-                Rectangle()
-                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
-                    .foregroundColor(.white.opacity(0.4))
-                    .frame(height: 1)
-                
-                // Podium row
+            if #available(iOS 26.0, *) {
                 VStack(spacing: 10) {
-                    PodiumChip(position: 1, driver: "Max Verstappen", points: 25, gap: "1:36:49:904", image: "VerstappenStand")
-                    PodiumChip(position: 2, driver: "Lewis Hamilton", points: 18, gap: "1:36:49:904", image: "VerstappenStand")
-                    PodiumChip(position: 3, driver: "Charles Leclerc", points: 15, gap: "1:36:49:904", image: "VerstappenStand")
+                    // Top row with round + date
+                    HStack {
+                        Text(roundNumber)
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                        Spacer()
+                        Text(raceDate)
+                            .font(.custom("SFPro-ExpandedRegular", size: 16))
+                            .foregroundColor(.white)
+                    }
+                    
+                    // Thin dashed line
+                    Rectangle()
+                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
+                        .foregroundColor(.white.opacity(0.4))
+                        .frame(height: 1)
+                    
+                    // Podium row
+                    VStack(spacing: 10) {
+                        PodiumChip(position: 1, driver: "Max Verstappen", points: 25, gap: "1:36:49:904", image: "VerstappenStand")
+                        PodiumChip(position: 2, driver: "Lewis Hamilton", points: 18, gap: "1:36:49:904", image: "VerstappenStand")
+                        PodiumChip(position: 3, driver: "Charles Leclerc", points: 15, gap: "1:36:49:904", image: "VerstappenStand")
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    // Full Results Button
+                    Button(action: {
+                        // Navigate to full results
+                        onFullResultsTap()
+                    }) {
+                        Text("See Full Results")
+                            .font(.custom("SFPro-ExpandedBold", size: 13))
+                            .foregroundColor(.white)
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 15)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color.red)
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color.white.opacity(0.9), lineWidth: 1.2)
+                            )
+                            .cornerRadius(16)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 5)
                 }
-                .frame(maxWidth: .infinity, alignment: .center)
-                
-                // Full Results Button
-                Button(action: {
-                    // Navigate to full results
-                }) {
-                    Text("See Full Results")
-                        .font(.custom("SFPro-ExpandedBold", size: 13))
-                        .foregroundColor(.white)
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 15)
-                        .background(
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(Color.red)
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color.white.opacity(0.9), lineWidth: 1.2)
-                        )
-                        .cornerRadius(16)
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: 400)
+                .glassEffect(in: .rect(cornerRadius: 20))
+                //.background(.ultraThinMaterial)
+                .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(1.0), lineWidth: 1.5)
+                )
+                .offset(y: 109)
+            } else {
+                // Fallback on earlier versions
+                VStack(spacing: 10) {
+                    // Top row with round + date
+                    HStack {
+                        Text(roundNumber)
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                        Spacer()
+                        Text(raceDate)
+                            .font(.custom("SFPro-ExpandedRegular", size: 16))
+                            .foregroundColor(.white)
+                    }
+                    
+                    // Thin dashed line
+                    Rectangle()
+                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
+                        .foregroundColor(.white.opacity(0.4))
+                        .frame(height: 1)
+                    
+                    // Podium row
+                    VStack(spacing: 10) {
+                        PodiumChip(position: 1, driver: "Max Verstappen", points: 25, gap: "1:36:49:904", image: "VerstappenStand")
+                        PodiumChip(position: 2, driver: "Lewis Hamilton", points: 18, gap: "1:36:49:904", image: "VerstappenStand")
+                        PodiumChip(position: 3, driver: "Charles Leclerc", points: 15, gap: "1:36:49:904", image: "VerstappenStand")
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    // Full Results Button
+                    Button(action: {
+                        // Navigate to full results
+                        onFullResultsTap()
+                    }) {
+                        Text("See Full Results")
+                            .font(.custom("SFPro-ExpandedBold", size: 13))
+                            .foregroundColor(.white)
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 15)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color.red)
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color.white.opacity(0.9), lineWidth: 1.2)
+                            )
+                            .cornerRadius(16)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 5)
                 }
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.top, 5)
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: 400)
+                //.glassEffect(in: .rect(cornerRadius: 20))
+                .background(.ultraThinMaterial)
+                .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(1.0), lineWidth: 1.5)
+                )
+                .offset(y: 109)
             }
-            .padding()
-            .frame(maxWidth: .infinity, maxHeight: 400)
-            .background(.ultraThinMaterial)
-            .cornerRadius(20)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.white.opacity(1.0), lineWidth: 1.5)
-            )
-            .offset(y: 109)
         }
         //.frame(height: 200)
         .padding(.horizontal)
@@ -241,7 +291,6 @@ struct PodiumChip: View {
     }
 }
 
-
 #Preview {
-    PreviousView(hasFloatingTabBar: true)
+    PreviousView()
 }

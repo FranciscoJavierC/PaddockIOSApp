@@ -7,13 +7,42 @@ struct ContentView: View {
     @State private var showSearch: Bool = false
     
     var body: some View {
-        ThemeSwitcher {
+        if #available(iOS 26, *) {
+            TabView {
+                Tab("Home", systemImage: "house") {
+                    HomeView()
+                }
+                Tab("Schedule", systemImage: "calendar") {
+                    NavigationStack {
+                        ScheduleView()
+                    }
+                }
+                
+                Tab("Standings", systemImage: "trophy") {
+                    NavigationStack {
+                        StandingsView()
+                    }
+                }
+                
+                Tab("News", systemImage: "newspaper") {
+                    NavigationStack {
+                        NewsView()
+                    }
+                }
+                
+                Tab("Search", systemImage: "magnifyingglass", role: .search) {
+                        SearchView()
+                }
+            }
+            .tint(.red)
+            .tabBarMinimizeBehavior(.onScrollDown)
+        } else {
             NavigationStack {
                 CloneTabView()
             }
         }
     }
-
+    
     @ViewBuilder
     func CloneTabView() -> some View {
         ZStack(alignment: .bottom) {
@@ -21,9 +50,9 @@ struct ContentView: View {
             Group {
                 switch activeTab {
                 case .schedule:
-                    ScheduleView(hasFloatingTabBar: true)
+                    ScheduleView()
                 case .standings:
-                    StandingsView(hasFloatingTabBar: true)
+                    StandingsView()
                 case .news:
                     NewsView()
                 case .settings:
@@ -35,7 +64,7 @@ struct ContentView: View {
             
             if showSearch {
                 NavigationStack {
-                    SearchView(query: $searchText)
+                    SearchView()
                         .transition(.move(edge: .bottom))
                         .zIndex(1)
                 }

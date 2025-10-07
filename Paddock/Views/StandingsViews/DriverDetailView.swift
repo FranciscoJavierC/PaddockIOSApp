@@ -10,122 +10,199 @@ import SwiftUI
 struct DriverDetailView: View {
     @State private var activeTab: DriverDetailTab = .profile
     @Environment(\.dismiss) var dismiss
-
-    private let minHeight: CGFloat = 150
-    private let maxHeight: CGFloat = 450
-
-    @State private var contentHeight: CGFloat = 0
-    @State private var screenHeight: CGFloat = UIScreen.main.bounds.height
-
-    var collapseDistance: CGFloat { maxHeight - minHeight }
-    var thresholdContentHeight: CGFloat { screenHeight - minHeight + collapseDistance }
+    
+    // State to track if the content header is visible.
+    @State private var isHeaderVisible: Bool = true
 
     var body: some View {
-        ResizableHeaderScrollView(
-            minimumHeight: minHeight,
-            maximumHeight: maxHeight,
-            ignoresSafeAreaTop: true,
-            isSticky: true
-        ) { progress, safeArea in
-            GeometryReader { geo in
-                let height = geo.size.height
-                let fadeOutProgress = (height - minHeight) / collapseDistance
-                
-                // Keep your original header design
-                ZStack(alignment: .bottomLeading) {
-                    Rectangle()
-                        .fill(.orange)
-                        .frame(maxWidth: .infinity, maxHeight: 500)
-                        .cornerRadius(20)
-                    
-                    LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color.black.opacity(0),
-                            Color.black.opacity(0.8)
-                        ]), startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: height)
-                    .ignoresSafeArea(edges: .top)
-                    
-                    Image("McLaren")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(height: height)
-                        .clipped()
-                        .cornerRadius(20)
-                        .opacity(fadeOutProgress)
-                    
-                    Image("Piastri")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 400, alignment: .top)
-                        .clipped()
-                        .opacity(fadeOutProgress)
-                    
-                    LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color.black.opacity(0),
-                            Color.black.opacity(0.8)
-                        ]), startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: height)
-                    .ignoresSafeArea(edges: .top)
-                    
-                    VStack(alignment: .leading) {
-                        Image("McLaren")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 100)
-                            .opacity(fadeOutProgress)
-
-                        Text("Oscar Piastri")
-                            .font(.custom("SFPro-ExpandedBold", size: 28))
-                            .foregroundColor(.white)
-                            .opacity(fadeOutProgress)
+        NavigationStack {
+            if #available(iOS 26.0, *) {
+                ScrollView {
+                    VStack(spacing: 0) {
+                        // Keep your original header design
+                        ZStack(alignment: .bottomLeading) {
+                            Rectangle()
+                                .fill(.orange)
+                                .frame(maxWidth: .infinity, maxHeight: 500)
+                                .cornerRadius(20)
+                            
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color.black.opacity(0),
+                                    Color.black.opacity(0.8)
+                                ]), startPoint: .top,
+                                endPoint: .bottom
+                            )
+                            .frame(height: 450)
+                            .ignoresSafeArea(edges: .top)
+                            
+                            Image("McLaren")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(height: 450)
+                                .clipped()
+                                .cornerRadius(20)
+                            
+                            Image("Piastri")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 400, alignment: .top)
+                                .clipped()
+                            
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color.black.opacity(0),
+                                    Color.black.opacity(0.8)
+                                ]), startPoint: .top,
+                                endPoint: .bottom
+                            )
+                            .frame(height: 450)
+                            .ignoresSafeArea(edges: .top)
+                            
+                            VStack(alignment: .leading) {
+                                Image("McLaren")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 100)
+                                
+                                Text("Oscar Piastri")
+                                    .font(.custom("SFPro-ExpandedBold", size: 28))
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 60 )
+                        }
+                        .frame(height: 450)
+                        
+                        // Apply onScrollVisibilityChange directly to the header ZStack
+                        .onScrollVisibilityChange { isVisible in
+                            withAnimation {
+                                isHeaderVisible = isVisible
+                            }
+                        }
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 60 * fadeOutProgress)
-
+                    
                     VStack {
                         Spacer()
                         tabBar
                     }
-                }
-                .frame(height: height)
-                .overlay(
-                    HStack(spacing: 10) {
-                        Image("Piastri")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 50, height: 50)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.white, lineWidth: 1))
-                            .background(Circle().fill(Color.orange))
-                        
-                        Text("Oscar Piastri")
-                            .font(.custom("SFPro-ExpandedBold", size: 15))
+                    VStack(spacing: 0) {
+                        tabContent
                     }
-                    .padding(.horizontal, 16)
-                    .opacity(1 - fadeOutProgress)
-                )
-            }
-        } content: {
-            VStack(spacing: 0) {
-                tabContent
-                    .background(HeightReader(height: $contentHeight))
-                
-                if contentHeight < thresholdContentHeight {
-                    Color.clear
-                        .frame(height: thresholdContentHeight - contentHeight)
+                }
+                .scrollEdgeEffectHidden(isHeaderVisible)
+                .ignoresSafeArea(edges: .top)
+                // Conditionally apply the title within the toolbar.
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        // Show the toolbar title only when the header is NOT visible.
+                        if !isHeaderVisible {
+                            HStack {
+                                
+                                Text("O.Piastri")
+                                    .font(.custom("SFPro-ExpandedBold", size: 16))
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Fallback on earlier versions
+                ScrollView {
+                    VStack(spacing: 0) {
+                        // Keep your original header design
+                        ZStack(alignment: .bottomLeading) {
+                            Rectangle()
+                                .fill(.orange)
+                                .frame(maxWidth: .infinity, maxHeight: 500)
+                                .cornerRadius(20)
+                            
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color.black.opacity(0),
+                                    Color.black.opacity(0.8)
+                                ]), startPoint: .top,
+                                endPoint: .bottom
+                            )
+                            .frame(height: 450)
+                            .ignoresSafeArea(edges: .top)
+                            
+                            Image("McLaren")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(height: 450)
+                                .clipped()
+                                .cornerRadius(20)
+                            
+                            Image("Piastri")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 400, alignment: .top)
+                                .clipped()
+                            
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color.black.opacity(0),
+                                    Color.black.opacity(0.8)
+                                ]), startPoint: .top,
+                                endPoint: .bottom
+                            )
+                            .frame(height: 450)
+                            .ignoresSafeArea(edges: .top)
+                            
+                            VStack(alignment: .leading) {
+                                Image("McLaren")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 100)
+                                
+                                Text("Oscar Piastri")
+                                    .font(.custom("SFPro-ExpandedBold", size: 28))
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 60 )
+                        }
+                        .frame(height: 450)
+                        
+                        // Apply onScrollVisibilityChange directly to the header ZStack
+                        .onScrollVisibilityChange { isVisible in
+                            withAnimation {
+                                isHeaderVisible = isVisible
+                            }
+                        }
+                    }
+                    
+                    VStack {
+                        Spacer()
+                        tabBar
+                    }
+                    VStack(spacing: 0) {
+                        tabContent
+                    }
+                }
+                .ignoresSafeArea(edges: .top)
+                // Conditionally apply the title within the toolbar.
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        // Show the toolbar title only when the header is NOT visible.
+                        if !isHeaderVisible {
+                            HStack {
+                                
+                                Text("O.Piastri")
+                                    .font(.custom("SFPro-ExpandedBold", size: 16))
+                            }
+                        }
+                    }
                 }
             }
         }
-        .ignoresSafeArea(edges: .top)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
+    }
+    
+        //.ignoresSafeArea(edges: .top)
+        //.navigationBarBackButtonHidden(true)
+        /*.toolbar {
             ToolbarItem(placement: .navigationBarLeading) { // 2. Adds a custom button to the left
                 Button(action: {
                     dismiss() // 3. The action to go back
@@ -142,8 +219,7 @@ struct DriverDetailView: View {
                     }
                 }
             }
-        }
-    }
+        }*/
 
     // MARK: - Tab Bar
     private var tabBar: some View {

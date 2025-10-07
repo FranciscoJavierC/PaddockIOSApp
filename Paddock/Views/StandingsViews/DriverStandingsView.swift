@@ -8,29 +8,30 @@
 import SwiftUI
 
 struct DriverStandingsView: View {
-    var hasFloatingTabBar: Bool
+    @StateObject private var viewModel = DriverStandingsModel()
 
     var body: some View {
         ScrollView {
             NavigationLink(destination: DriverDetailView()) {
                 LazyVStack(spacing: 15) {
                     VStack(alignment: .leading, spacing: 70) {
-                        DriverStandingsCard(driverImage: "Piastri", driverFlag: "AustrailianFlag", driverName: "Oscar Piastri", driverNumber: 81, position: 1, points: 284, teamLogo: "McLaren", teamColor: .orange)
-                        DriverStandingsCard(driverImage: "Norris", driverFlag: "UKFlag", driverName: "Lando Norris", driverNumber: 4, position: 2, points: 275, teamLogo: "McLaren", teamColor: .orange)
-                        DriverStandingsCard(driverImage: "VerstappenStand", driverFlag: "NetherlandsFlag", driverName: "Max Verstappen", driverNumber: 1, position: 3, points: 187, teamLogo: "RedBull", teamColor: .blue)
-                        DriverStandingsCard(driverImage: "Russel", driverFlag: "UKFlag", driverName: "George Russell", driverNumber: 63, position: 4, points: 172, teamLogo: "Mercedes", teamColor: .teal)
+                        ForEach(viewModel.drivers, id: \.id) { driver in
+                            DriverStandingsCard(
+                                driverImage: "\(driver.FullName)",
+                                driverFlag: "\(driver.CountryName)Flag",
+                                driverName: driver.FullName,
+                                driverNumber: driver.DriverNumber,
+                                position: driver.Position,
+                                points: driver.Points,
+                                teamLogo: driver.ConstructorNames.first ?? "Default",
+                                teamColor: driver.TeamColor
+                            )
+                        }
                     }
+                    Spacer().frame(height: 40)
                 }
             }
             .buttonStyle(.plain) // 👈 add this line
-        }
-        .safeAreaInset(edge: .bottom, spacing: hasFloatingTabBar ? 140 : 0) {
-            if hasFloatingTabBar {
-                Color.clear.frame(height: 10)
-            }
-        }
-        .safeAreaInset(edge: .top, spacing: 0) {
-            Color.clear.frame(height: 10)
         }
     }
 }
@@ -44,14 +45,6 @@ struct DriverStandingsCard: View {
     let points: Int
     let teamLogo: String
     let teamColor: Color
-    
-    var firstName: String {
-        return driverName.components(separatedBy: " ").first ?? ""
-    }
-
-    var lastName: String {
-        return driverName.components(separatedBy: " ").last ?? ""
-    }
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -89,49 +82,98 @@ struct DriverStandingsCard: View {
             .offset(x: 130, y: 45)
             
             // Bottom Info Box
-            VStack(alignment: .center, spacing: 5) {
-                // Top section: Name & Team Logo
-                HStack(alignment: .center, spacing: 8) {
-                    Text(driverName.uppercased())
-                        .font(.custom("SFPro-ExpandedBold", size: 16))
-                        .foregroundColor(.white)
+            if #available(iOS 26.0, *) {
+                VStack(alignment: .center, spacing: 5) {
+                    // Top section: Name & Team Logo
+                    HStack(alignment: .center, spacing: 8) {
+                        Text(driverName.uppercased())
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                        
+                        Image(driverFlag)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 30, height: 25)
+                            .cornerRadius(20)
+                    }
+                    .padding(.top, 10)
                     
-                    Image(driverFlag)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 30, height: 25)
-                        .cornerRadius(20)
+                    // Thin dashed line
+                    Rectangle()
+                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
+                        .foregroundColor(.white.opacity(0.4))
+                        .frame(height: 1)
+                    
+                    // Bottom section: Position & Points
+                    HStack {
+                        Text("Pos. \(position)")
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                        
+                        Text("\(points) pts")
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                    }
                 }
-                .padding(.top, 10)
-                
-                // Thin dashed line
-                Rectangle()
-                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
-                    .foregroundColor(.white.opacity(0.4))
-                    .frame(height: 1)
-                
-                // Bottom section: Position & Points
-                HStack {
-                    Text("Pos. \(position)")
-                        .font(.custom("SFPro-ExpandedBold", size: 16))
-                        .foregroundColor(.white)
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: 95) // Fixed height for info box
+                .glassEffect(in: .rect(cornerRadius: 20))
+                //.background(.ultraThinMaterial)
+                .cornerRadius(20)
+                .overlay( // This adds the thin border
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(teamColor.opacity(1.0), lineWidth: 1.5)
+                )
+                .offset(y: 150)
+            } else {
+                // Fallback on earlier versions
+                VStack(alignment: .center, spacing: 5) {
+                    // Top section: Name & Team Logo
+                    HStack(alignment: .center, spacing: 8) {
+                        Text(driverName.uppercased())
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                        
+                        Image(driverFlag)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 30, height: 25)
+                            .cornerRadius(20)
+                    }
+                    .padding(.top, 10)
                     
-                    Spacer()
+                    // Thin dashed line
+                    Rectangle()
+                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
+                        .foregroundColor(.white.opacity(0.4))
+                        .frame(height: 1)
                     
-                    Text("\(points) pts")
-                        .font(.custom("SFPro-ExpandedBold", size: 16))
-                        .foregroundColor(.white)
+                    // Bottom section: Position & Points
+                    HStack {
+                        Text("Pos. \(position)")
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                        
+                        Text("\(points) pts")
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                    }
                 }
-            }
-            .padding()
-            .frame(maxWidth: .infinity, maxHeight: 95) // Fixed height for info box
-            .background(.ultraThinMaterial)
-            .cornerRadius(20)
-            .overlay( // This adds the thin border
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(teamColor.opacity(1.0), lineWidth: 1.5)
-            )
-            .offset(y: 150) // Adjust position to appear at the bottom of the card
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: 95) // Fixed height for info box
+                //.glassEffect(in: .rect(cornerRadius: 16.0))
+                .background(.ultraThinMaterial)
+                .cornerRadius(20)
+                .overlay( // This adds the thin border
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(teamColor.opacity(1.0), lineWidth: 1.5)
+                )
+                .offset(y: 150)
+            } // Adjust position to appear at the bottom of the card
             
         }
         .frame(height: 200) // Total height of the card
@@ -139,6 +181,17 @@ struct DriverStandingsCard: View {
     }
 }
 
+extension Color {
+    init(hex: UInt, opacity: Double = 1) {
+        self.init(
+            .sRGB,
+            red: Double((hex >> 16) & 0xff) / 255,
+            green: Double((hex >> 08) & 0xff) / 255,
+            blue: Double((hex >> 00) & 0xff) / 255,
+            opacity: opacity
+        )
+    }
+}
 #Preview {
-    DriverStandingsView(hasFloatingTabBar: true)
+    DriverStandingsView()
 }

@@ -41,6 +41,11 @@ struct ConstructorStatsView: View {
             VStack(spacing: 28) {
                 CurrentSeasonStats()
                 HeadToHead()
+                CurrentSeasonStats()
+                CurrentSeasonStats()
+                CurrentSeasonStats()
+                CurrentSeasonStats()
+                CurrentSeasonStats()
             }
             .padding()
         }
