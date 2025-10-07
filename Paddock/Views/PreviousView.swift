@@ -101,64 +101,128 @@ struct PreviousRaceCard: View {
                 .offset(y: 40)
             
             // Bottom Info Box
-            VStack(spacing: 10) {
-                // Top row with round + date
-                HStack {
-                    Text(roundNumber)
-                        .font(.custom("SFPro-ExpandedBold", size: 16))
-                        .foregroundColor(.white)
-                    Spacer()
-                    Text(raceDate)
-                        .font(.custom("SFPro-ExpandedRegular", size: 16))
-                        .foregroundColor(.white)
-                }
-                
-                // Thin dashed line
-                Rectangle()
-                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
-                    .foregroundColor(.white.opacity(0.4))
-                    .frame(height: 1)
-                
-                // Podium row
+            if #available(iOS 26.0, *) {
                 VStack(spacing: 10) {
-                    PodiumChip(position: 1, driver: "Max Verstappen", points: 25, gap: "1:36:49:904", image: "VerstappenStand")
-                    PodiumChip(position: 2, driver: "Lewis Hamilton", points: 18, gap: "1:36:49:904", image: "VerstappenStand")
-                    PodiumChip(position: 3, driver: "Charles Leclerc", points: 15, gap: "1:36:49:904", image: "VerstappenStand")
+                    // Top row with round + date
+                    HStack {
+                        Text(roundNumber)
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                        Spacer()
+                        Text(raceDate)
+                            .font(.custom("SFPro-ExpandedRegular", size: 16))
+                            .foregroundColor(.white)
+                    }
+                    
+                    // Thin dashed line
+                    Rectangle()
+                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
+                        .foregroundColor(.white.opacity(0.4))
+                        .frame(height: 1)
+                    
+                    // Podium row
+                    VStack(spacing: 10) {
+                        PodiumChip(position: 1, driver: "Max Verstappen", points: 25, gap: "1:36:49:904", image: "VerstappenStand")
+                        PodiumChip(position: 2, driver: "Lewis Hamilton", points: 18, gap: "1:36:49:904", image: "VerstappenStand")
+                        PodiumChip(position: 3, driver: "Charles Leclerc", points: 15, gap: "1:36:49:904", image: "VerstappenStand")
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    // Full Results Button
+                    Button(action: {
+                        // Navigate to full results
+                        onFullResultsTap()
+                    }) {
+                        Text("See Full Results")
+                            .font(.custom("SFPro-ExpandedBold", size: 13))
+                            .foregroundColor(.white)
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 15)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color.red)
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color.white.opacity(0.9), lineWidth: 1.2)
+                            )
+                            .cornerRadius(16)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 5)
                 }
-                .frame(maxWidth: .infinity, alignment: .center)
-                
-                // Full Results Button
-                Button(action: {
-                    // Navigate to full results
-                    onFullResultsTap()
-                }) {
-                    Text("See Full Results")
-                        .font(.custom("SFPro-ExpandedBold", size: 13))
-                        .foregroundColor(.white)
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 15)
-                        .background(
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(Color.red)
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color.white.opacity(0.9), lineWidth: 1.2)
-                        )
-                        .cornerRadius(16)
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: 400)
+                .glassEffect(in: .rect(cornerRadius: 20))
+                //.background(.ultraThinMaterial)
+                .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(1.0), lineWidth: 1.5)
+                )
+                .offset(y: 109)
+            } else {
+                // Fallback on earlier versions
+                VStack(spacing: 10) {
+                    // Top row with round + date
+                    HStack {
+                        Text(roundNumber)
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                        Spacer()
+                        Text(raceDate)
+                            .font(.custom("SFPro-ExpandedRegular", size: 16))
+                            .foregroundColor(.white)
+                    }
+                    
+                    // Thin dashed line
+                    Rectangle()
+                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
+                        .foregroundColor(.white.opacity(0.4))
+                        .frame(height: 1)
+                    
+                    // Podium row
+                    VStack(spacing: 10) {
+                        PodiumChip(position: 1, driver: "Max Verstappen", points: 25, gap: "1:36:49:904", image: "VerstappenStand")
+                        PodiumChip(position: 2, driver: "Lewis Hamilton", points: 18, gap: "1:36:49:904", image: "VerstappenStand")
+                        PodiumChip(position: 3, driver: "Charles Leclerc", points: 15, gap: "1:36:49:904", image: "VerstappenStand")
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    // Full Results Button
+                    Button(action: {
+                        // Navigate to full results
+                        onFullResultsTap()
+                    }) {
+                        Text("See Full Results")
+                            .font(.custom("SFPro-ExpandedBold", size: 13))
+                            .foregroundColor(.white)
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 15)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color.red)
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color.white.opacity(0.9), lineWidth: 1.2)
+                            )
+                            .cornerRadius(16)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 5)
                 }
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.top, 5)
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: 400)
+                //.glassEffect(in: .rect(cornerRadius: 20))
+                .background(.ultraThinMaterial)
+                .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(1.0), lineWidth: 1.5)
+                )
+                .offset(y: 109)
             }
-            .padding()
-            .frame(maxWidth: .infinity, maxHeight: 400)
-            .background(.ultraThinMaterial)
-            .cornerRadius(20)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.white.opacity(1.0), lineWidth: 1.5)
-            )
-            .offset(y: 109)
         }
         //.frame(height: 200)
         .padding(.horizontal)

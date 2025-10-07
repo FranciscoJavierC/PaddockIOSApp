@@ -44,6 +44,7 @@ struct StandingsView: View {
                     }
                 }
                 .pickerStyle(.segmented)
+                .controlSize(.large)
                 .padding(.horizontal, 15)
                 
                 Spacer()

@@ -41,10 +41,12 @@ struct ScheduleView: View {
                 // Segmented Picker for top tabs
                 Picker("", selection: $activeTab1) {
                     ForEach(TabBar.allCases, id: \.self) { tab in
-                        Text(tab.rawValue).tag(tab)
+                        Text(tab.rawValue)
+                            .tag(tab)
                     }
                 }
                 .pickerStyle(.segmented)
+                .controlSize(.large)
                 .padding(.horizontal, 15)
                 Spacer()
                 

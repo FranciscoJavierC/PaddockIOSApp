@@ -12,9 +12,7 @@ struct UpcomingView: View {
     @State private var selectedScheduleID: String? = nil
     @State private var navigateToDetails = false
     @StateObject private var viewModel = ScheduleViewModel()
-    
-    @Environment(\.colorScheme) var colorScheme
-    
+        
     // Filter upcoming races (Session5Date >= today)
     var upcomingRaces: [RaceSchedule] {
         viewModel.races.filter { $0.Session5Date >= Date() }
@@ -24,11 +22,12 @@ struct UpcomingView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(spacing: 15) {
-                    VStack(alignment: .leading, spacing: 50) {
+                    VStack(alignment: .leading, spacing: 20) {
                         ForEach(upcomingRaces, id: \.id) { race in
                             UpcomingRaceCard(
                                 backgroundImage: "\(race.Country)Flag",
                                 raceTitle: race.displayCountry,
+                                locality: race.Location,
                                 roundNumber: "Round \(race.RoundNumber)",
                                 raceDate: race.dayRangeWithMonth,
                                 raceNameFull: race.circuitName ?? "Unknown Circuit"
@@ -63,107 +62,139 @@ struct RoundedCorner: Shape {
 
 struct UpcomingRaceCard: View {
     let backgroundImage: String
-    let raceTitle: String
+    let raceTitle: String       // Country
+    let locality: String        // City or track region
     let roundNumber: String
     let raceDate: String
-    let raceNameFull: String
+    let raceNameFull: String    // Full track name
     let onRaceInfoTap: () -> Void
     
-    @Environment(\.colorScheme) var colorScheme
-    
     var body: some View {
-        ZStack(alignment: .top) {
-            // Background Image
-            Image(backgroundImage)
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity, maxHeight: 200)
-                .clipped()
-                .cornerRadius(20)
+        VStack(spacing: 0) {
             
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    Color.black.opacity(0.5),
-                    Color.black.opacity(0)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            
-            // Race Title at the top center
-            Text(raceTitle.uppercased())
-                .font(.custom("SFPro-ExpandedBold", size: 28))
-                .foregroundColor(.white)
-                .shadow(radius: 5)
-                .offset(y: 80)
-            
-            // Bottom Info Box
-            VStack(alignment: .leading, spacing: 5) {
-                // Top row with "Testing Round" and date
-                HStack {
-                    Text(roundNumber)
-                        .font(.custom("SFPro-ExpandedBold", size: 16))
+            // MARK: - Flag Section
+            ZStack(alignment: .topTrailing) {
+                Image(backgroundImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 190)
+                    .cornerRadius(20)
+                    .padding(15)
+                    .clipped()
+                    .overlay {
+                        ReadabilityRoundedRectangle()
+                    }
+                    .shadow(radius: 3, y: 2)
+                
+                // Round badge
+                if #available(iOS 26.0, *) {
+                    Text("R\(roundNumber.replacingOccurrences(of: "Round ", with: ""))")
+                        .font(.custom("SFPro-ExpandedBold", size: 15))
                         .foregroundColor(.white)
-                    Spacer()
-                    Text(raceDate)
-                        .font(.custom("SFPro-ExpandedRegular", size: 16))
+                        .padding(.vertical, 6)
+                        .padding(.horizontal, 10)
+                        .glassEffect()
+                        .padding(.trailing, 25)
+                        .padding(.top, 20)
+                } else {
+                    Text("R\(roundNumber.replacingOccurrences(of: "Round ", with: ""))")
+                        .font(.custom("SFPro-ExpandedBold", size: 13))
                         .foregroundColor(.white)
+                        .padding(.vertical, 6)
+                        .padding(.horizontal, 10)
+                        .background(Capsule().fill(Color.red.opacity(0.9)))
+                        .overlay(
+                            Capsule()
+                                .stroke(Color.white.opacity(0.9), lineWidth: 1)
+                        )
+                        .shadow(color: .black.opacity(0.4), radius: 4, x: 0, y: 2)
+                        .padding(.trailing, 25)
+                        .padding(.top, 20)
                 }
-                .padding(.top, 10)
+            }
+            
+            // MARK: - Info Section
+            VStack(alignment: .leading, spacing: 10) {
                 
-                // Thin dashed line
-                Rectangle()
-                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
-                    .foregroundColor(.white.opacity(0.4))
-                    .frame(height: 1)
+                // Country + locality
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack {
+                        Text(raceTitle.uppercased())
+                            .font(.custom("SFPro-ExpandedBold", size: 22))
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                        
+                        Text(locality)
+                            .font(.custom("SFPro-ExpandedRegular", size: 17))
+                            .foregroundColor(.white.opacity(0.9))
+                    }
+                }
                 
-                // Second row with race name and button
-                HStack {
+                // Track info
+                HStack(spacing: 6) {
                     Image(systemName: "mappin")
-                        .foregroundColor(.white)
-
+                        .foregroundColor(.white.opacity(0.9))
+                        .imageScale(.small)
                     Text(raceNameFull)
-                        .font(.custom("SFPro-ExpandedRegular", size: 13))
-                        .foregroundColor(.white)
+                        .font(.custom("SFPro-ExpandedRegular", size: 14))
+                        .foregroundColor(.white.opacity(0.95))
                         .lineLimit(2)
                     
                     Spacer()
                     
-                    Button(action: {
-                        onRaceInfoTap()
-                    }) {
-                        Text("Race Info")
+                    // Race date
+                    Text(raceDate.uppercased())
+                        .font(.custom("SFPro-ExpandedBold", size: 15))
+                        .foregroundColor(.red)
+                        .padding(.top, 2)
+                }
+                
+                // Weekend Info button
+                HStack {
+                    Spacer()
+                    if #available(iOS 26.0, *) {
+                        Button("Weekend Info") {
+                            onRaceInfoTap()
+                        }
+                            .font(.custom("SFPro-ExpandedBold", size: 13))
+                            .padding(.horizontal, 115)
+                            .buttonStyle(.glassProminent)
+                            .tint(.red)
+                    } else {
+                        Button("Weekend Info") {
+                            onRaceInfoTap()
+                        }
                             .font(.custom("SFPro-ExpandedBold", size: 13))
                             .foregroundColor(.white)
                             .padding(.vertical, 8)
-                            .padding(.horizontal, 15)
+                            .padding(.horizontal, 18)
                             .background(
-                                RoundedRectangle(cornerRadius: 20)
+                                RoundedRectangle(cornerRadius: 18)
                                     .fill(Color.red)
                             )
-                            .cornerRadius(16)
                             .overlay(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .stroke(Color.white.opacity(0.9), lineWidth: 1.2)
+                                RoundedRectangle(cornerRadius: 18)
+                                    .stroke(Color.white.opacity(0.9), lineWidth: 1)
                             )
                     }
                 }
+                .padding(.top, 6)
             }
             .padding()
-            .frame(maxWidth: .infinity, maxHeight: 95) // Fixed height for info box
-            .background(.ultraThinMaterial)
-            .cornerRadius(20)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.white.opacity(1.0), lineWidth: 1.5)
-            )
-            .offset(y: 130)
-            
         }
-        .frame(height: 200)
+        .background(.ultraThinMaterial)
+        .cornerRadius(20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.white.opacity(0.5), lineWidth: 0.4)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(.ultraThinMaterial.opacity(0.05))
+                )
+        )
         .padding(.horizontal)
-    }
-}
+    }}
 
 #Preview {
     UpcomingView()

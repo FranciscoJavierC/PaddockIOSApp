@@ -11,12 +11,23 @@ import SwiftUI
 struct RaceSchedule: Codable, Identifiable {
     let RoundNumber: Int
     let Country: String
+    let Location: String
     let Session1Date: Date
     let Session5Date: Date
     let circuitId: String?
     let circuitName: String?
     
     var id: String { circuitId ?? UUID().uuidString }
+    
+    enum CodingKeys: String, CodingKey {
+            case RoundNumber
+            case Country
+            case Location = "Location"
+            case Session1Date
+            case Session5Date
+            case circuitId
+            case circuitName
+        }
 }
 
 class ScheduleViewModel: ObservableObject {

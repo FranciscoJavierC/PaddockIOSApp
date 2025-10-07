@@ -82,49 +82,98 @@ struct DriverStandingsCard: View {
             .offset(x: 130, y: 45)
             
             // Bottom Info Box
-            VStack(alignment: .center, spacing: 5) {
-                // Top section: Name & Team Logo
-                HStack(alignment: .center, spacing: 8) {
-                    Text(driverName.uppercased())
-                        .font(.custom("SFPro-ExpandedBold", size: 16))
-                        .foregroundColor(.white)
+            if #available(iOS 26.0, *) {
+                VStack(alignment: .center, spacing: 5) {
+                    // Top section: Name & Team Logo
+                    HStack(alignment: .center, spacing: 8) {
+                        Text(driverName.uppercased())
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                        
+                        Image(driverFlag)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 30, height: 25)
+                            .cornerRadius(20)
+                    }
+                    .padding(.top, 10)
                     
-                    Image(driverFlag)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 30, height: 25)
-                        .cornerRadius(20)
+                    // Thin dashed line
+                    Rectangle()
+                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
+                        .foregroundColor(.white.opacity(0.4))
+                        .frame(height: 1)
+                    
+                    // Bottom section: Position & Points
+                    HStack {
+                        Text("Pos. \(position)")
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                        
+                        Text("\(points) pts")
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                    }
                 }
-                .padding(.top, 10)
-                
-                // Thin dashed line
-                Rectangle()
-                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
-                    .foregroundColor(.white.opacity(0.4))
-                    .frame(height: 1)
-                
-                // Bottom section: Position & Points
-                HStack {
-                    Text("Pos. \(position)")
-                        .font(.custom("SFPro-ExpandedBold", size: 16))
-                        .foregroundColor(.white)
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: 95) // Fixed height for info box
+                .glassEffect(in: .rect(cornerRadius: 20))
+                //.background(.ultraThinMaterial)
+                .cornerRadius(20)
+                .overlay( // This adds the thin border
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(teamColor.opacity(1.0), lineWidth: 1.5)
+                )
+                .offset(y: 150)
+            } else {
+                // Fallback on earlier versions
+                VStack(alignment: .center, spacing: 5) {
+                    // Top section: Name & Team Logo
+                    HStack(alignment: .center, spacing: 8) {
+                        Text(driverName.uppercased())
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                        
+                        Image(driverFlag)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 30, height: 25)
+                            .cornerRadius(20)
+                    }
+                    .padding(.top, 10)
                     
-                    Spacer()
+                    // Thin dashed line
+                    Rectangle()
+                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
+                        .foregroundColor(.white.opacity(0.4))
+                        .frame(height: 1)
                     
-                    Text("\(points) pts")
-                        .font(.custom("SFPro-ExpandedBold", size: 16))
-                        .foregroundColor(.white)
+                    // Bottom section: Position & Points
+                    HStack {
+                        Text("Pos. \(position)")
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                        
+                        Text("\(points) pts")
+                            .font(.custom("SFPro-ExpandedBold", size: 16))
+                            .foregroundColor(.white)
+                    }
                 }
-            }
-            .padding()
-            .frame(maxWidth: .infinity, maxHeight: 95) // Fixed height for info box
-            .background(.ultraThinMaterial)
-            .cornerRadius(20)
-            .overlay( // This adds the thin border
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(teamColor.opacity(1.0), lineWidth: 1.5)
-            )
-            .offset(y: 150) // Adjust position to appear at the bottom of the card
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: 95) // Fixed height for info box
+                //.glassEffect(in: .rect(cornerRadius: 16.0))
+                .background(.ultraThinMaterial)
+                .cornerRadius(20)
+                .overlay( // This adds the thin border
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(teamColor.opacity(1.0), lineWidth: 1.5)
+                )
+                .offset(y: 150)
+            } // Adjust position to appear at the bottom of the card
             
         }
         .frame(height: 200) // Total height of the card

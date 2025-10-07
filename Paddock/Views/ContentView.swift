@@ -10,7 +10,7 @@ struct ContentView: View {
         if #available(iOS 26, *) {
             TabView {
                 Tab("Home", systemImage: "house") {
-                    ScheduleView()
+                    HomeView()
                 }
                 Tab("Schedule", systemImage: "calendar") {
                     NavigationStack {

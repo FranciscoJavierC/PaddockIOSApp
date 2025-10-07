@@ -15,7 +15,7 @@ struct PreviousRaceDetailView: View {
                         VStack(spacing: 0) {
                             // MARK: - Header
                             ZStack(alignment: .bottom) {
-                                Image("AustrailianFlag")
+                                Image("AustraliaFlag")
                                     .resizable()
                                     .scaledToFill()
                                     .frame(width: geometry.size.width, height: 300) // 1. Use the geometry reader's width
