@@ -71,7 +71,6 @@ struct UpcomingRaceCard: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            
             // MARK: - Flag Section
             ZStack(alignment: .topTrailing) {
                 Image(backgroundImage)
