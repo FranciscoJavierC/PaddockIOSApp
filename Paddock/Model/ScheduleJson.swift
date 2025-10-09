@@ -17,7 +17,7 @@ struct RaceSchedule: Codable, Identifiable {
     let circuitId: String?
     let circuitName: String?
     
-    var id: String { circuitId ?? UUID().uuidString }
+    var id: Int { RoundNumber }
     
     enum CodingKeys: String, CodingKey {
             case RoundNumber

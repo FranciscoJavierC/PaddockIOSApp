@@ -3,6 +3,7 @@ import SwiftUI
 struct PreviousRaceDetailView: View {
     @State private var activeTab: RaceDetailTab = .overview
     @Environment(\.dismiss) var dismiss
+    let race: RaceSchedule
     
     // State to track if the content header is visible.
     @State private var isHeaderVisible: Bool = true
@@ -15,7 +16,7 @@ struct PreviousRaceDetailView: View {
                         VStack(spacing: 0) {
                             // MARK: - Header
                             ZStack(alignment: .bottom) {
-                                Image("AustraliaFlag")
+                                Image("\(race.Country)Flag")
                                     .resizable()
                                     .scaledToFill()
                                     .frame(width: geometry.size.width, height: 300) // 1. Use the geometry reader's width
@@ -33,7 +34,7 @@ struct PreviousRaceDetailView: View {
                                 .frame(width: geometry.size.width, height: 300) // 1. Use the geometry reader's width
                                 .ignoresSafeArea(edges: .top)
                                 
-                                Text("AUSTRALIA")
+                                Text(race.displayCountry.uppercased())
                                     .font(.custom("SFPro-ExpandedBold", size: 28))
                                     .foregroundColor(.white)
                                     .shadow(radius: 5)
@@ -67,13 +68,13 @@ struct PreviousRaceDetailView: View {
                         // Show the toolbar title only when the header is NOT visible.
                         if !isHeaderVisible {
                             HStack {
-                                Image("AustrailianFlag")
+                                Image("\(race.Country)Flag")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(height: 20)
                                     .cornerRadius(3)
                                 
-                                Text("Australia")
+                                Text(race.displayCountry)
                                     .font(.custom("SFPro-ExpandedBold", size: 16))
                             }
                         }
@@ -92,7 +93,7 @@ struct PreviousRaceDetailView: View {
                     VStack(spacing: 0) {
                         // MARK: - Header
                         ZStack(alignment: .bottom) {
-                            Image("AustrailianFlag")
+                            Image("\(race.Country)Flag")
                                 .resizable()
                                 .scaledToFill()
                                 .frame(height: 220)
@@ -107,7 +108,7 @@ struct PreviousRaceDetailView: View {
                             )
                             .ignoresSafeArea(edges: .top)
                             
-                            Text("AUSTRALIA")
+                            Text(race.displayCountry)
                                 .font(.custom("SFPro-ExpandedBold", size: 28))
                                 .foregroundColor(.white)
                                 .shadow(radius: 5)
@@ -212,5 +213,18 @@ enum RaceDetailTab: String, CaseIterable {
 }
 
 #Preview {
-    PreviousRaceDetailView()
+    PreviousRaceDetailView(race: RaceSchedule.example)
 }
+
+extension RaceSchedule {
+     static var example = RaceSchedule(
+         RoundNumber: 1,
+         Country: "Australia",
+         Location: "Melbourne",
+         Session1Date: Date(),
+         Session5Date: Date(),
+         circuitId: "albert_park",
+         circuitName: "Albert Park Circuit"
+
+     )
+ }
