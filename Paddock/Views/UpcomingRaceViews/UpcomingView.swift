@@ -114,7 +114,6 @@ struct UpcomingRaceCard: View {
             
             // MARK: - Info Section
             VStack(alignment: .leading, spacing: 10) {
-                
                 // Country + locality
                 VStack(alignment: .leading, spacing: 2) {
                     HStack {
@@ -156,26 +155,26 @@ struct UpcomingRaceCard: View {
                         Button("Weekend Info") {
                             onRaceInfoTap()
                         }
-                            .font(.custom("SFPro-ExpandedBold", size: 13))
-                            .padding(.horizontal, 115)
-                            .buttonStyle(.glassProminent)
-                            .tint(.red)
+                        .font(.custom("SFPro-ExpandedBold", size: 13))
+                        .padding(.horizontal, 115)
+                        .buttonStyle(.glassProminent)
+                        .tint(.red)
                     } else {
                         Button("Weekend Info") {
                             onRaceInfoTap()
                         }
-                            .font(.custom("SFPro-ExpandedBold", size: 13))
-                            .foregroundColor(.white)
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 18)
-                            .background(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .fill(Color.red)
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .stroke(Color.white.opacity(0.9), lineWidth: 1)
-                            )
+                        .font(.custom("SFPro-ExpandedBold", size: 13))
+                        .foregroundColor(.white)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 18)
+                        .background(
+                            RoundedRectangle(cornerRadius: 18)
+                                .fill(Color.red)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 18)
+                                .stroke(Color.white.opacity(0.9), lineWidth: 1)
+                        )
                     }
                 }
                 .padding(.top, 6)
@@ -193,7 +192,8 @@ struct UpcomingRaceCard: View {
                 )
         )
         .padding(.horizontal)
-    }}
+    }
+}
 
 #Preview {
     UpcomingView()

@@ -31,7 +31,7 @@ struct StandingsView: View {
                 HStack {
                     Text("Standings")
                         .font(.custom("SFPro-ExpandedBold", size: 35))
-                        .foregroundColor(.adaptiveText)
+                        .foregroundColor(Color.white)
                         .padding(.leading)
                     Spacer()
                 }
@@ -86,7 +86,7 @@ struct LegacyStandingsView: View {
             HStack {
                 Text("Standings")
                     .font(.custom("SFPro-ExpandedBold", size: 35))
-                    .foregroundColor(.adaptiveText)
+                    .foregroundColor(Color.white)
                     .padding(.leading)
                 Spacer()
             }

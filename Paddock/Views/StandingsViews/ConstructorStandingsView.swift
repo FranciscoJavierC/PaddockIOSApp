@@ -14,7 +14,7 @@ struct ConstructorStandingsView: View {
         ScrollView {
             NavigationLink(destination: ConstructorDetailView()) {
                 LazyVStack(spacing: 15) {
-                    VStack(alignment: .leading, spacing: 100) {
+                    VStack(alignment: .leading, spacing: 20) {
                         ForEach(viewModel.constructors) { constructor in
                             ConstructorStandingsCard(
                                 constructorName: constructor.ConstructorName,
@@ -49,158 +49,110 @@ struct ConstructorStandingsCard: View {
     let driver2Points: Int
     
     var body: some View {
-        ZStack(alignment: .top) {
-            // Background Image
-            Rectangle()
-                .fill(constructorColor)
-                .frame(maxWidth: .infinity, maxHeight: 200)
-                .cornerRadius(20)
-
-            LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.3), Color.black.opacity(0.8)]), startPoint: .top, endPoint: .bottom)
-                .frame(maxWidth: .infinity)
-                .frame(height: 200)
-            
-            Image(constructorLogo)
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity, maxHeight: 200)
-                .clipped()
-                .cornerRadius(20)
-            
-            // Bottom Info Box
-            if #available(iOS 26.0, *) {
-                VStack(alignment: .center, spacing: 5) {
-                    // Top section: Name & Team Logo
-                    HStack(alignment: .center, spacing: 8) {
-                        Text(constructorName.uppercased())
-                            .font(.custom("SFPro-ExpandedBold", size: 16))
-                            .foregroundColor(.white)
+        VStack {
+            ZStack(alignment: .topTrailing) {
+                // Background Image
+                Rectangle()
+                    .fill(constructorColor)
+                    .frame(height: 190)
+                    .cornerRadius(20)
+                    .padding(15)
+                    .overlay {
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                .black.opacity(0.6),
+                                .black.opacity(0)
+                            ]),
+                            startPoint: .bottom,
+                            endPoint: .top
+                        )
+                        .cornerRadius(20)
+                        .padding(15)
                     }
-                    .padding(.top, 10)
+                    .shadow(radius: 3, y: 2)
+                
+                Image(constructorLogo)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200, height: 180)
+                    .padding(.horizontal, 100)
+                    .padding(.top, 20)
+            }
+                
+            // MARK: - Info Section (Constructor Stats)
+            VStack(alignment: .leading, spacing: 10) {
+                // Constructor Name
+                HStack {
+                    Text(constructorName)
+                        .font(.custom("SFPro-ExpandedBold", size: 20))
+                        .foregroundColor(.white)
                     
-                    // Thin dashed line
-                    Rectangle()
-                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
-                        .foregroundColor(.white.opacity(0.4))
-                        .frame(height: 1)
-                    
-                    // Bottom section: Position & Points
-                    HStack(alignment: .top) {
-                        VStack(alignment: .leading, spacing: 5) {
-                            // Driver 1
-                            VStack(alignment: .leading) {
-                                Text(driver1Name)
-                                    .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                    .foregroundColor(.white)
-                                Text("\(driver1Points) pts")
-                                    .font(.custom("SFPro-ExpandedRegular", size: 12))
-                                    .foregroundColor(.gray)
-                            }
-                            
-                            // Driver 2
-                            VStack(alignment: .leading) {
-                                Text(driver2Name)
-                                    .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                    .foregroundColor(.white)
-                                Text("\(driver2Points) pts")
-                                    .font(.custom("SFPro-ExpandedRegular", size: 12))
-                                    .foregroundColor(.gray)
-                            }
-                        }
+                    Spacer()
+                }
+                
+                // Drivers + Individual Points
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack {
+                        Text(driver1Name)
+                            .font(.custom("SFPro-ExpandedRegular", size: 15))
+                            .foregroundColor(.white.opacity(0.9))
                         
                         Spacer()
                         
-                        // Total Position & Points
-                        VStack(alignment: .trailing, spacing: 20) {
-                            Text("Pos. \(position)")
-                                .font(.custom("SFPro-ExpandedBold", size: 16))
-                                .foregroundColor(.white)
-                            
-                            Text("\(points) pts")
-                                .font(.custom("SFPro-ExpandedBold", size: 16))
-                                .foregroundColor(.white)
-                        }
+                        Text("\(driver1Points) pts")
+                            .font(.custom("SFPro-ExpandedBold", size: 14))
+                            .foregroundStyle(constructorColor)
                     }
-                }
-                .padding()
-                .frame(maxWidth: .infinity, maxHeight: 125) // Fixed height for info box
-                .glassEffect(in: .rect(cornerRadius: 20))
-                //.background(.ultraThinMaterial)
-                .cornerRadius(20)
-                .overlay( // This adds the thin border
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(constructorColor.opacity(1.0), lineWidth: 1.5)
-                )
-                .offset(y: 150)
-            } else {
-                // Fallback on earlier versions
-                VStack(alignment: .center, spacing: 5) {
-                    // Top section: Name & Team Logo
-                    HStack(alignment: .center, spacing: 8) {
-                        Text(constructorName.uppercased())
-                            .font(.custom("SFPro-ExpandedBold", size: 16))
-                            .foregroundColor(.white)
-                    }
-                    .padding(.top, 10)
                     
-                    // Thin dashed line
-                    Rectangle()
-                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
-                        .foregroundColor(.white.opacity(0.4))
-                        .frame(height: 1)
-                    
-                    // Bottom section: Position & Points
-                    HStack(alignment: .top) {
-                        VStack(alignment: .leading, spacing: 5) {
-                            // Driver 1
-                            VStack(alignment: .leading) {
-                                Text(driver1Name)
-                                    .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                    .foregroundColor(.white)
-                                Text("\(driver1Points) pts")
-                                    .font(.custom("SFPro-ExpandedRegular", size: 12))
-                                    .foregroundColor(.gray)
-                            }
-                            
-                            // Driver 2
-                            VStack(alignment: .leading) {
-                                Text(driver2Name)
-                                    .font(.custom("SFPro-ExpandedRegular", size: 14))
-                                    .foregroundColor(.white)
-                                Text("\(driver2Points) pts")
-                                    .font(.custom("SFPro-ExpandedRegular", size: 12))
-                                    .foregroundColor(.gray)
-                            }
-                        }
+                    HStack {
+                        Text(driver2Name)
+                            .font(.custom("SFPro-ExpandedRegular", size: 15))
+                            .foregroundColor(.white.opacity(0.9))
                         
                         Spacer()
                         
-                        // Total Position & Points
-                        VStack(alignment: .trailing, spacing: 20) {
-                            Text("Pos. \(position)")
-                                .font(.custom("SFPro-ExpandedBold", size: 16))
-                                .foregroundColor(.white)
-                            
-                            Text("\(points) pts")
-                                .font(.custom("SFPro-ExpandedBold", size: 16))
-                                .foregroundColor(.white)
-                        }
+                        Text("\(driver2Points) pts")
+                            .font(.custom("SFPro-ExpandedBold", size: 14))
+                            .foregroundStyle(constructorColor)
                     }
                 }
-                .padding()
-                .frame(maxWidth: .infinity, maxHeight: 125) // Fixed height for info box
-                //.glassEffect(in: .rect(cornerRadius: 20))
-                .background(.ultraThinMaterial)
-                .cornerRadius(20)
-                .overlay( // This adds the thin border
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(constructorColor.opacity(1.0), lineWidth: 1.5)
-                )
-                .offset(y: 150)
-            } // Adjust position to appear at the bottom of the card
-            
+                .padding(.top, 2)
+                
+                // Team Position + Total Points (mirroring Driver Standings layout)
+                HStack(alignment: .firstTextBaseline) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("\(position)")
+                            .font(.custom("SFPro-ExpandedBold", size: 30))
+                            .foregroundColor(.white)
+                        
+                        Text("POS")
+                            .font(.custom("SFPro-ExpandedBold", size: 13))
+                            .foregroundColor(.white.opacity(0.8))
+                    }
+                    
+                    Spacer()
+                    
+                    VStack(alignment: .trailing, spacing: 2) {
+                        Text("\(points)")
+                            .font(.custom("SFPro-ExpandedBold", size: 30))
+                            .foregroundStyle(constructorColor)
+                        
+                        Text("PTS")
+                            .font(.custom("SFPro-ExpandedBold", size: 13))
+                            .foregroundColor(.white.opacity(0.8))
+                    }
+                }
+                .padding(.top, 6)
+            }
+            .padding()
         }
-        .frame(height: 200) // Total height of the card
+        .background(.ultraThinMaterial)
+        .cornerRadius(20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(constructorColor, lineWidth: 0.4)
+
+        )
         .padding(.horizontal)
     }
 }

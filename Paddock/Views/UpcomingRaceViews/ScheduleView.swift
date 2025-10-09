@@ -32,7 +32,7 @@ struct ScheduleView: View {
                 HStack {
                     Text("Schedule")
                         .font(.custom("SFPro-ExpandedBold", size: 35))
-                        .foregroundColor(.adaptiveText)
+                        .foregroundColor(Color.white)
                         .padding(.leading)
                     Spacer()
                 }
@@ -87,7 +87,7 @@ struct LegacyScheduleView: View {
             HStack {
                 Text("Schedule")
                     .font(.custom("SFPro-ExpandedBold", size: 35))
-                    .foregroundColor(.adaptiveText)
+                    .foregroundColor(Color.white)
                     .padding(.leading)
                 Spacer()
             }
