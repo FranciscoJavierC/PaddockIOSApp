@@ -72,7 +72,6 @@ struct PreviousRaceCard: View {
                         .cornerRadius(20)
                         .padding(15)
                         .clipped()
-                        .overlay { ReadabilityRoundedRectangle() }
                         .shadow(radius: 3, y: 2)
 
                     // Round badge
@@ -179,6 +178,7 @@ struct PreviousRaceCard: View {
                 .padding()
             }
             .background(.ultraThinMaterial)
+            //.overlay(ReadabilityRoundedRectangle())
             .cornerRadius(20)
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
@@ -269,13 +269,7 @@ struct PodiumStep: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 6)
-                .fill(
-                    LinearGradient(
-                        colors: [color.opacity(0.9), .black.opacity(0.8)],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
+                .fill(Color.red.opacity(0.85)) // solid color with slight transparency
                 .frame(width: 80, height: height)
                 .overlay(
                     RoundedRectangle(cornerRadius: 6)
