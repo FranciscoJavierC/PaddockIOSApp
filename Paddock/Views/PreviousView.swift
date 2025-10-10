@@ -128,6 +128,50 @@ struct PreviousRaceCard: View {
                             .foregroundColor(.red)
                             .padding(.top, 2)
                     }
+                    
+                    // MARK: - Podium section (enhanced with flags and step labels)
+                    HStack(alignment: .bottom, spacing: 25) {
+                        // 🥈 2nd
+                        VStack {
+                            PodiumDriverView(
+                                driverName: "Norris",
+                                position: 2,
+                                gap: "+5.43",
+                                imageName: "Lando Norris",
+                                flagImage: "United KingdomFlag",
+                                teamColor: .orange
+                            )
+                            PodiumStep(height: 65, color: .orange, position: 2)
+                        }
+
+                        // 🥇 1st (center)
+                        VStack {
+                            PodiumDriverView(
+                                driverName: "Russell",
+                                position: 1,
+                                gap: "1:40:22:367",
+                                imageName: "George Russell",
+                                flagImage: "United KingdomFlag",
+                                teamColor: .teal
+                            )
+                            PodiumStep(height: 95, color: .teal, position: 1)
+                        }
+
+                        // 🥉 3rd
+                        VStack {
+                            PodiumDriverView(
+                                driverName: "Verstappen",
+                                position: 3,
+                                gap: "+6.066",
+                                imageName: "Max Verstappen",
+                                flagImage: "NetherlandsFlag",
+                                teamColor: .blue
+                            )
+                            PodiumStep(height: 55, color: .blue, position: 3)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 15)
 
                     // Add some space for button overlay
                     Spacer().frame(height: 40)
@@ -151,7 +195,7 @@ struct PreviousRaceCard: View {
             VStack {
                 Spacer()
                 if #available(iOS 26.0, *) {
-                    Button("Weekend Info") {
+                    Button("Full Results") {
                         onFullResultsTap()
                     }
                     .font(.custom("SFPro-ExpandedBold", size: 13))
@@ -175,6 +219,75 @@ struct PreviousRaceCard: View {
                 }
             }
             .padding(.bottom, 20) // adjust button position
+        }
+    }
+}
+
+struct PodiumDriverView: View {
+    let driverName: String
+    let position: Int
+    let gap: String
+    let imageName: String
+    let flagImage: String
+    let teamColor: Color
+
+    var body: some View {
+        ZStack {
+            VStack(spacing: 6) {
+                Image(imageName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: position == 1 ? 70 : 60, height: position == 1 ? 70 : 60, alignment: .top)
+                    .clipShape(Circle())
+                    .overlay(
+                        Circle()
+                            .stroke(teamColor, lineWidth: 2.5)
+                            .shadow(radius: 3)
+                    )
+                    .offset(y: -10)
+
+                Text(driverName)
+                    .font(.custom("SFPro-ExpandedRegular", size: 12))
+                    .foregroundColor(.white)
+                    .lineLimit(1)
+                
+                Text(gap)
+                    .font(.custom("SFPro-ExpandedRegular", size: 12))
+                    .foregroundColor(.white)
+                    .lineLimit(1)
+            }
+        }
+        .frame(width: 90)
+    }
+}
+
+struct PodiumStep: View {
+    let height: CGFloat
+    let color: Color
+    let position: Int
+
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 6)
+                .fill(
+                    LinearGradient(
+                        colors: [color.opacity(0.9), .black.opacity(0.8)],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .frame(width: 80, height: height)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(Color.white.opacity(0.6), lineWidth: 0.6)
+                )
+                .shadow(radius: 5, y: 3)
+            
+            // 🏆 Position label inside the step
+            Text("\(position)")
+                .font(.custom("SFPro-ExpandedBold", size: 16))
+                .foregroundColor(.white)
+                .shadow(radius: 2)
         }
     }
 }

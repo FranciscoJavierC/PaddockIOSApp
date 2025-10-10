@@ -34,7 +34,7 @@ struct PreviousRaceDetailView: View {
                                 .frame(width: geometry.size.width, height: 300) // 1. Use the geometry reader's width
                                 .ignoresSafeArea(edges: .top)
                                 
-                                Text(race.displayCountry.uppercased())
+                                Text(race.Location.uppercased())
                                     .font(.custom("SFPro-ExpandedBold", size: 28))
                                     .foregroundColor(.white)
                                     .shadow(radius: 5)

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DriverDetailView: View {
+    let driver: DriverStandings  // Add this
     @State private var activeTab: DriverDetailTab = .profile
     @Environment(\.dismiss) var dismiss
     
@@ -22,28 +23,21 @@ struct DriverDetailView: View {
                         // Keep your original header design
                         ZStack(alignment: .bottomLeading) {
                             Rectangle()
-                                .fill(.orange)
+                                .fill(driver.TeamColor)
                                 .frame(maxWidth: .infinity, maxHeight: 500)
                                 .cornerRadius(20)
-                            
+            
                             LinearGradient(
                                 gradient: Gradient(colors: [
-                                    Color.black.opacity(0),
-                                    Color.black.opacity(0.8)
-                                ]), startPoint: .top,
-                                endPoint: .bottom
+                                    .black.opacity(0.5),
+                                    .black.opacity(0)
+                                ]),
+                                startPoint: .bottom,
+                                endPoint: .top
                             )
-                            .frame(height: 450)
-                            .ignoresSafeArea(edges: .top)
+                            .cornerRadius(20)
                             
-                            Image("McLaren")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(height: 450)
-                                .clipped()
-                                .cornerRadius(20)
-                            
-                            Image("Piastri")
+                            Image(driver.FullName)
                                 .resizable()
                                 .scaledToFill()
                                 .frame(maxWidth: .infinity)
@@ -52,26 +46,26 @@ struct DriverDetailView: View {
                             
                             LinearGradient(
                                 gradient: Gradient(colors: [
-                                    Color.black.opacity(0),
-                                    Color.black.opacity(0.8)
-                                ]), startPoint: .top,
-                                endPoint: .bottom
+                                    .black.opacity(0.5),
+                                    .black.opacity(0)
+                                ]),
+                                startPoint: .bottom,
+                                endPoint: .top
                             )
-                            .frame(height: 450)
-                            .ignoresSafeArea(edges: .top)
+                            .cornerRadius(20)
                             
                             VStack(alignment: .leading) {
-                                Image("McLaren")
+                                Image(driver.ConstructorNames.first ?? "Default")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(height: 100)
+                                    .frame(width: 100, height: 100)
                                 
-                                Text("Oscar Piastri")
+                                Text(driver.FullName)
                                     .font(.custom("SFPro-ExpandedBold", size: 28))
                                     .foregroundColor(.white)
                             }
                             .padding(.horizontal, 20)
-                            .padding(.bottom, 60 )
+                            .padding(.bottom, 30 )
                         }
                         .frame(height: 450)
                         
@@ -235,7 +229,7 @@ struct DriverDetailView: View {
                             ZStack {
                                 if activeTab == tab {
                                     Rectangle()
-                                        .fill(Color.orange)
+                                        .fill(driver.TeamColor)
                                         .frame(height: 3)
                                         .offset(y: 20)
                                 }
@@ -272,5 +266,14 @@ enum DriverDetailTab: String, CaseIterable {
 }
 
 #Preview {
-    DriverDetailView()
+    DriverDetailView(driver: DriverStandings(
+            driverId: "piastri",
+            Position: 3,
+            DriverNumber: 1,
+            FullName: "Oscar Piastri",
+            CountryName: "Australia",
+            ConstructorNames: ["McLaren"],
+            TeamColorHex: "#FF9800",
+            Points: 95
+        ))
 }

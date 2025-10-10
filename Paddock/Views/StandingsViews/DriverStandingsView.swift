@@ -9,29 +9,35 @@ import SwiftUI
 
 struct DriverStandingsView: View {
     @StateObject private var viewModel = DriverStandingsModel()
+    @State private var selectedDriver: DriverStandings? = nil
+    @State private var showDetail = false
 
     var body: some View {
         ScrollView {
-            NavigationLink(destination: DriverDetailView()) {
-                LazyVStack(spacing: 15) {
-                    VStack(alignment: .leading, spacing: 20) {
-                        ForEach(viewModel.drivers, id: \.id) { driver in
-                            DriverStandingsCard(
-                                driverImage: "\(driver.FullName)",
-                                driverFlag: "\(driver.CountryName)Flag",
-                                driverName: driver.FullName,
-                                driverNumber: driver.DriverNumber,
-                                position: driver.Position,
-                                points: driver.Points,
-                                teamLogo: driver.ConstructorNames.first ?? "Default",
-                                teamColor: driver.TeamColor
-                            )
-                        }
+            LazyVStack(spacing: 15) {
+                ForEach(viewModel.drivers, id: \.id) { driver in
+                    DriverStandingsCard(
+                        driverImage: "\(driver.FullName)",
+                        driverFlag: "\(driver.CountryName)Flag",
+                        driverName: driver.FullName,
+                        driverNumber: driver.DriverNumber,
+                        position: driver.Position,
+                        points: driver.Points,
+                        teamLogo: driver.ConstructorNames.first ?? "Default",
+                        teamColor: driver.TeamColor
+                    )
+                    .onTapGesture {
+                        selectedDriver = driver
+                        showDetail = true
                     }
-                    Spacer().frame(height: 40)
                 }
             }
-            .buttonStyle(.plain) // 👈 add this line
+            .padding(.vertical, 20)
+        }
+        .navigationDestination(isPresented: $showDetail) {
+            if let driver = selectedDriver {
+                DriverDetailView(driver: driver)
+            }
         }
     }
 }

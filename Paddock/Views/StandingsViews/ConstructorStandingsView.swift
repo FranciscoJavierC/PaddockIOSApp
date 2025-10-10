@@ -9,30 +9,36 @@ import SwiftUI
 
 struct ConstructorStandingsView: View {
     @StateObject private var viewModel = ConstructorStandingsModel()
+    @State private var selectedConstructor: ConstructorStandings? = nil
+    @State private var showDetail = false
     
     var body: some View {
         ScrollView {
-            NavigationLink(destination: ConstructorDetailView()) {
-                LazyVStack(spacing: 15) {
-                    VStack(alignment: .leading, spacing: 20) {
-                        ForEach(viewModel.constructors) { constructor in
-                            ConstructorStandingsCard(
-                                constructorName: constructor.ConstructorName,
-                                position: constructor.Position,
-                                points: constructor.Points,
-                                constructorLogo: "\(constructor.ConstructorName)",
-                                constructorColor: constructor.TeamColor,
-                                driver1Name: constructor.Drivers[0],
-                                driver1Points: constructor.DriverPoints[0],
-                                driver2Name: constructor.Drivers[1],
-                                driver2Points: constructor.DriverPoints[1]
-                                )
+            LazyVStack(spacing: 15) {
+                ForEach(viewModel.constructors) { constructor in
+                    ConstructorStandingsCard(
+                        constructorName: constructor.ConstructorName,
+                        position: constructor.Position,
+                        points: constructor.Points,
+                        constructorLogo: "\(constructor.ConstructorName)",
+                        constructorColor: constructor.TeamColor,
+                        driver1Name: constructor.Drivers[0],
+                        driver1Points: constructor.DriverPoints[0],
+                        driver2Name: constructor.Drivers[1],
+                        driver2Points: constructor.DriverPoints[1]
+                        )
+                        .onTapGesture {
+                            selectedConstructor = constructor
+                            showDetail = true
                         }
-                    }
-                    Spacer().frame(height: 80)
                 }
             }
-            .buttonStyle(.plain) // 👈 add this line
+            .padding(.vertical, 20)
+        }
+        .navigationDestination(isPresented: $showDetail) {
+            if let constructor = selectedConstructor {
+                ConstructorDetailView(constructor: constructor)
+            }
         }
     }
 }
