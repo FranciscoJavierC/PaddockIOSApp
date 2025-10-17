@@ -221,10 +221,17 @@ extension RaceSchedule {
          RoundNumber: 1,
          Country: "Australia",
          Location: "Melbourne",
+         Session1: "Practice 1",
          Session1Date: Date(),
-         Session5Date: Date(),
+         Session2: "Practice 2",
+         Session2Date: Date().addingTimeInterval(60 * 60 * 24),
+         Session3: "Practice 3",
+         Session3Date: Date().addingTimeInterval(60 * 60 * 48),
+         Session4: "Qualifying",
+         Session4Date: Date().addingTimeInterval(60 * 60 * 72),
+         Session5: "Race",
+         Session5Date: Date().addingTimeInterval(60 * 60 * 96),
          circuitId: "albert_park",
          circuitName: "Albert Park Circuit"
-
      )
  }
