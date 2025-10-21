@@ -9,8 +9,9 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var viewModel = ScheduleViewModel()
-        
-    // This logic is correct and finds the next race weekend
+    @StateObject private var driverModel = DriverStandingsModel()
+    @StateObject private var constructorModel = ConstructorStandingsModel()
+
     var upcomingRaces: [RaceSchedule] {
         viewModel.races
             .filter { $0.Session5Date >= Date() }
@@ -27,24 +28,27 @@ struct HomeView: View {
         }
         .padding(.vertical, 10)
         ScrollView {
-            LazyVStack(spacing: 40) { // Increased spacing for the new text
+            LazyVStack(spacing: 20) {
                 if let race = upcomingRaces.first {
-                    // --- CHANGE 1: Pass the whole race object ---
-                    // This is cleaner and gives the card all the data it needs.
                     HomeCard(race: race)
                 } else {
                     Text("No upcoming races.")
                         .foregroundColor(.white)
                         .padding()
                 }
+                DriverStandingsTop3View(viewModel: driverModel)
+                ConstructorStandingsTop3View(viewModel: constructorModel)
+                /*
+                ForEach(driverModel.drivers.topThree()) { driver in
+                    Text("\(driver.Position). \(driver.FullName)")
+                }*/
             }
-            .padding(.vertical) // Add some padding
+            .padding(.vertical)
         }
     }
 }
 
 struct HomeCard: View {
-    // --- It now takes the entire race object ---
         let race: RaceSchedule
         
         @State private var now = Date()
@@ -80,15 +84,16 @@ struct HomeCard: View {
                         .clipped()
                         .shadow(radius: 3, y: 2)
                     
-                    HStack {
+                    VStack {
+                        // Round badge
                         if #available(iOS 26.0, *) {
-                            Text("☀️ 84°F")
+                            Text("R\(race.RoundNumber)")
                                 .font(.custom("SFPro-ExpandedBold", size: 15))
                                 .foregroundColor(.white)
                                 .padding(.vertical, 6)
                                 .padding(.horizontal, 10)
                                 .glassEffect()
-                                .padding(.leading, 25)
+                                //.padding(.trailing, 5)
                                 .padding(.top, 20)
                         } else {
                             Text("R\(race.RoundNumber)")
@@ -105,17 +110,15 @@ struct HomeCard: View {
                                 .padding(.trailing, 25)
                                 .padding(.top, 20)
                         }
-                        
-                        // Round badge
                         if #available(iOS 26.0, *) {
-                            Text("R\(race.RoundNumber)")
+                            Text("☀️ 84°F")
                                 .font(.custom("SFPro-ExpandedBold", size: 15))
                                 .foregroundColor(.white)
                                 .padding(.vertical, 6)
                                 .padding(.horizontal, 10)
                                 .glassEffect()
                                 .padding(.trailing, 25)
-                                .padding(.top, 20)
+                                //.padding(.top, 20)
                         } else {
                             Text("R\(race.RoundNumber)")
                                 .font(.custom("SFPro-ExpandedBold", size: 13))
@@ -231,6 +234,219 @@ struct HomeCard: View {
     }
 }
 
+// MARK: - Main Standings Card
+struct DriverStandingsTop3View: View {
+    // Takes the whole view model to access the drivers list
+    @ObservedObject var viewModel: DriverStandingsModel
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                // Card Title
+                Text("Driver's Standings")
+                    .font(.custom("SFPro-ExpandedBold", size: 20))
+                    .foregroundColor(.white)
+                    .padding(.top, 20)
+                    .padding(.bottom, 10)
+                    .padding(.leading)
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(.white)
+                    .padding(.trailing)
+                    .padding(.top, 10)
+            }
+            
+            // Loop through the top three drivers
+            VStack(spacing: 0) {
+                ForEach(viewModel.drivers.topThree()) { driver in
+                    DriverRowView(driver: driver)
+                    
+                    // Add a divider, but not for the last driver
+                    if driver.Position < 3 {
+                        Divider().background(Color.white.opacity(0.2)).padding(.horizontal)
+                    }
+                }
+            }
+            .padding(.bottom)
+        }
+        .background(.ultraThinMaterial)
+        .cornerRadius(20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.white.opacity(0.5), lineWidth: 0.4)
+        )
+        .padding(.horizontal)
+    }
+}
+
+// MARK: - Single Driver Row
+struct DriverRowView: View {
+    let driver: DriverStandings
+    
+    var body: some View {
+        ZStack {
+            Rectangle()
+                .fill(driver.TeamColor)
+                .frame(height: 60)
+                .cornerRadius(20)
+                .padding(15)
+                .overlay {
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            .black.opacity(0.6),
+                            .black.opacity(0)
+                        ]),
+                        startPoint: .bottom,
+                        endPoint: .top
+                    )
+                    .cornerRadius(20)
+                    .padding(15)
+                }
+                .shadow(radius: 3, y: 2)
+            
+            HStack {
+                // Position
+                Text("\(driver.Position)")
+                    .font(.custom("SFPro-ExpandedBold", size: 22))
+                    .frame(width: 40)
+                
+                // Driver Image
+                Image(driver.FullName) // Assumes you have images named "Max Verstappen", etc.
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 60, height: 60, alignment: .top)
+                    .clipped()
+                
+                // Driver Name and Team
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(driver.FullName)
+                        .font(.custom("SFPro-ExpandedBold", size: 17))
+                }
+                
+                Image(driver.ConstructorNames.first ?? "")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 40, height: 40)
+
+                Spacer()
+                
+                // Points
+                Text("\(driver.Points)")
+                    .font(.custom("SFPro-ExpandedBold", size: 19))
+                    .padding(.trailing, 25)
+            }
+            .foregroundColor(.white)
+            .padding(.vertical, 8)
+            .padding(.leading, 15)
+        }
+    }
+}
+
+struct ConstructorStandingsTop3View: View {
+    // Takes the whole view model to access the drivers list
+    @ObservedObject var viewModel: ConstructorStandingsModel
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                // Card Title
+                Text("Constructor's Standings")
+                    .font(.custom("SFPro-ExpandedBold", size: 20))
+                    .foregroundColor(.white)
+                    .padding(.top, 20)
+                    .padding(.bottom, 10)
+                    .padding(.leading)
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(.white)
+                    .padding(.trailing)
+                    .padding(.top, 10)
+            }
+            
+            // Loop through the top three drivers
+            VStack(spacing: 0) {
+                ForEach(viewModel.constructors.topThree()) { constructor in
+                    ConstructorRowView(constructor: constructor)
+                    
+                    // Add a divider, but not for the last driver
+                    if constructor.Position < 3 {
+                        Divider().background(Color.white.opacity(0.2)).padding(.horizontal)
+                    }
+                }
+            }
+            .padding(.bottom)
+        }
+        .background(.ultraThinMaterial)
+        .cornerRadius(20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.white.opacity(0.5), lineWidth: 0.4)
+        )
+        .padding(.horizontal)
+    }
+}
+
+// MARK: - Single Driver Row
+struct ConstructorRowView: View {
+    let constructor: ConstructorStandings
+    
+    var body: some View {
+        ZStack {
+            Rectangle()
+                .fill(constructor.TeamColor)
+                .frame(height: 60)
+                .cornerRadius(20)
+                .padding(15)
+                .overlay {
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            .black.opacity(0.6),
+                            .black.opacity(0)
+                        ]),
+                        startPoint: .bottom,
+                        endPoint: .top
+                    )
+                    .cornerRadius(20)
+                    .padding(15)
+                }
+                .shadow(radius: 3, y: 2)
+            
+            HStack {
+                // Position
+                Text("\(constructor.Position)")
+                    .font(.custom("SFPro-ExpandedBold", size: 22))
+                    .frame(width: 40)
+                
+                // Driver Image
+                Image(constructor.ConstructorName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 40)
+                
+                // Driver Name and Team
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(constructor.ConstructorName)
+                        .font(.custom("SFPro-ExpandedBold", size: 17))
+                }
+
+                Spacer()
+                
+                // Points
+                Text("\(constructor.Points)")
+                    .font(.custom("SFPro-ExpandedBold", size: 19))
+                    .padding(.trailing, 25)
+            }
+            .foregroundColor(.white)
+            .padding(.vertical, 8)
+            .padding(.leading, 15)
+        }
+    }
+}
+
 #Preview {
     HomeView()
 }
@@ -263,7 +479,7 @@ struct SessionCountdownView: View {
         guard let session = session else { return 0 }
         
         switch session.name.uppercased() {
-        case "RACE":
+        case "RACE", "SPRINT":
             if timeRemaining <= 0 { return 0 } // Race starts, lights out!
             let daysRemaining = ceil(timeRemaining / 86400)
             if daysRemaining > 5 { return 0 }

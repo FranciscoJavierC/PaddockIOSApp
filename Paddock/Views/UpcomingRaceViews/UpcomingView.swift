@@ -43,7 +43,7 @@ struct UpcomingView: View {
             }
             .navigationDestination(isPresented: $showDetail) {
                 if let race = selectedRace {
-                    PreviousRaceDetailView(race: race)
+                    RaceDetailView(race: race)
                 }
             }
         }

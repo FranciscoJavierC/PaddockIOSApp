@@ -53,3 +53,11 @@ class ConstructorStandingsModel: ObservableObject {
         }
     }
 }
+
+extension Array where Element == ConstructorStandings {
+    /// Returns the top three drivers from the standings.
+    func topThree() -> [ConstructorStandings] {
+        return Array(self.prefix(3))
+    }
+}
+

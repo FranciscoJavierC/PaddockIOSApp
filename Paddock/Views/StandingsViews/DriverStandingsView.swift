@@ -76,18 +76,6 @@ struct DriverStandingsCard: View {
                     }
                     .shadow(radius: 3, y: 2)
                 
-                /*
-                // 👇 Team logo as faint background watermark
-                Image(teamLogo)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 100)
-                    .padding(.vertical, 6)
-                    .padding(.horizontal, 10)
-                    .padding(.trailing, 270)
-                    .padding(.top, 10)
-                 */
-                
                 // Driver number badge (like race round badge)
                 if #available(iOS 26.0, *) {
                     Text("#\(driverNumber)")

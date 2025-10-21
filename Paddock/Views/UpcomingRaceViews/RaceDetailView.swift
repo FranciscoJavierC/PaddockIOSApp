@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PreviousRaceDetailView: View {
+struct RaceDetailView: View {
     @State private var activeTab: RaceDetailTab = .overview
     @Environment(\.dismiss) var dismiss
     let race: RaceSchedule
@@ -213,7 +213,7 @@ enum RaceDetailTab: String, CaseIterable {
 }
 
 #Preview {
-    PreviousRaceDetailView(race: RaceSchedule.example)
+    RaceDetailView(race: RaceSchedule.example)
 }
 
 extension RaceSchedule {

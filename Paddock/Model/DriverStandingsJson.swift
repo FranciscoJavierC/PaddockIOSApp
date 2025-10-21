@@ -88,3 +88,10 @@ class DriverStandingsModel: ObservableObject {
         }
     }
 }
+
+extension Array where Element == DriverStandings {
+    /// Returns the top three drivers from the standings.
+    func topThree() -> [DriverStandings] {
+        return Array(self.prefix(3))
+    }
+}
