@@ -102,7 +102,7 @@ driverStandings = latest[["driverId", "position", "driverNumber", "fullName", "c
 json_data = driverStandings.to_json(orient="records", date_format="iso")
 
 # Save to file
-with open("driver_standings_2025.json", "w") as f:
+with open("../Paddock/driver_standings_2025.json", "w") as f:
     f.write(json_data)
 
-print("JSON file created: driver_standings_2025.json")
+print("JSON file created: ../Paddock/driver_standings_2025.json")

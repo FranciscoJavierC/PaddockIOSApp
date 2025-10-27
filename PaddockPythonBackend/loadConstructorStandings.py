@@ -123,7 +123,7 @@ constructorStandings = constructorLatest[['constructorId', 'constructorName', 'p
 json_data = constructorStandings.to_json(orient="records", date_format="iso")
 
 # Save to file
-with open("constructor_standings_2025.json", "w") as f:
+with open("../Paddock/constructor_standings_2025.json", "w") as f:
     f.write(json_data)
 
-print("JSON file created: constructor_standings_2025.json")
+print("JSON file created: ../Paddock/constructor_standings_2025.json")
