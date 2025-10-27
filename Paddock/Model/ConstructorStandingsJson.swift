@@ -35,22 +35,32 @@ struct ConstructorStandings: Codable, Identifiable {
 class ConstructorStandingsModel: ObservableObject {
     @Published var constructors: [ConstructorStandings] = []
     
-    init () {
-        loadConstructorStandings()
+    func loadConstructorStandings() {
+        // 🔗 Replace this with your actual GitHub raw URL
+        guard let url = URL(string: "https://raw.githubusercontent.com/FranciscoJavierC/PaddockIOSApp/main/constructor_standings_2025.json") else {
+            print("Invalid GitHub URL")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                DispatchQueue.main.async {
+                    do {
+                        let decoder = JSONDecoder()
+                        self.constructors = try decoder.decode([ConstructorStandings].self, from: data)
+                        print("✅ Constructor standings loaded from GitHub")
+                    } catch {
+                        print("❌ Decoding error:", error)
+                    }
+                }
+            } else if let error = error {
+                print("❌ Network error:", error)
+            }
+        }.resume()
     }
     
-    func loadConstructorStandings() {
-        if let url = Bundle.main.url(forResource: "constructor_standings_2025", withExtension: "json") {
-            do {
-                let data = try Data(contentsOf: url)
-                let decoder = JSONDecoder()
-                constructors = try decoder.decode ([ConstructorStandings].self, from: data)
-            } catch {
-                print("Failed to load JSON: ", error)
-            }
-        } else {
-            print("constructor_standings_2025.json not found in bundle")
-        }
+    init() {
+        loadConstructorStandings()
     }
 }
 

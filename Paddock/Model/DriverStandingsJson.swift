@@ -70,22 +70,32 @@ extension Color {
 class DriverStandingsModel: ObservableObject {
     @Published var drivers: [DriverStandings] = []
     
-    init () {
-        loadDriverStandings()
+    func loadDriverStandings() {
+        // 🔗 Replace this with your actual GitHub raw URL
+        guard let url = URL(string: "https://raw.githubusercontent.com/FranciscoJavierC/PaddockIOSApp/main/driver_standings_2025.json") else {
+            print("Invalid GitHub URL")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                DispatchQueue.main.async {
+                    do {
+                        let decoder = JSONDecoder()
+                        self.drivers = try decoder.decode([DriverStandings].self, from: data)
+                        print("✅ Constructor standings loaded from GitHub")
+                    } catch {
+                        print("❌ Decoding error:", error)
+                    }
+                }
+            } else if let error = error {
+                print("❌ Network error:", error)
+            }
+        }.resume()
     }
     
-    func loadDriverStandings() {
-        if let url = Bundle.main.url(forResource: "driver_standings_2025", withExtension: "json") {
-            do {
-                let data = try Data(contentsOf: url)
-                let decoder = JSONDecoder()
-                drivers = try decoder.decode([DriverStandings].self, from: data)
-            } catch {
-                print("Failed to load JSON: ", error)
-            }
-        } else {
-            print("driver_standings_2025.json not found in bundle")
-        }
+    init() {
+        loadDriverStandings()
     }
 }
 
