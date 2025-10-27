@@ -24,6 +24,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r PaddockPythonBackend/requirements.txt
 
+      - name: Create FastF1 cache directory
+        working-directory: PaddockPythonBackend
+        run: mkdir cache
+
       - name: Generate driver and constructor standings
         working-directory: PaddockPythonBackend
         run: |
