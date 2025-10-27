@@ -22,14 +22,16 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r Paddock/requirements.txt
 
       - name: Generate driver and constructor standings
+        working-directory: Paddock
         run: |
           python driver_standings.py
           python constructor_standings.py
 
       - name: Commit and push updated JSON
+        working-directory: Paddock
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
