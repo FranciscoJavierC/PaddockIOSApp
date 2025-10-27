@@ -86,7 +86,6 @@ struct UpcomingRaceCard: View {
                         .cornerRadius(20)
                         .padding(15)
                         .clipped()
-                        //.overlay { ReadabilityRoundedRectangle() }
                         .shadow(radius: 3, y: 2)
 
                     // Round badge

@@ -1,215 +1,106 @@
 import SwiftUI
 
 struct RaceDetailView: View {
-    @State private var activeTab: RaceDetailTab = .overview
+    @State private var activeTab: RaceDetailTab = .weekend
     @Environment(\.dismiss) var dismiss
     let race: RaceSchedule
-    
-    // State to track if the content header is visible.
     @State private var isHeaderVisible: Bool = true
-
+    
+    init(race: RaceSchedule) {
+        self.race = race
+        // Selected segment color
+        UISegmentedControl.appearance().selectedSegmentTintColor = .red
+                
+        let font = UIFont(name: "SFPro-ExpandedBold", size: 13)!
+        UISegmentedControl.appearance().setTitleTextAttributes([.font: font, .foregroundColor: UIColor.white], for: .selected)
+        UISegmentedControl.appearance().setTitleTextAttributes([.font: font, .foregroundColor: UIColor.gray], for: .normal)
+    }
+    
     var body: some View {
         NavigationStack {
             if #available(iOS 26.0, *) {
-                GeometryReader { geometry in
-                    ScrollView {
-                        VStack(spacing: 0) {
-                            // MARK: - Header
-                            ZStack(alignment: .bottom) {
-                                Image("\(race.Country)Flag")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: geometry.size.width, height: 300) // 1. Use the geometry reader's width
-                                    .clipped()
-                                    .ignoresSafeArea(edges: .top)
-                                
-                                LinearGradient(
-                                    gradient: Gradient(colors: [
-                                        Color.black.opacity(0),
-                                        Color.black.opacity(0.7)
-                                    ]),
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                )
-                                .frame(width: geometry.size.width, height: 300) // 1. Use the geometry reader's width
-                                .ignoresSafeArea(edges: .top)
-                                
-                                Text(race.Location.uppercased())
-                                    .font(.custom("SFPro-ExpandedBold", size: 28))
-                                    .foregroundColor(.white)
-                                    .shadow(radius: 5)
-                                    .padding(.bottom, 130)
-                                
-                                if isHeaderVisible {
-                                    tabBar
-                                }
-                            }
-                            .onScrollVisibilityChange { isVisible in
-                                withAnimation {
-                                    isHeaderVisible = isVisible
-                                }
-                            }
-                            
-                            // MARK: - Tab Bar and Tab Content
-                            VStack(spacing: 16) {
-                                tabContent
-                            }
-                            .frame(width: geometry.size.width) // 2. Explicitly set width to screen width
-                            .padding(.top, 16)
-                        }
-                    }
-                }
-                .ignoresSafeArea(edges: .top)
-                .scrollEdgeEffectHidden(isHeaderVisible)
-                
-                // Conditionally apply the title within the toolbar.
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        // Show the toolbar title only when the header is NOT visible.
-                        if !isHeaderVisible {
-                            HStack {
-                                Image("\(race.Country)Flag")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 20)
-                                    .cornerRadius(3)
-                                
-                                Text(race.displayCountry)
-                                    .font(.custom("SFPro-ExpandedBold", size: 16))
-                            }
-                        }
-                    }
-                }
-                .safeAreaInset(edge: .top) {
-                    if !isHeaderVisible {
-                        tabBar
-                            .background(Color.black.opacity(0.6))
-                    }
-                }
-                
-            } else {
-                // Fallback on earlier versions
                 ScrollView {
                     VStack(spacing: 0) {
-                        // MARK: - Header
-                        ZStack(alignment: .bottom) {
+                        // MARK: - Header (Copied from Upcoming Card)
+                        ZStack {
+                            // Flag background
                             Image("\(race.Country)Flag")
                                 .resizable()
                                 .scaledToFill()
-                                .frame(height: 220)
+                                .frame(height: 200)
+                                .cornerRadius(20)
+                                .padding(15)
                                 .clipped()
-                                .ignoresSafeArea(edges: .top)
-                            
-                            // Subtle top gradient for legibility over the image
-                            LinearGradient(
-                                gradient: Gradient(colors: [Color.black.opacity(0.35), .clear]),
-                                startPoint: .top,
-                                endPoint: .center
-                            )
-                            .ignoresSafeArea(edges: .top)
-                            
-                            Text(race.displayCountry)
-                                .font(.custom("SFPro-ExpandedBold", size: 28))
-                                .foregroundColor(.white)
-                                .shadow(radius: 5)
-                                .padding(.bottom, 90)
+                                .shadow(radius: 3, y: 2)
                         }
-                        // Apply onScrollVisibilityChange directly to the header ZStack
-                        .onScrollVisibilityChange { isVisible in
-                            withAnimation {
-                                isHeaderVisible = isVisible
-                            }
-                        }
+                        .padding(.top, 100)
                         
-                        VStack {
-                            Spacer()
-                            if isHeaderVisible {
-                                tabBar
-                            }
+                        // MARK: - Tab Section
+                        VStack(spacing: 20) {
+                            tabBar
+                            tabContent
                         }
-                        
-                        // MARK: - Tab Content
-                        tabContent
-                            .padding(.top, 16)
                     }
                 }
                 .ignoresSafeArea(edges: .top)
-
-                // Conditionally apply the title within the toolbar.
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        // Show the toolbar title only when the header is NOT visible.
-                        if !isHeaderVisible {
-                            HStack {
-                                Image("AustrailianFlag")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 20)
-                                    .cornerRadius(3)
-                                
-                                
-                                Text("Australia")
-                                    .font(.custom("SFPro-ExpandedBold", size: 16))
-                            }
-                        }
-                    }
-                }
-                .safeAreaInset(edge: .top) {
-                    if !isHeaderVisible {
-                        tabBar
-                            .background(Color.black.opacity(0.6))
-                    }
-                }
+                //.scrollEdgeEffectHidden(isHeaderVisible)
+            } else {
+                // Fallback on earlier versions
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-    }
-    
-    // MARK: - Tab Bar
-    private var tabBar: some View {
-        HStack {
-            ForEach(RaceDetailTab.allCases, id: \.self) { tab in
-                Button(action: { activeTab = tab }) {
-                    Text(tab.rawValue)
-                        .font(.custom("SFPro-ExpandedBold", size: 16))
-                        .foregroundColor(activeTab == tab ? .white : .gray)
-                        .padding(.vertical, 8)
-                        .frame(maxWidth: .infinity)
-                        .background(
-                            ZStack {
-                                if activeTab == tab {
-                                    Rectangle()
-                                        .fill(Color.red)
-                                        .frame(height: 3)
-                                        .offset(y: 25)
-                                }
-                            }
-                        )
-                }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                // Round badge
+                Text("R\(race.RoundNumber)")
+                    .font(.custom("SFPro-ExpandedBold", size: 15))
+                    .foregroundColor(.white)
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 10)
+            }
+            ToolbarItem(placement: .principal) {
+                Text(race.Location)
+                    .font(.custom("SFPro-ExpandedBold", size: 15))
             }
         }
-        .padding()
+        
+    }
+    
+    // MARK: - Tab Bar (Segmented Control Style)
+    private var tabBar: some View {
+        Picker("Select Tab", selection: $activeTab) {
+            ForEach(RaceDetailTab.allCases, id: \.self) { tab in
+                Text(tab.rawValue)
+                    .tag(tab) // Associate each text label with its corresponding tab case
+            }
+        }
+        // Apply the segmented control style
+        .pickerStyle(.segmented)
+        // Add consistent padding
+        .padding(.horizontal)
+        // Optional: Add some vertical padding if needed
+        .padding(.vertical, 8)
     }
     
     // MARK: - Tab Content
     @ViewBuilder
     private var tabContent: some View {
         switch activeTab {
-        case .overview:
-            OverviewView()
+        case .weekend:
+            WeekendTabView(race: race)
+        case .track:
+            CircuitInfoView(race: race)
         case .standings:
             StandingsDetailView()
-        case .circuit:
-            CircuitInfoView()
         }
     }
 }
 
 // MARK: - Tabs enum
 enum RaceDetailTab: String, CaseIterable {
-    case overview = "Overview"
+    case weekend = "Weekend"
+    case track = "Track"
     case standings = "Standings"
-    case circuit = "Circuit"
 }
 
 #Preview {

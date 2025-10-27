@@ -13,8 +13,16 @@ struct HomeView: View {
     @StateObject private var constructorModel = ConstructorStandingsModel()
 
     var upcomingRaces: [RaceSchedule] {
-        viewModel.races
-            .filter { $0.Session5Date >= Date() }
+        // Add a 3-hour (10,800 seconds) buffer after the last race start
+        let bufferTime: TimeInterval = 3 * 60 * 60
+        let now = Date()
+        
+        return viewModel.races
+            .filter { race in
+                // Only show if the race's main event (Session5) starts in the future
+                // OR within the last 3 hours
+                race.Session5Date.addingTimeInterval(bufferTime) >= now
+            }
             .sorted { $0.Session5Date < $1.Session5Date }
     }
     
@@ -93,32 +101,8 @@ struct HomeCard: View {
                                 .padding(.vertical, 6)
                                 .padding(.horizontal, 10)
                                 .glassEffect()
-                                //.padding(.trailing, 5)
-                                .padding(.top, 20)
-                        } else {
-                            Text("R\(race.RoundNumber)")
-                                .font(.custom("SFPro-ExpandedBold", size: 13))
-                                .foregroundColor(.white)
-                                .padding(.vertical, 6)
-                                .padding(.horizontal, 10)
-                                .background(Capsule().fill(Color.red.opacity(0.9)))
-                                .overlay(
-                                    Capsule()
-                                        .stroke(Color.white.opacity(0.9), lineWidth: 1)
-                                )
-                                .shadow(color: .black.opacity(0.4), radius: 4, x: 0, y: 2)
                                 .padding(.trailing, 25)
                                 .padding(.top, 20)
-                        }
-                        if #available(iOS 26.0, *) {
-                            Text("☀️ 84°F")
-                                .font(.custom("SFPro-ExpandedBold", size: 15))
-                                .foregroundColor(.white)
-                                .padding(.vertical, 6)
-                                .padding(.horizontal, 10)
-                                .glassEffect()
-                                .padding(.trailing, 25)
-                                //.padding(.top, 20)
                         } else {
                             Text("R\(race.RoundNumber)")
                                 .font(.custom("SFPro-ExpandedBold", size: 13))
@@ -171,7 +155,7 @@ struct HomeCard: View {
                         {
                             _ in now = Date()
                         }
-                        
+                                                
                         Image("\(race.Location)Circuit")
                             .resizable()
                             .scaledToFit()
@@ -322,7 +306,7 @@ struct DriverRowView: View {
                 // Driver Name and Team
                 VStack(alignment: .leading, spacing: 2) {
                     Text(driver.FullName)
-                        .font(.custom("SFPro-ExpandedBold", size: 17))
+                        .font(.custom("SFPro-ExpandedBold", size: 15))
                 }
                 
                 Image(driver.ConstructorNames.first ?? "")
@@ -334,8 +318,8 @@ struct DriverRowView: View {
                 
                 // Points
                 Text("\(driver.Points)")
-                    .font(.custom("SFPro-ExpandedBold", size: 19))
-                    .padding(.trailing, 25)
+                    .font(.custom("SFPro-ExpandedBold", size: 17))
+                    .padding(.trailing, 30)
             }
             .foregroundColor(.white)
             .padding(.vertical, 8)
@@ -430,15 +414,15 @@ struct ConstructorRowView: View {
                 // Driver Name and Team
                 VStack(alignment: .leading, spacing: 2) {
                     Text(constructor.ConstructorName)
-                        .font(.custom("SFPro-ExpandedBold", size: 17))
+                        .font(.custom("SFPro-ExpandedBold", size: 15))
                 }
 
                 Spacer()
                 
                 // Points
                 Text("\(constructor.Points)")
-                    .font(.custom("SFPro-ExpandedBold", size: 19))
-                    .padding(.trailing, 25)
+                    .font(.custom("SFPro-ExpandedBold", size: 17))
+                    .padding(.trailing, 30)
             }
             .foregroundColor(.white)
             .padding(.vertical, 8)
