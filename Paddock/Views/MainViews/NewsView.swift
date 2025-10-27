@@ -9,7 +9,7 @@ struct NewsView: View {
             HStack {
                 Text("News")
                     .font(.custom("SFPro-ExpandedBold", size: 35))
-                    .foregroundColor(.adaptiveText)
+                    .foregroundColor(Color.white)
                     .padding(.leading)
                 Spacer()
             }

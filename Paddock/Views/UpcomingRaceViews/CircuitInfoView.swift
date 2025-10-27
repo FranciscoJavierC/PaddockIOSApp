@@ -1,32 +1,26 @@
 import SwiftUI
 
 struct CircuitInfoView: View {
+    let race: RaceSchedule
+
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                
                 // MARK: - Circuit Header Card
                 VStack {
                     HStack {
-                        Image("AustrailianFlag")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 50)
-                            .clipShape(Circle())
-                            .overlay(
-                                Circle().stroke(Color.white, lineWidth: 1)
-                            )
-                        Text("Albert Park Circuit")
+                        Text(race.circuitName ?? "TBA")
                             .font(.custom("SFPro-ExpandedRegular", size: 22))
                     }
                     
                     Divider().background(Color.white.opacity(0.3))
 
-                    Image("AustrailianGP")
+                    Image("\(race.Location)Circuit")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 250)
                         .padding(.top, 10)
+                        .colorInvert()
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -34,7 +28,7 @@ struct CircuitInfoView: View {
                 .cornerRadius(20)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .stroke(Color.white.opacity(0.8), lineWidth: 1)
+                        .stroke(Color.white.opacity(0.5), lineWidth: 0.4)
                 )
                 
                 // MARK: - Circuit Info Card
@@ -65,7 +59,7 @@ struct CircuitInfoView: View {
                 .cornerRadius(20)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .stroke(Color.white.opacity(0.8), lineWidth: 1)
+                        .stroke(Color.white.opacity(0.5), lineWidth: 0.4)
                 )
             }
             .foregroundColor(.white)
@@ -97,5 +91,5 @@ private func statBlock(title: String, value: String, subtitle: String? = nil, al
 
 
 #Preview {
-    CircuitInfoView()
+    CircuitInfoView(race: RaceSchedule.example)
 }

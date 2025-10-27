@@ -36,7 +36,7 @@ struct SettingsView: View {
                 VStack(alignment: .leading, spacing: 24) {
                     Text("Settings")
                         .font(.custom("SFPro-ExpandedBold", size: 35))
-                        .foregroundColor(.adaptiveText)
+                        .foregroundColor(Color.white)
                         .padding(.horizontal)
                     
                     SettingsSection(header: "App Preferences") {

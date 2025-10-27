@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ConstructorDetailView: View {
+    let constructor: ConstructorStandings 
     @State private var activeTab: ConstructorDetailTab = .profile
     @Environment(\.dismiss) var dismiss
     
@@ -22,7 +23,7 @@ struct ConstructorDetailView: View {
                             VStack(spacing: 0) {
                                 ZStack(alignment: .bottomLeading) {
                                     Rectangle()
-                                        .fill(.orange)
+                                        .fill(constructor.TeamColor)
                                         .cornerRadius(20)
                                     
                                     LinearGradient(
@@ -33,15 +34,15 @@ struct ConstructorDetailView: View {
                                     .frame(height: 400)
                                     .ignoresSafeArea(edges: .top)
                                     
-                                    Image("McLaren")
+                                    Image(constructor.ConstructorName)
                                         .resizable()
-                                        .scaledToFit()
-                                        .frame(height: 450)
-                                        .clipped()
-                                        .cornerRadius(20)
+                                        .scaledToFill()
+                                        .frame(width: 200, height: 250)
+                                        .padding(.horizontal, 120)
+                                        .padding(.bottom, 100)
                                     
                                     VStack(alignment: .leading) {
-                                        Text("McLaren")
+                                        Text(constructor.ConstructorName)
                                             .font(.custom("SFPro-ExpandedBold", size: 28))
                                             .foregroundColor(.white)
                                     }
@@ -78,14 +79,14 @@ struct ConstructorDetailView: View {
                             // Show the toolbar title only when the header is NOT visible.
                             if !isHeaderVisible {
                                 HStack {
-                                    Image("McLaren")
+                                    Image(constructor.ConstructorName)
                                         .resizable()
                                         .scaledToFit()
                                         .frame(height: 30)
                                         .clipped()
                                         .cornerRadius(20)
                                     
-                                    Text("McLaren")
+                                    Text(constructor.ConstructorName)
                                         .font(.custom("SFPro-ExpandedBold", size: 16))
                                 }
                             }
@@ -97,7 +98,7 @@ struct ConstructorDetailView: View {
                                 .background(
                                     ZStack {
                                         Rectangle()
-                                            .fill(.orange)
+                                            .fill(constructor.TeamColor)
                                             .frame(height: 180)
                                             .cornerRadius(20)
                                             .ignoresSafeArea(edges: .top)
@@ -219,7 +220,7 @@ struct ConstructorDetailView: View {
                             ZStack {
                                 if activeTab == tab {
                                     Rectangle()
-                                        .fill(Color.orange)
+                                        .fill(constructor.TeamColor)
                                         .frame(height: 3)
                                         .offset(y: 20)
                                 }
@@ -236,7 +237,7 @@ struct ConstructorDetailView: View {
     private var tabContent: some View {
         switch activeTab {
         case .profile:
-            ConstructorProfileView()
+            ConstructorProfileView(constructor: constructor)
         case .races:
             ConstructorRacesView()
         case .stats:
@@ -278,5 +279,13 @@ enum ConstructorDetailTab: String, CaseIterable {
 }
 
 #Preview {
-    ConstructorDetailView()
+    ConstructorDetailView(constructor: ConstructorStandings(
+            ConstructorName: "McLaren",
+            Points: 150,
+            Position: 1,
+            Drivers: ["Oscar Piastri", "Lando Norris"],
+            DriverPoints: [80, 70],
+            TeamColorHex: "#FF9800",
+            constructorId: "mclaren"
+        ))
 }

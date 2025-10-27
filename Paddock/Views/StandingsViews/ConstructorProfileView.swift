@@ -40,10 +40,24 @@
 import SwiftUI
 
 struct ConstructorProfileView: View {
-    let drivers = [
-        Driver(name: "Lando Norris", image: "Norris", number: "4"),
-        Driver(name: "Oscar Piastri", image: "Piastri", number: "81")
-    ]
+    let constructor: ConstructorStandings
+    
+    // Map constructor drivers to DriverStandings by matching names
+    var drivers: [DriverStandings] {
+        // Map Drivers and DriverPoints arrays to DriverStandings
+        constructor.Drivers.enumerated().map { index, name in
+            DriverStandings(
+                driverId: name.lowercased().replacingOccurrences(of: " ", with: ""),
+                Position: index + 1, // Or match real position if available
+                DriverNumber: constructor.DriverPoints.indices.contains(index) ? constructor.DriverPoints[index] : 0,
+                FullName: name,
+                CountryName: "Unknown",
+                ConstructorNames: [constructor.ConstructorName],
+                TeamColorHex: constructor.TeamColorHex,
+                Points: constructor.DriverPoints.indices.contains(index) ? constructor.DriverPoints[index] : 0
+            )
+        }
+    }
     
     let car = [
         Car(name: "MCL39", image: "MclarenCar")
@@ -56,157 +70,113 @@ struct ConstructorProfileView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 28) {
-                VStack(alignment: .leading, spacing: 20) {
-                    InfoCard()
-                    Text("Drivers")
-                        .font(.custom("SFPro-ExpandedBold", size: 20))
-                    
-                    LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(drivers) { driver in
-                            DriverCard(driver: driver)
-                        }
+            VStack(alignment: .leading, spacing: 28) {
+                InfoCard()
+                
+                Text("Drivers")
+                    .font(.custom("SFPro-ExpandedBold", size: 20))
+                
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(drivers) { driver in
+                        DriverCard(driver: driver)
                     }
-                    
-                    Text("Chassis")
-                        .font(.custom("SFPro-ExpandedBold", size: 20))
-                    
-                    ForEach(car) { chassis in
-                        CarChasisCard(car: chassis)
-                            .frame(height: 200)
-                    }
-                    
-                    ForEach(car) { chassis in
-                        CarChasisCard(car: chassis)
-                            .frame(height: 200)
-                    }
-                    
-                    ForEach(car) { chassis in
-                        CarChasisCard(car: chassis)
-                            .frame(height: 200)
-                    }
-                    
-                    ForEach(car) { chassis in
-                        CarChasisCard(car: chassis)
-                            .frame(height: 200)
-                    }
+                }
+                
+                Text("Chassis")
+                    .font(.custom("SFPro-ExpandedBold", size: 20))
+                
+                ForEach(car) { chassis in
+                    CarChasisCard(car: chassis)
+                        .frame(height: 200)
                 }
             }
             .padding()
-            //.padding(.bottom, 80)
         }
     }
 }
 
+// MARK: - Driver Card
 struct DriverCard: View {
-    let driver: Driver
-    
+    let driver: DriverStandings
+
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            // Orange background
             Rectangle()
-                .fill(Color.orange)
+                .fill(driver.TeamColor)
                 .cornerRadius(20)
             
-            // Dark gradient overlay at bottom
             LinearGradient(
-                gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]),
+                gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.6)]),
                 startPoint: .top,
                 endPoint: .bottom
             )
             .frame(height: 200)
-            .frame(maxHeight: .infinity, alignment: .bottom)
             
-            // Faded McLaren logo in background
-            Image("McLaren")
-                .resizable()
-                .scaledToFit()
-                .padding(20)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-            
-            // Driver image cropped (head → stomach)
-            Image(driver.image)
+            Image(driver.FullName)
                 .resizable()
                 .scaledToFill()
-                .frame(height: 200, alignment: .top) // adjust height for crop
+                .frame(height: 200, alignment: .top)
                 .clipped()
             
-            // Dark gradient overlay at bottom
             LinearGradient(
-                gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]),
+                gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.7)]),
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .frame(height: 100)
-            .frame(maxHeight: .infinity, alignment: .bottom)
             
-            // Driver info
             VStack(alignment: .leading, spacing: 4) {
-                Text(driver.name)
+                Text(driver.FullName)
                     .font(.custom("SFPro-ExpandedBold", size: 14))
                     .foregroundColor(.white)
-                Text("#\(driver.number)")
+                Text("#\(driver.DriverNumber)")
                     .font(.custom("SFPro-ExpandedRegular", size: 12))
+                    .foregroundColor(.white.opacity(0.8))
             }
             .padding(10)
         }
         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .stroke(Color.orange.opacity(0.5), lineWidth: 1)
+                .stroke(driver.TeamColor, lineWidth: 1)
         )
     }
 }
 
+// MARK: - Car Chassis Card
 struct CarChasisCard: View {
     let car: Car
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            // Orange background
             Rectangle()
                 .fill(Color.orange)
                 .cornerRadius(20)
             
-            // Dark gradient overlay at bottom
             LinearGradient(
                 gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]),
                 startPoint: .top,
                 endPoint: .bottom
             )
             .frame(height: 200)
-            .frame(maxHeight: .infinity, alignment: .bottom)
             
-            // Faded McLaren logo in background
             Image("McLaren")
                 .resizable()
                 .scaledToFit()
                 .padding(20)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             
-            // Driver image cropped (head → stomach)
             Image(car.image)
                 .resizable()
                 .scaledToFit()
                 .frame(height: 100)
                 .clipped()
             
-            // Dark gradient overlay at bottom
-            LinearGradient(
-                gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(0.8)]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .frame(height: 100)
-            .frame(maxHeight: .infinity, alignment: .bottom)
-            
-            // Driver info
             VStack(alignment: .leading, spacing: 4) {
                 Text(car.name)
                     .font(.custom("SFPro-ExpandedBold", size: 15))
+                    .foregroundColor(.white)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .foregroundColor(.white)
             }
             .padding(10)
         }
@@ -218,93 +188,76 @@ struct CarChasisCard: View {
     }
 }
 
+// MARK: - InfoCard (unchanged)
 struct InfoCard: View {
     var body: some View {
-        // MARK: - Top Card with 3x2 Layout
         VStack(spacing: 20) {
-            // Top row with 3 data points
+            // Top row
             HStack(spacing: 0) {
-                // Column 1: Country
                 VStack(spacing: 5) {
                     HStack(spacing: 5) {
-                        Image("UKFlag")
+                        Image("United KingdomFlag")
                             .resizable()
                             .scaledToFill()
                             .frame(width: 25, height: 20)
                             .cornerRadius(20)
-
                         Text("UK")
                             .font(.custom("SFPro-ExpandedRegular", size: 18))
                     }
                     Text("Country")
                         .font(.custom("SFPro-ExpandedRegular", size: 12))
                         .foregroundStyle(.secondary)
-                }
-                .frame(maxWidth: .infinity)
+                }.frame(maxWidth: .infinity)
                 
-                // Column 2: Team
                 VStack(spacing: 5) {
                     Text("Mercedes")
                         .font(.custom("SFPro-ExpandedRegular", size: 18))
                     Text("Power Unit")
                         .font(.custom("SFPro-ExpandedRegular", size: 12))
                         .foregroundStyle(.secondary)
-                }
-                .frame(maxWidth: .infinity)
+                }.frame(maxWidth: .infinity)
 
-                // Column 3: Number
                 VStack(spacing: 5) {
-                    Text("1966") // Placeholder, assuming this is the number
+                    Text("1966")
                         .font(.custom("SFPro-ExpandedRegular", size: 18))
                     Text("First Team Entry")
                         .font(.custom("SFPro-ExpandedRegular", size: 12))
                         .foregroundStyle(.secondary)
-                }
-                .frame(maxWidth: .infinity)
+                }.frame(maxWidth: .infinity)
             }
             
-            // Bottom row with 2 data points
+            // Bottom row
             HStack(spacing: 0) {
-                // Column 1: Height
                 VStack(spacing: 5) {
                     Text("Andres Stella")
                         .font(.custom("SFPro-ExpandedRegular", size: 18))
                     Text("Team Chief")
                         .font(.custom("SFPro-ExpandedRegular", size: 12))
                         .foregroundStyle(.secondary)
-                }
-                .frame(maxWidth: .infinity)
+                }.frame(maxWidth: .infinity)
                 
-                // Column 2: Date of Birth
                 VStack(spacing: 5) {
                     Text("1963")
                         .font(.custom("SFPro-ExpandedRegular", size: 18))
                     Text("Founded")
                         .font(.custom("SFPro-ExpandedRegular", size: 12))
                         .foregroundStyle(.secondary)
-                }
-                .frame(maxWidth: .infinity)
+                }.frame(maxWidth: .infinity)
             }
         }
         .padding()
         .frame(maxWidth: .infinity)
-        .foregroundColor(.white) // Apply a consistent text color
+        .foregroundColor(.white)
         .background(.ultraThinMaterial)
         .cornerRadius(20)
         .overlay(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
+            RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.white.opacity(0.8), lineWidth: 1)
         )
     }
 }
 
-struct Driver: Identifiable {
-    let id = UUID()
-    let name: String
-    let image: String
-    let number: String
-}
-    
+// MARK: - Car Model
 struct Car: Identifiable {
     let id = UUID()
     let name: String
@@ -312,5 +265,13 @@ struct Car: Identifiable {
 }
 
 #Preview {
-    ConstructorProfileView()
+    ConstructorProfileView(constructor: ConstructorStandings(
+            ConstructorName: "McLaren",
+            Points: 150,
+            Position: 1,
+            Drivers: ["Oscar Piastri", "Lando Norris"],
+            DriverPoints: [80, 70],
+            TeamColorHex: "#FF9800",
+            constructorId: "mclaren"
+        ))
 }

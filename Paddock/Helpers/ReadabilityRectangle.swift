@@ -4,11 +4,19 @@ import SwiftUI
 struct ReadabilityRoundedRectangle: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 20)
-            .foregroundStyle(.clear)
-            .background(
-                LinearGradient(colors: [.black.opacity(0.8), .clear], startPoint: .bottom, endPoint: .center)
+            .fill(
+                LinearGradient(
+                    gradient: Gradient(stops: [
+                        .init(color: .black.opacity(0.45), location: 0.0),
+                        .init(color: .black.opacity(0.25), location: 0.35),
+                        .init(color: .black.opacity(0.10), location: 0.65),
+                        .init(color: .clear, location: 1.0)
+                    ]),
+                    startPoint: .bottom,
+                    endPoint: .top
+                )
             )
-            .containerRelativeFrame(.vertical)
+            .frame(maxHeight: .infinity)
             .clipped()
     }
 }
