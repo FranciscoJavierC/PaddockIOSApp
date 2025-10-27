@@ -27,8 +27,8 @@ jobs:
       - name: Generate driver and constructor standings
         working-directory: PaddockPythonBackend
         run: |
-          python driver_standings.py
-          python constructor_standings.py
+          python loadDriverStandings.py
+          python loadConstructorStandings.py
 
       - name: Commit and push updated JSON
         run: |
