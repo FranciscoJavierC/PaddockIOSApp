@@ -11,6 +11,8 @@ struct PreviousView: View {
     @State private var selectedRace: RaceSchedule? = nil
     @State private var showDetail = false
     @StateObject private var viewModel = ScheduleViewModel()
+    @StateObject private var driverModel = DriverStandingsModel()
+    @StateObject private var allRaceData = RaceResultsModel()
     
     // Filter past races
     var pastRaces: [RaceSchedule] {
@@ -31,16 +33,22 @@ struct PreviousView: View {
                                 locality: race.Location,
                                 roundNumber: "Round \(race.RoundNumber)",
                                 raceNameFull: race.circuitName ?? "Unknown Circuit",
-                                raceDate: race.dayRangeWithMonth
-                            ) {
-                                selectedRace = race
-                                showDetail = true
-                            }
+                                raceDate: race.dayRangeWithMonth,
+                                podiumDrivers: allRaceData.podium(for: race.RoundNumber), // ✅ added
+                                onFullResultsTap: {
+                                    selectedRace = race
+                                    showDetail = true
+                                },
+                                driverModel: driverModel
+                            )
                         }
                     }
                     Spacer().frame(height: 20)
                 }
             }
+            .onAppear {
+               allRaceData.loadRaceResults() // ✅ make sure JSON loads
+           }
             .navigationDestination(isPresented: $showDetail) {
                 if let race = selectedRace {
                     RaceDetailView(race: race)
@@ -57,7 +65,10 @@ struct PreviousRaceCard: View {
     let roundNumber: String
     let raceNameFull: String
     let raceDate: String
+    let podiumDrivers: [DriverResult] // ✅ added
     let onFullResultsTap: () -> Void
+
+    @ObservedObject var driverModel: DriverStandingsModel
 
     var body: some View {
         ZStack {
@@ -128,49 +139,30 @@ struct PreviousRaceCard: View {
                             .padding(.top, 2)
                     }
                     
-                    // MARK: - Podium section (enhanced with flags and step labels)
-                    HStack(alignment: .bottom, spacing: 25) {
-                        // 🥈 2nd
-                        VStack {
-                            PodiumDriverView(
-                                driverName: "Norris",
-                                position: 2,
-                                gap: "+5.43",
-                                imageName: "Lando Norris",
-                                flagImage: "United KingdomFlag",
-                                teamColor: .orange
-                            )
-                            PodiumStep(height: 65, color: .orange, position: 2)
-                        }
+                    // MARK: - Podium section
+                    if !podiumDrivers.isEmpty {
+                        VStack(spacing: 10) {
+                            ForEach(podiumDrivers, id: \.id) { driver in
+                                let correctName = driverImageName(for: driver.driver)
+                                let driverStanding = driverModel.drivers.first(where: { $0.FullName == correctName })
+                                
+                                let teamColor = driverStanding?.TeamColor ?? .gray
 
-                        // 🥇 1st (center)
-                        VStack {
-                            PodiumDriverView(
-                                driverName: "Russell",
-                                position: 1,
-                                gap: "1:40:22:367",
-                                imageName: "George Russell",
-                                flagImage: "United KingdomFlag",
-                                teamColor: .teal
-                            )
-                            PodiumStep(height: 95, color: .teal, position: 1)
+                                let constructorName = driverStanding?.ConstructorNames.first ?? "Team"
+                                PodiumDriverView(
+                                    driverName: correctName,
+                                    position: driver.position ?? 0,
+                                    gap: driver.time_or_gap,
+                                    imageName: correctName,
+                                    constructorName: constructorName, // TODO: link constructor later
+                                    points: driver.points,
+                                    teamColor: teamColor // TODO: map team colors later
+                                )
+                            }
                         }
-
-                        // 🥉 3rd
-                        VStack {
-                            PodiumDriverView(
-                                driverName: "Verstappen",
-                                position: 3,
-                                gap: "+6.066",
-                                imageName: "Max Verstappen",
-                                flagImage: "NetherlandsFlag",
-                                teamColor: .blue
-                            )
-                            PodiumStep(height: 55, color: .blue, position: 3)
-                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 15)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 15)
 
                     // Add some space for button overlay
                     Spacer().frame(height: 40)
@@ -178,7 +170,6 @@ struct PreviousRaceCard: View {
                 .padding()
             }
             .background(.ultraThinMaterial)
-            //.overlay(ReadabilityRoundedRectangle())
             .cornerRadius(20)
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
@@ -218,7 +209,7 @@ struct PreviousRaceCard: View {
                     .contentShape(Rectangle())
                 }
             }
-            .padding(.bottom, 20) // adjust button position
+            .padding(.bottom, 20)
         }
     }
 }
@@ -228,62 +219,89 @@ struct PodiumDriverView: View {
     let position: Int
     let gap: String
     let imageName: String
-    let flagImage: String
+    let constructorName: String
+    let points: Int
     let teamColor: Color
 
     var body: some View {
         ZStack {
-            VStack(spacing: 6) {
+            Rectangle()
+                .fill(teamColor)
+                .frame(height: 60)
+                .cornerRadius(20)
+                //.padding(15)
+                .overlay {
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            .black.opacity(0.6),
+                            .black.opacity(0)
+                        ]),
+                        startPoint: .bottom,
+                        endPoint: .top
+                    )
+                    .cornerRadius(20)
+                    //.padding(15)
+                }
+                .shadow(radius: 3, y: 2)
+            
+            HStack {
+                // Position
+                Text("\(position)")
+                    .font(.custom("SFPro-ExpandedBold", size: 22))
+                    .frame(width: 20)
+                
+                // Driver Image
                 Image(imageName)
                     .resizable()
                     .scaledToFill()
-                    .frame(width: position == 1 ? 70 : 60, height: position == 1 ? 70 : 60, alignment: .top)
-                    .clipShape(Circle())
-                    .overlay(
-                        Circle()
-                            .stroke(teamColor, lineWidth: 2.5)
-                            .shadow(radius: 3)
-                    )
-                    .offset(y: -10)
-
-                Text(driverName)
-                    .font(.custom("SFPro-ExpandedRegular", size: 12))
-                    .foregroundColor(.white)
-                    .lineLimit(1)
+                    .frame(width: 60, height: 60, alignment: .top)
+                    .clipped()
                 
-                Text(gap)
-                    .font(.custom("SFPro-ExpandedRegular", size: 12))
-                    .foregroundColor(.white)
-                    .lineLimit(1)
+                // Driver Name and Team
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(driverName)
+                        .font(.custom("SFPro-ExpandedBold", size: 15))
+                }
+                .frame(width: 120, alignment: .leading)
+                                
+                Image(constructorName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 40, height: 40)
+
+                Spacer()
+                
+                // Points
+                HStack(alignment: .firstTextBaseline, spacing: 2) {
+                    // 2. The Number
+                    Text("\(points)")
+                        .font(.custom("SFPro-ExpandedBold", size: 17))
+                    
+                    // 3. The "Pts" label
+                    Text("pts")
+                        .font(.custom("SFPro-ExpandedBold", size: 14)) // Slightly smaller
+                        .opacity(0.8) // A bit transparent to de-emphasize
+                }
+                .padding(.trailing, 20)
             }
+            .foregroundColor(.white)
+            .padding(.vertical, 8)
+            .padding(.leading, 15)
         }
-        .frame(width: 90)
     }
 }
 
-struct PodiumStep: View {
-    let height: CGFloat
-    let color: Color
-    let position: Int
-
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 6)
-                .fill(Color.red.opacity(0.85)) // solid color with slight transparency
-                .frame(width: 80, height: height)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.white.opacity(0.6), lineWidth: 0.6)
-                )
-                .shadow(radius: 5, y: 3)
-            
-            // 🏆 Position label inside the step
-            Text("\(position)")
-                .font(.custom("SFPro-ExpandedBold", size: 16))
-                .foregroundColor(.white)
-                .shadow(radius: 2)
-        }
+// --- MARK: NEW HELPER FUNCTION ---
+/// Maps driver names from data to the correct image asset name.
+func driverImageName(for dataName: String) -> String {
+    if dataName == "Kimi Antonelli" {
+        return "Andrea Kimi Antonelli"
     }
+    if dataName == "Nico Hulkenberg" {
+        return "Nico Hülkenberg"
+    }
+    // For all other drivers, the name from the data matches the asset name
+    return dataName
 }
 
 #Preview {

@@ -37,7 +37,7 @@ class ConstructorStandingsModel: ObservableObject {
     
     func loadConstructorStandings() {
         // 🔗 Replace this with your actual GitHub raw URL
-        guard let url = URL(string: "https://raw.githubusercontent.com/FranciscoJavierC/PaddockIOSApp/main/constructor_standings_2025.json") else {
+        guard let url = URL(string: "https://raw.githubusercontent.com/FranciscoJavierC/PaddockIOSApp/main/Paddock/constructor_standings_2025.json") else {
             print("Invalid GitHub URL")
             return
         }

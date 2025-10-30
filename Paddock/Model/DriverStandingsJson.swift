@@ -72,7 +72,7 @@ class DriverStandingsModel: ObservableObject {
     
     func loadDriverStandings() {
         // 🔗 Replace this with your actual GitHub raw URL
-        guard let url = URL(string: "https://raw.githubusercontent.com/FranciscoJavierC/PaddockIOSApp/main/driver_standings_2025.json") else {
+        guard let url = URL(string: "https://raw.githubusercontent.com/FranciscoJavierC/PaddockIOSApp/main/Paddock/driver_standings_2025.json") else {
             print("Invalid GitHub URL")
             return
         }

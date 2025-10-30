@@ -46,10 +46,6 @@ struct HomeView: View {
                 }
                 DriverStandingsTop3View(viewModel: driverModel)
                 ConstructorStandingsTop3View(viewModel: constructorModel)
-                /*
-                ForEach(driverModel.drivers.topThree()) { driver in
-                    Text("\(driver.Position). \(driver.FullName)")
-                }*/
             }
             .padding(.vertical)
         }
@@ -294,7 +290,7 @@ struct DriverRowView: View {
                 // Position
                 Text("\(driver.Position)")
                     .font(.custom("SFPro-ExpandedBold", size: 22))
-                    .frame(width: 40)
+                    .frame(width: 20)
                 
                 // Driver Image
                 Image(driver.FullName) // Assumes you have images named "Max Verstappen", etc.
@@ -308,18 +304,25 @@ struct DriverRowView: View {
                     Text(driver.FullName)
                         .font(.custom("SFPro-ExpandedBold", size: 15))
                 }
+                .frame(width: 120, alignment: .leading)
                 
                 Image(driver.ConstructorNames.first ?? "")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 40, height: 40)
-
-                Spacer()
                 
-                // Points
-                Text("\(driver.Points)")
-                    .font(.custom("SFPro-ExpandedBold", size: 17))
-                    .padding(.trailing, 30)
+                // 1. Create a VStack for your points and the new number
+                VStack(alignment: .leading, spacing: 2) { // Tweak spacing as needed
+                    // 2. Your points HStack
+                    HStack(alignment: .firstTextBaseline, spacing: 2) {
+                        Text("\(driver.Points)")
+                            .font(.custom("SFPro-ExpandedBold", size: 17))
+                        
+                        Text("pts")
+                            .font(.custom("SFPro-ExpandedBold", size: 14))
+                            .opacity(0.8)
+                    }
+                }
             }
             .foregroundColor(.white)
             .padding(.vertical, 8)
@@ -403,7 +406,7 @@ struct ConstructorRowView: View {
                 // Position
                 Text("\(constructor.Position)")
                     .font(.custom("SFPro-ExpandedBold", size: 22))
-                    .frame(width: 40)
+                    //.frame(width: 20)
                 
                 // Driver Image
                 Image(constructor.ConstructorName)
@@ -416,13 +419,22 @@ struct ConstructorRowView: View {
                     Text(constructor.ConstructorName)
                         .font(.custom("SFPro-ExpandedBold", size: 15))
                 }
+                .frame(width: 150, alignment: .leading)
 
-                Spacer()
+                //Spacer()
                 
                 // Points
-                Text("\(constructor.Points)")
-                    .font(.custom("SFPro-ExpandedBold", size: 17))
-                    .padding(.trailing, 30)
+                HStack(alignment: .firstTextBaseline, spacing: 2) {
+                    // 2. The Number
+                    Text("\(constructor.Points)")
+                        .font(.custom("SFPro-ExpandedBold", size: 17))
+                    
+                    // 3. The "Pts" label
+                    Text("pts")
+                        .font(.custom("SFPro-ExpandedBold", size: 14)) // Slightly smaller
+                        .opacity(0.8) // A bit transparent to de-emphasize
+                }
+                .padding(.leading, 20)
             }
             .foregroundColor(.white)
             .padding(.vertical, 8)
