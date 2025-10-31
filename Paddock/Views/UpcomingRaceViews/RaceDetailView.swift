@@ -4,12 +4,9 @@ struct RaceDetailView: View {
     @State private var activeTab: RaceDetailTab = .weekend
     @Environment(\.dismiss) var dismiss
     let race: RaceSchedule
-    @State private var isHeaderVisible: Bool = true
     
     init(race: RaceSchedule) {
         self.race = race
-        // Selected segment color
-        UISegmentedControl.appearance().selectedSegmentTintColor = .red
                 
         let font = UIFont(name: "SFPro-ExpandedBold", size: 13)!
         UISegmentedControl.appearance().setTitleTextAttributes([.font: font, .foregroundColor: UIColor.white], for: .selected)
@@ -43,7 +40,6 @@ struct RaceDetailView: View {
                     }
                 }
                 .ignoresSafeArea(edges: .top)
-                //.scrollEdgeEffectHidden(isHeaderVisible)
             } else {
                 // Fallback on earlier versions
             }
@@ -63,7 +59,6 @@ struct RaceDetailView: View {
                     .font(.custom("SFPro-ExpandedBold", size: 15))
             }
         }
-        
     }
     
     // MARK: - Tab Bar (Segmented Control Style)
