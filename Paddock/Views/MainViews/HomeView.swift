@@ -290,39 +290,46 @@ struct DriverRowView: View {
                 // Position
                 Text("\(driver.Position)")
                     .font(.custom("SFPro-ExpandedBold", size: 22))
-                    .frame(width: 20)
-                
+                    .frame(width: 40)
+
                 // Driver Image
-                Image(driver.FullName) // Assumes you have images named "Max Verstappen", etc.
+                Image(driver.FullName)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 60, height: 60, alignment: .top)
                     .clipped()
-                
-                // Driver Name and Team
+
+                // Name + Team
                 VStack(alignment: .leading, spacing: 2) {
                     Text(driver.FullName)
                         .font(.custom("SFPro-ExpandedBold", size: 15))
-                }
-                .frame(width: 120, alignment: .leading)
-                
-                Image(driver.ConstructorNames.first ?? "")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 40, height: 40)
-                
-                // 1. Create a VStack for your points and the new number
-                VStack(alignment: .leading, spacing: 2) { // Tweak spacing as needed
-                    // 2. Your points HStack
-                    HStack(alignment: .firstTextBaseline, spacing: 2) {
-                        Text("\(driver.Points)")
-                            .font(.custom("SFPro-ExpandedBold", size: 17))
-                        
-                        Text("pts")
-                            .font(.custom("SFPro-ExpandedBold", size: 14))
-                            .opacity(0.8)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.85)
+
+                    HStack(spacing: 5) {
+                        Image(driver.ConstructorNames.first ?? "")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
+
+                        Text(driver.ConstructorNames.first ?? "")
+                            .font(.custom("SFPro-ExpandedBold", size: 13))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.85)
                     }
                 }
+                .layoutPriority(0.8)
+
+                Spacer()
+
+                // Points (right-aligned, fixed width)
+                Text("\(driver.Points) pts")
+                    .font(.custom("SFPro-ExpandedBold", size: 17))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                    .frame(width: 80, alignment: .trailing)
+                    .padding(.trailing, 25)
+                    .layoutPriority(1)
             }
             .foregroundColor(.white)
             .padding(.vertical, 8)
@@ -406,35 +413,31 @@ struct ConstructorRowView: View {
                 // Position
                 Text("\(constructor.Position)")
                     .font(.custom("SFPro-ExpandedBold", size: 22))
-                    //.frame(width: 20)
-                
-                // Driver Image
+                    .frame(width: 40)
+
+                // Constructor Logo
                 Image(constructor.ConstructorName)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 60, height: 40)
-                
-                // Driver Name and Team
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(constructor.ConstructorName)
-                        .font(.custom("SFPro-ExpandedBold", size: 15))
-                }
-                .frame(width: 150, alignment: .leading)
+                    .frame(width: 50, height: 40)
 
-                //Spacer()
-                
-                // Points
-                HStack(alignment: .firstTextBaseline, spacing: 2) {
-                    // 2. The Number
-                    Text("\(constructor.Points)")
-                        .font(.custom("SFPro-ExpandedBold", size: 17))
-                    
-                    // 3. The "Pts" label
-                    Text("pts")
-                        .font(.custom("SFPro-ExpandedBold", size: 14)) // Slightly smaller
-                        .opacity(0.8) // A bit transparent to de-emphasize
-                }
-                .padding(.leading, 20)
+                // Constructor Name
+                Text(constructor.ConstructorName)
+                    .font(.custom("SFPro-ExpandedBold", size: 15))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.85)
+                    .layoutPriority(0.8)
+
+                Spacer()
+
+                // Points (right aligned)
+                Text("\(constructor.Points) pts")
+                    .font(.custom("SFPro-ExpandedBold", size: 17))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                    .frame(width: 80, alignment: .trailing)
+                    .padding(.trailing, 25)
+                    .layoutPriority(1)
             }
             .foregroundColor(.white)
             .padding(.vertical, 8)

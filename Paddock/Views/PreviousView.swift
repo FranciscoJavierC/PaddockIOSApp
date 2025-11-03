@@ -229,7 +229,6 @@ struct PodiumDriverView: View {
                 .fill(teamColor)
                 .frame(height: 60)
                 .cornerRadius(20)
-                //.padding(15)
                 .overlay {
                     LinearGradient(
                         gradient: Gradient(colors: [
@@ -240,7 +239,6 @@ struct PodiumDriverView: View {
                         endPoint: .top
                     )
                     .cornerRadius(20)
-                    //.padding(15)
                 }
                 .shadow(radius: 3, y: 2)
             
@@ -261,28 +259,33 @@ struct PodiumDriverView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(driverName)
                         .font(.custom("SFPro-ExpandedBold", size: 15))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                    
+                    HStack {
+                        Image(constructorName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                        
+                        Text(constructorName)
+                            .font(.custom("SFPro-ExpandedBold", size: 13))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.8)
+                    }
                 }
-                .frame(width: 120, alignment: .leading)
-                                
-                Image(constructorName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 40, height: 40)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .layoutPriority(1)
 
                 Spacer()
                 
-                // Points
-                HStack(alignment: .firstTextBaseline, spacing: 2) {
-                    // 2. The Number
-                    Text("\(points)")
-                        .font(.custom("SFPro-ExpandedBold", size: 17))
-                    
-                    // 3. The "Pts" label
-                    Text("pts")
-                        .font(.custom("SFPro-ExpandedBold", size: 14)) // Slightly smaller
-                        .opacity(0.8) // A bit transparent to de-emphasize
-                }
-                .padding(.trailing, 20)
+                // Gap
+                Text(gap)
+                    .font(.custom("SFPro-ExpandedBold", size: 13))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                    .frame(width: 100, alignment: .trailing) // ← control its width
+                    .padding(.trailing, 15)
             }
             .foregroundColor(.white)
             .padding(.vertical, 8)
