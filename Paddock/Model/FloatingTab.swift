@@ -8,6 +8,7 @@
 import SwiftUI
 
 enum FloatingTab: String, CaseIterable {
+    case home = "house"
     case schedule = "calendar"
     case standings = "trophy"
     case news = "newspaper"
@@ -15,6 +16,7 @@ enum FloatingTab: String, CaseIterable {
     
     var title: String {
         switch self {
+        case .home: "Home"
         case .schedule: "Schedule"
         case .standings: "Standings"
         case .news: "News"

@@ -3,35 +3,37 @@ import SwiftUI
 struct ContentView: View {
     @AppStorage("AppTheme") private var appTheme: AppTheme = .systemDefault
     @State private var searchText: String = ""
-    @State private var activeTab: TabItem = .schedule
+    @State private var activeTab: TabItem = .home
+    @State private var standingsTab: StandingsBar = .drivers
     @State private var showSearch: Bool = false
     
     var body: some View {
         if #available(iOS 26, *) {
-            TabView {
-                Tab("Home", systemImage: "house") {
-                    HomeView()
+            TabView(selection: $activeTab) {   // 👈 Bind selection
+                Tab("Home", systemImage: "house", value: TabItem.home) {
+                    HomeView(activeTab: $activeTab)
                 }
-                Tab("Schedule", systemImage: "calendar") {
+                
+                Tab("Schedule", systemImage: "calendar", value: TabItem.schedule) {
                     NavigationStack {
                         ScheduleView()
                     }
                 }
-                
-                Tab("Standings", systemImage: "trophy") {
+
+                Tab("Standings", systemImage: "trophy", value: TabItem.standings) {
                     NavigationStack {
                         StandingsView()
                     }
                 }
-                
-                Tab("News", systemImage: "newspaper") {
+
+                Tab("News", systemImage: "newspaper", value: TabItem.news) {
                     NavigationStack {
                         NewsView()
                     }
                 }
-                
-                Tab("Search", systemImage: "magnifyingglass", role: .search) {
-                        SearchView()
+
+                Tab("Search", systemImage: "magnifyingglass", value: TabItem.search, role: .search) {
+                    SearchView()
                 }
             }
             .tint(.red)

@@ -13,8 +13,8 @@ struct HomeView: View {
     @StateObject private var constructorModel = ConstructorStandingsModel()
     @State private var selectedRace: RaceSchedule? = nil
     @State private var showDetail = false
-    @State private var navigateToDrivers = false
-    @State private var navigateToConstructors = false
+    @Binding var activeTab: TabItem // ← Add this
+
 
     var upcomingRaces: [RaceSchedule] {
         // Add a 3-hour (10,800 seconds) buffer after the last race start
@@ -55,14 +55,9 @@ struct HomeView: View {
                                 .foregroundColor(.white)
                                 .padding()
                         }
-                        DriverStandingsTop3View(viewModel: driverModel)
-                        {
-                            navigateToDrivers = true
-                        }
-                        ConstructorStandingsTop3View(viewModel: constructorModel)
-                        {
-                            navigateToConstructors = true
-                        }
+                        DriverStandingsTop3View(viewModel: driverModel, activeTab: $activeTab)
+                        
+                        ConstructorStandingsTop3View(viewModel: constructorModel, activeTab: $activeTab)
                     }
                     .padding(.vertical)
                 }
@@ -71,12 +66,6 @@ struct HomeView: View {
                 if let race = selectedRace {
                     RaceDetailView(race: race)
                 }
-            }
-            .navigationDestination(isPresented: $navigateToDrivers) {
-                StandingsView()
-            }
-            .navigationDestination(isPresented: $navigateToConstructors) {
-                StandingsView()
             }
         }
     }
@@ -251,7 +240,7 @@ struct HomeCard: View {
 struct DriverStandingsTop3View: View {
     // Takes the whole view model to access the drivers list
     @ObservedObject var viewModel: DriverStandingsModel
-    let onDriverButtonTap: () -> Void
+    @Binding var activeTab: TabItem  // ← Add this
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -267,7 +256,7 @@ struct DriverStandingsTop3View: View {
                 Spacer()
                 
                 Button {
-                    onDriverButtonTap()
+                    activeTab = .standings
                 } label: {
                     Image(systemName: "chevron.right")
                         .foregroundStyle(.white)
@@ -379,8 +368,7 @@ struct DriverRowView: View {
 struct ConstructorStandingsTop3View: View {
     // Takes the whole view model to access the drivers list
     @ObservedObject var viewModel: ConstructorStandingsModel
-    let onConstructorButtonTap: () -> Void
-    
+    @Binding var activeTab: TabItem  // ← Add this
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
@@ -395,7 +383,7 @@ struct ConstructorStandingsTop3View: View {
                 Spacer()
                 
                 Button {
-                    onConstructorButtonTap()
+                    activeTab = .standings
                 } label: {
                     Image(systemName: "chevron.right")
                         .foregroundStyle(.white)
@@ -490,7 +478,7 @@ struct ConstructorRowView: View {
 }
 
 #Preview {
-    HomeView()
+    HomeView(activeTab: .constant(.schedule))
 }
 
 struct SessionCountdownView: View {
