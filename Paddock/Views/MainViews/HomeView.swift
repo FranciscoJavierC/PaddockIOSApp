@@ -11,6 +11,10 @@ struct HomeView: View {
     @StateObject private var viewModel = ScheduleViewModel()
     @StateObject private var driverModel = DriverStandingsModel()
     @StateObject private var constructorModel = ConstructorStandingsModel()
+    @State private var selectedRace: RaceSchedule? = nil
+    @State private var showDetail = false
+    @State private var navigateToDrivers = false
+    @State private var navigateToConstructors = false
 
     var upcomingRaces: [RaceSchedule] {
         // Add a 3-hour (10,800 seconds) buffer after the last race start
@@ -27,33 +31,60 @@ struct HomeView: View {
     }
     
     var body: some View {
-        HStack {
-            Text("Home")
-                .font(.custom("SFPro-ExpandedBold", size: 35))
-                .foregroundColor(Color.white)
-                .padding(.leading)
-            Spacer()
-        }
-        .padding(.vertical, 10)
-        ScrollView {
-            LazyVStack(spacing: 20) {
-                if let race = upcomingRaces.first {
-                    HomeCard(race: race)
-                } else {
-                    Text("No upcoming races.")
-                        .foregroundColor(.white)
-                        .padding()
+        NavigationStack {
+            VStack(spacing: 0) {
+                HStack {
+                    Text("Home")
+                        .font(.custom("SFPro-ExpandedBold", size: 35))
+                        .foregroundColor(Color.white)
+                        .padding(.leading)
+                    Spacer()
                 }
-                DriverStandingsTop3View(viewModel: driverModel)
-                ConstructorStandingsTop3View(viewModel: constructorModel)
+                .padding(.vertical, 10)
+
+                ScrollView {
+                    LazyVStack(spacing: 20) {
+                        if let race = upcomingRaces.first {
+                            HomeCard(race: race)
+                            {
+                                selectedRace = race
+                                showDetail = true
+                            }
+                        } else {
+                            Text("No upcoming races.")
+                                .foregroundColor(.white)
+                                .padding()
+                        }
+                        DriverStandingsTop3View(viewModel: driverModel)
+                        {
+                            navigateToDrivers = true
+                        }
+                        ConstructorStandingsTop3View(viewModel: constructorModel)
+                        {
+                            navigateToConstructors = true
+                        }
+                    }
+                    .padding(.vertical)
+                }
             }
-            .padding(.vertical)
+            .navigationDestination(isPresented: $showDetail) {
+                if let race = selectedRace {
+                    RaceDetailView(race: race)
+                }
+            }
+            .navigationDestination(isPresented: $navigateToDrivers) {
+                StandingsView()
+            }
+            .navigationDestination(isPresented: $navigateToConstructors) {
+                StandingsView()
+            }
         }
     }
 }
 
 struct HomeCard: View {
         let race: RaceSchedule
+        let onRaceInfoTap: () -> Void
         
         @State private var now = Date()
 
@@ -189,6 +220,7 @@ struct HomeCard: View {
                 Spacer()
                 if #available(iOS 26.0, *) {
                     Button("Weekend Info") {
+                        onRaceInfoTap()
                     }
                     .font(.custom("SFPro-ExpandedBold", size: 13))
                     .buttonStyle(.glassProminent)
@@ -196,6 +228,7 @@ struct HomeCard: View {
                     .contentShape(Rectangle())
                 } else {
                     Button("Weekend Info") {
+                        onRaceInfoTap()
                     }
                     .font(.custom("SFPro-ExpandedBold", size: 13))
                     .foregroundColor(.white)
@@ -218,6 +251,7 @@ struct HomeCard: View {
 struct DriverStandingsTop3View: View {
     // Takes the whole view model to access the drivers list
     @ObservedObject var viewModel: DriverStandingsModel
+    let onDriverButtonTap: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -232,10 +266,14 @@ struct DriverStandingsTop3View: View {
                 
                 Spacer()
                 
-                Image(systemName: "chevron.right")
-                    .foregroundStyle(.white)
-                    .padding(.trailing)
-                    .padding(.top, 10)
+                Button {
+                    onDriverButtonTap()
+                } label: {
+                    Image(systemName: "chevron.right")
+                        .foregroundStyle(.white)
+                        .padding(.trailing)
+                        .padding(.top, 10)
+                }
             }
             
             // Loop through the top three drivers
@@ -341,6 +379,7 @@ struct DriverRowView: View {
 struct ConstructorStandingsTop3View: View {
     // Takes the whole view model to access the drivers list
     @ObservedObject var viewModel: ConstructorStandingsModel
+    let onConstructorButtonTap: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -355,10 +394,14 @@ struct ConstructorStandingsTop3View: View {
                 
                 Spacer()
                 
-                Image(systemName: "chevron.right")
-                    .foregroundStyle(.white)
-                    .padding(.trailing)
-                    .padding(.top, 10)
+                Button {
+                    onConstructorButtonTap()
+                } label: {
+                    Image(systemName: "chevron.right")
+                        .foregroundStyle(.white)
+                        .padding(.trailing)
+                        .padding(.top, 10)
+                }
             }
             
             // Loop through the top three drivers
@@ -533,3 +576,4 @@ struct CountdownDivider: View {
         Rectangle().fill(Color.white.opacity(0.3)).frame(width: 1, height: 22)
     }
 }
+
