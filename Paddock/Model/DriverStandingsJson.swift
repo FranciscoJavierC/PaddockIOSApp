@@ -72,8 +72,14 @@ class DriverStandingsModel: ObservableObject {
     
     func loadDriverStandings() {
         // 🔗 Replace this with your actual GitHub raw URL
+        /*
         guard let url = URL(string: "https://raw.githubusercontent.com/FranciscoJavierC/PaddockIOSApp/main/Paddock/driver_standings_2025.json") else {
             print("Invalid GitHub URL")
+            return
+        }*/
+        
+        guard let url = Bundle.main.url(forResource: "driver_standings_2025", withExtension: "json") else {
+            print("❌ Error: Could not find driver_standings_2025.json in the app bundle.")
             return
         }
         

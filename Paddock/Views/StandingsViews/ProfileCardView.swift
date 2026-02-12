@@ -10,7 +10,9 @@ import SwiftUI
 struct ProfileCardView: View {
     var body: some View {
         ScrollView {
-            VStack(spacing: 28) {
+            VStack(alignment: .leading, spacing: 28) {
+                Text("Driver Info")
+                    .font(.custom("SFPro-ExpandedBold", size: 20))
                 // MARK: - Top Card with 3x2 Layout
                 VStack(spacing: 20) {
                     // Top row with 3 data points
@@ -18,7 +20,7 @@ struct ProfileCardView: View {
                         // Column 1: Country
                         VStack(spacing: 5) {
                             HStack(spacing: 5) {
-                                Image("AustrailianFlag")
+                                Image("AustraliaFlag")
                                     .resizable()
                                     .scaledToFill()
                                     .frame(width: 25, height: 20)
@@ -88,6 +90,8 @@ struct ProfileCardView: View {
                         .stroke(Color.white.opacity(0.8), lineWidth: 1)
                 )
                 
+                Text("Season Stats")
+                    .font(.custom("SFPro-ExpandedBold", size: 20))
                 VStack(alignment: .leading, spacing: 15) {
                     HStack(spacing: 8) {
                         Image("F1Logo")

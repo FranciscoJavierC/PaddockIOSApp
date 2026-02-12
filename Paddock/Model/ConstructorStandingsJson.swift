@@ -37,8 +37,14 @@ class ConstructorStandingsModel: ObservableObject {
     
     func loadConstructorStandings() {
         // 🔗 Replace this with your actual GitHub raw URL
+        /*
         guard let url = URL(string: "https://raw.githubusercontent.com/FranciscoJavierC/PaddockIOSApp/main/Paddock/constructor_standings_2025.json") else {
             print("Invalid GitHub URL")
+            return
+        }*/
+        
+        guard let url = Bundle.main.url(forResource: "constructor_standings_2025", withExtension: "json") else {
+            print("❌ Error: Could not find constructor_standings_2025.json in the app bundle.")
             return
         }
         

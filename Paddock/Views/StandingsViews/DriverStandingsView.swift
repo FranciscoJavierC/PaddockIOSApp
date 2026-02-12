@@ -2,7 +2,7 @@
 //  DriverStandings.swift
 //  Paddock
 //
-//  Created by Francisco  Cortez on 7/12/25.
+//  Created by Francisco Cortez on 7/12/25.
 //
 
 import SwiftUI
@@ -14,17 +14,14 @@ struct DriverStandingsView: View {
 
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: 15) {
+            LazyVStack(spacing: 8) { // Match constructor spacing for consistency
                 ForEach(viewModel.drivers, id: \.id) { driver in
-                    DriverStandingsCard(
-                        driverImage: "\(driver.FullName)",
-                        driverFlag: "\(driver.CountryName)Flag",
+                    DriverStandingsRow(
                         driverName: driver.FullName,
                         driverNumber: driver.DriverNumber,
                         position: driver.Position,
-                        points: driver.Points,
-                        teamLogo: driver.ConstructorNames.first ?? "Default",
-                        teamColor: driver.TeamColor
+                        points: Int(driver.Points),
+                        teamColor: Color(hex: driver.TeamColorHex)
                     )
                     .onTapGesture {
                         selectedDriver = driver
@@ -32,8 +29,9 @@ struct DriverStandingsView: View {
                     }
                 }
             }
-            .padding(.vertical, 20)
+            .padding(.top, 20)
         }
+        .background(Color.black.edgesIgnoringSafeArea(.all)) // Clean black background
         .navigationDestination(isPresented: $showDetail) {
             if let driver = selectedDriver {
                 DriverDetailView(driver: driver)
@@ -42,161 +40,75 @@ struct DriverStandingsView: View {
     }
 }
 
-struct DriverStandingsCard: View {
-    let driverImage: String
-    let driverFlag: String
+struct DriverStandingsRow: View {
     let driverName: String
     let driverNumber: Int
     let position: Int
     let points: Int
-    let teamLogo: String
     let teamColor: Color
     
     var body: some View {
-        VStack(spacing: 0) {
-            // MARK: - Top Section (Team Background + Driver)
-            ZStack(alignment: .topTrailing) {
-                // Team color + gradient
-                Rectangle()
-                    .fill(teamColor)
-                    .frame(height: 190)
-                    .cornerRadius(20)
-                    .padding(15)
-                    .overlay {
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                .black.opacity(0.6),
-                                .black.opacity(0)
-                            ]),
-                            startPoint: .bottom,
-                            endPoint: .top
-                        )
-                        .cornerRadius(20)
-                        .padding(15)
-                    }
-                    .shadow(radius: 3, y: 2)
+        HStack(spacing: 0) {
+            // 1. Position Block
+            Text("\(position)")
+                .font(.custom("SFPro-ExpandedBold", size: 18))
+                .foregroundColor(.white)
+                .frame(width: 45) // Safety for ranks 10-22
+                .padding(.leading, 8)
+            
+            // 2. Driver Number Badge
+            Image(driverName)
+                .resizable()
+                    .scaledToFill() // Fills the frame while maintaining aspect ratio
+                    .frame(width: 60, height: 60, alignment: .top) // Anchors head at top, crops legs
+                    .clipped() // Strictly removes the overflow
+                    .cornerRadius(6) // Keeps it consistent with your timing tower corners
+                    .padding(.leading, 4)
+            
+            // 3. Driver Name
+            VStack(alignment: .leading, spacing: -2) {
+                // 1. First & Middle Names (Small/Dimmed)
+                // Joins all names except the last one
+                Text(driverName.split(separator: " ").dropLast().joined(separator: " "))
+                    .font(.custom("SFPro-ExpandedMedium", size: 10))
+                    .foregroundColor(.white.opacity(0.7))
+                    .lineLimit(1) // Prevents vertical expansion
                 
-                // Driver number badge (like race round badge)
-                if #available(iOS 26.0, *) {
-                    Text("#\(driverNumber)")
-                        .font(.custom("SFPro-ExpandedBold", size: 15))
-                        .foregroundColor(.white)
-                        .padding(.vertical, 6)
-                        .padding(.horizontal, 10)
-                        .glassEffect()
-                        .padding(.trailing, 25)
-                        .padding(.top, 20)
-                } else {
-                    Text("#\(driverNumber)")
-                        .font(.custom("SFPro-ExpandedBold", size: 14))
-                        .foregroundColor(.white)
-                        .padding(.vertical, 6)
-                        .padding(.horizontal, 10)
-                        .background(Capsule().fill(teamColor.opacity(0.9)))
-                        .overlay(
-                            Capsule()
-                                .stroke(Color.white.opacity(0.8), lineWidth: 1)
-                        )
-                        .padding(.trailing, 25)
-                        .padding(.top, 20)
-                }
-                
-                // Driver image overlay
-                Image(driverImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(height: 205, alignment: .top)
-                    .cornerRadius(20)
-                    .padding(.horizontal, 25)
-                    .clipped()
+                // 2. Last Name (Large/Bold)
+                Text(driverName.split(separator: " ").last?.uppercased() ?? "")
+                    .font(.custom("SFPro-ExpandedBold", size: 16))
+                    .foregroundColor(.white)
             }
             
-            // MARK: - Info Section (Driver stats)
-            VStack(alignment: .leading, spacing: 10) {
-                // Driver Name + Country
-                HStack(alignment: .center, spacing: 8) {
-                    Text(driverName.split(separator: " ").first ?? "")
-                            .font(.custom("SFPro-ExpandedBold", size: 20))
-                            .foregroundColor(.white)
-                        
-                    Text(driverName.split(separator: " ").dropFirst().joined(separator: " "))
-                        .font(.custom("SFPro-ExpandedBold", size: 20))
-                        .foregroundStyle(teamColor)
-                    
-                    Image(driverFlag)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 30, height: 20)
-                        .cornerRadius(5)
-                    
-                    Spacer()
-                }
-                
-                // Team name or logo
-                HStack(spacing: 6) {
-                    Image(teamLogo)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 25, height: 25)
-                    
-                    Text("\(teamLogo.replacingOccurrences(of: "_", with: " ").capitalized)")
-                        .font(.custom("SFPro-ExpandedRegular", size: 15))
-                        .foregroundColor(.white.opacity(0.95))
-                }
-                
-                // Points
-                HStack {
-                    // Position
-                    VStack(spacing: 2) {
-                        Text("\(position)")
-                            .font(.custom("SFPro-ExpandedBold", size: 34))
-                            .foregroundColor(.white)
-                        
-                        Text("POS")
-                            .font(.custom("SFPro-ExpandedBold", size: 13))
-                            .foregroundColor(.white.opacity(0.8))
-                    }
-                    
-                    Spacer()
-                    
-                    // Points
-                    VStack(spacing: 2) {
-                        Text("\(points)")
-                            .font(.custom("SFPro-ExpandedBold", size: 34))
-                            .foregroundColor(teamColor)
-                        
-                        Text("PTS")
-                            .font(.custom("SFPro-ExpandedBold", size: 13))
-                            .foregroundColor(.white.opacity(0.8))
-                    }
-                }
-                .padding(.horizontal, 10)
-                .padding(.top, 5)
-            }
-            .padding()
+            Spacer()
+            
+            // 4. Points
+            Text("\(points)")
+                .font(.custom("SFPro-ExpandedBold", size: 18))
+                .foregroundColor(.white)
+                .padding(.trailing, 16)
         }
-        .background(.ultraThinMaterial)
-        .cornerRadius(20)
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(teamColor, lineWidth: 0.4)
-
+        .frame(height: 60) // Slightly shorter than constructor rows for high-density scan
+        .background(
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    // 🏎️ Solid 30% Team Color Block
+                    UnevenRoundedRectangle(topLeadingRadius: 12, bottomLeadingRadius: 12)
+                        .fill(
+                            LinearGradient(
+                                colors: [teamColor, teamColor.opacity(0.7), .clear],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .frame(width: geo.size.width * 0.8)
+                }
+            }
         )
-        .padding(.horizontal)
+        .padding(.horizontal, 10)
     }
 }
 
-extension Color {
-    init(hex: UInt, opacity: Double = 1) {
-        self.init(
-            .sRGB,
-            red: Double((hex >> 16) & 0xff) / 255,
-            green: Double((hex >> 08) & 0xff) / 255,
-            blue: Double((hex >> 00) & 0xff) / 255,
-            opacity: opacity
-        )
-    }
-}
 #Preview {
     DriverStandingsView()
 }

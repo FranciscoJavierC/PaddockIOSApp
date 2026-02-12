@@ -10,6 +10,7 @@ import SwiftUI
 struct ConstructorDetailView: View {
     let constructor: ConstructorStandings 
     @State private var activeTab: ConstructorDetailTab = .profile
+    @Namespace private var animation // Used for the "Liquid Glow" indicator
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -18,68 +19,88 @@ struct ConstructorDetailView: View {
                 ScrollView {
                     VStack(spacing: 0) {
                         ZStack(alignment: .bottomLeading) {
-                            Rectangle()
+                            RoundedRectangle(cornerRadius: 24)
                                 .fill(constructor.TeamColor)
-                                .frame(height: 190)
-                                .cornerRadius(20)
-                                .padding(15)
                                 .overlay {
                                     LinearGradient(
-                                        gradient: Gradient(colors: [
-                                            .black.opacity(0.6),
-                                            .black.opacity(0)
-                                        ]),
-                                        startPoint: .bottom,
-                                        endPoint: .top
+                                        colors: [.clear, .black.opacity(0.4)],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
                                     )
-                                    .cornerRadius(20)
-                                    .padding(15)
                                 }
-                                .shadow(radius: 3, y: 2)
                             
-                            Image(constructor.ConstructorName)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 215, height: 180)
-                                .padding(.horizontal, 110)
-                                .padding(.vertical)
+                            // 2. Content Layout (Name, Stats, and Image)
+                            HStack(alignment: .bottom, spacing: 0) {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    VStack(alignment: .leading, spacing: -6) {
+                                        Text(constructor.ConstructorName)
+                                            .font(.custom("SFPro-ExpandedBold", size: 30))
+                                    }
+                                }
+                                .padding(.leading, 35)
+                                .padding(.bottom, 50)
+                                
+                                Spacer()
+
+                                // 3. The "Bleed" Driver Image
+                                Image(constructor.ConstructorName)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 130, height: 90) // Perfect 2026 balance
+                                    .padding(.trailing, 40)
+                                    .padding(.bottom, 30)
+                            }
                         }
-                        .padding(.top, 100)
+                        .frame(height: 250)
                         
                         // MARK: - Tab Section
                         VStack(spacing: 20) {
-                            tabBar
+                            customTabBar
                             tabContent
                         }
+                        .padding(.top, 20)
+
                     }
                 }
+                .scrollEdgeEffectHidden(true)
                 .ignoresSafeArea(edges: .top)
-            } else {
-                
-            }
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text(constructor.ConstructorName)
-                    .font(.custom("SFPro-ExpandedBold", size: 15))
             }
         }
     }
     
-    // MARK: - Tab Bar
-    private var tabBar: some View {
-        Picker("Select tab", selection: $activeTab) {
+    // MARK: - Custom Tab Bar
+    private var customTabBar: some View {
+        HStack(spacing: 25) {
             ForEach(ConstructorDetailTab.allCases, id: \.self) { tab in
-                Text(tab.rawValue)
-                    .tag(tab)
+                VStack(spacing: 8) {
+                    Text(tab.rawValue)
+                        .font(.custom("SFPro-ExpandedMedium", size: 16))
+                        .foregroundColor(activeTab == tab ? .primary : .secondary)
+                        .onTapGesture {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                activeTab = tab
+                            }
+                        }
+
+                    // The "Liquid Glow" indicator from your reference image
+                    if activeTab == tab {
+                        Capsule()
+                            .fill(constructor.TeamColor)
+                            .frame(width: 30, height: 3)
+                            .matchedGeometryEffect(id: "tab", in: animation) // smooth sliding
+                            .shadow(color: constructor.TeamColor.opacity(0.5), radius: 4, x: 0, y: 2)
+                    } else {
+                        Capsule()
+                            .fill(.clear)
+                            .frame(width: 30, height: 3)
+                    }
+                }
             }
         }
-        // Apply the segmented control style
-        .pickerStyle(.segmented)
-        .padding(.horizontal)
-        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 25)
     }
+
 
     @ViewBuilder
     private var tabContent: some View {

@@ -55,7 +55,7 @@ class ScheduleViewModel: ObservableObject {
     
     func loadSchedule() {
         // Make sure your JSON file is in the app bundle
-        if let url = Bundle.main.url(forResource: "schedule_2025", withExtension: "json") {
+        if let url = Bundle.main.url(forResource: "schedule_2026", withExtension: "json") {
             do {
                 let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
@@ -70,7 +70,7 @@ class ScheduleViewModel: ObservableObject {
                 print("Failed to load JSON:", error)
             }
         } else {
-            print("schedule_2025.json not found in bundle")
+            print("schedule_2026.json not found in bundle")
         }
     }
 }

@@ -28,7 +28,7 @@ struct SessionSheetView: View {
     }
 
     private var isUpcoming: Bool {
-        sessionDate > now
+        sessionDate < now
     }
 
     var body: some View {
