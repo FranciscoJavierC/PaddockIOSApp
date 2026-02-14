@@ -70,8 +70,18 @@ struct ConstructorProfileView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 28) {
-                InfoCard()
+            VStack(alignment: .leading, spacing: 16) {
+                Text("Constructor Info")
+                    .font(.custom("SFPro-ExpandedBold", size: 20))
+                    .foregroundColor(.white)
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                    ConstructorInfoCard(flagImage: "United KingdomFlag", value: "UK", label: "Country")
+                    ConstructorInfoCard(flagImage: nil, value: "Mercedes", label: "Power Unit")
+                    ConstructorInfoCard(flagImage: nil, value: "1966", label: "First Team Entry")
+                    ConstructorInfoCard(flagImage: nil, value: "1963", label: "Founded")
+                    ConstructorInfoCard(flagImage: nil, value: "Andres Stella", label: "Team Principal")
+                    ConstructorInfoCard(flagImage: nil, value: "MCL40", label: "Chasis")
+                }
                 
                 Text("Drivers")
                     .font(.custom("SFPro-ExpandedBold", size: 20))
@@ -189,71 +199,36 @@ struct CarChasisCard: View {
 }
 
 // MARK: - InfoCard (unchanged)
-struct InfoCard: View {
+struct ConstructorInfoCard: View {
+    let flagImage: String?
+    let value: String
+    let label: String
+    var subLabel: Bool = false
+    
     var body: some View {
-        VStack(spacing: 20) {
-            // Top row
-            HStack(spacing: 0) {
-                VStack(spacing: 5) {
-                    HStack(spacing: 5) {
-                        Image("United KingdomFlag")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 25, height: 20)
-                            .cornerRadius(20)
-                        Text("UK")
-                            .font(.custom("SFPro-ExpandedRegular", size: 18))
-                    }
-                    Text("Country")
-                        .font(.custom("SFPro-ExpandedRegular", size: 12))
-                        .foregroundStyle(.secondary)
-                }.frame(maxWidth: .infinity)
-                
-                VStack(spacing: 5) {
-                    Text("Mercedes")
-                        .font(.custom("SFPro-ExpandedRegular", size: 18))
-                    Text("Power Unit")
-                        .font(.custom("SFPro-ExpandedRegular", size: 12))
-                        .foregroundStyle(.secondary)
-                }.frame(maxWidth: .infinity)
-
-                VStack(spacing: 5) {
-                    Text("1966")
-                        .font(.custom("SFPro-ExpandedRegular", size: 18))
-                    Text("First Team Entry")
-                        .font(.custom("SFPro-ExpandedRegular", size: 12))
-                        .foregroundStyle(.secondary)
-                }.frame(maxWidth: .infinity)
+        HStack(spacing: 15) {
+            // 1. Conditional Flag Placement
+            if let flag = flagImage {
+                Image(flag)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 26, height: 18) // Standard 2026 broadcast ratio
+                    .cornerRadius(5)
             }
             
-            // Bottom row
-            HStack(spacing: 0) {
-                VStack(spacing: 5) {
-                    Text("Andres Stella")
-                        .font(.custom("SFPro-ExpandedRegular", size: 18))
-                    Text("Team Chief")
-                        .font(.custom("SFPro-ExpandedRegular", size: 12))
-                        .foregroundStyle(.secondary)
-                }.frame(maxWidth: .infinity)
-                
-                VStack(spacing: 5) {
-                    Text("1963")
-                        .font(.custom("SFPro-ExpandedRegular", size: 18))
-                    Text("Founded")
-                        .font(.custom("SFPro-ExpandedRegular", size: 12))
-                        .foregroundStyle(.secondary)
-                }.frame(maxWidth: .infinity)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(value)
+                    .font(.custom("SFPro-ExpandedBold", size: 16))
+                Text(label)
+                    .font(.custom("SFPro-ExpandedRegular", size: 12))
+                    .foregroundColor(.secondary)
             }
+            Spacer()
         }
         .padding()
-        .frame(maxWidth: .infinity)
-        .foregroundColor(.white)
-        .background(.ultraThinMaterial)
-        .cornerRadius(20)
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(Color.white.opacity(0.8), lineWidth: 1)
-        )
+        .frame(height: 70)
+        .background(Color(white: 0.09))
+        .cornerRadius(16)
     }
 }
 

@@ -72,166 +72,173 @@ struct HomeView: View {
 }
 
 struct HomeCard: View {
-        let race: RaceSchedule
-        let onRaceInfoTap: () -> Void
-        
-        @State private var now = Date()
+    let race: RaceSchedule
+    let onRaceInfoTap: () -> Void
+    @State private var now = Date()
 
-        private var nextSessionString: String {
-                // Use the new, smarter logic
-                if let session = race.currentOrNextSession {
-                    let formatter = DateFormatter()
-                    // Check if the session is live
-                    if session.date <= now {
-                        return "\(session.name.uppercased()) IS LIVE"
-                    }
-                    // Otherwise, show countdown info
-                    formatter.dateFormat = "E, h:mm a"
-                    let formattedDate = formatter.string(from: session.date).uppercased()
-                    return "NEXT: \(session.name.uppercased()) - \(formattedDate)"
-                }
-                return "RACE COMPLETE"
+    private var nextSessionString: String {
+        if let session = race.currentOrNextSession {
+            let formatter = DateFormatter()
+
+            if session.date <= now {
+                return "\(session.name.uppercased()) IS LIVE"
             }
-    
-    var body: some View {
-        ZStack {
-            // MARK: - Card background + content
-            VStack(spacing: 0) {
-                // Flag Section
-                ZStack(alignment: .topTrailing) {
-                    Image("\(race.Country)Flag")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(height: 190)
-                        .cornerRadius(20)
-                        .padding(15)
-                        .clipped()
-                        .shadow(radius: 3, y: 2)
-                    
-                    VStack {
-                        // Round badge
-                        if #available(iOS 26.0, *) {
-                            Text("R\(race.RoundNumber)")
-                                .font(.custom("SFPro-ExpandedBold", size: 15))
-                                .foregroundColor(.white)
-                                .padding(.vertical, 6)
-                                .padding(.horizontal, 10)
-                                .glassEffect()
-                                .padding(.trailing, 25)
-                                .padding(.top, 20)
-                        } else {
-                            Text("R\(race.RoundNumber)")
-                                .font(.custom("SFPro-ExpandedBold", size: 13))
-                                .foregroundColor(.white)
-                                .padding(.vertical, 6)
-                                .padding(.horizontal, 10)
-                                .background(Capsule().fill(Color.red.opacity(0.9)))
-                                .overlay(
-                                    Capsule()
-                                        .stroke(Color.white.opacity(0.9), lineWidth: 1)
-                                )
-                                .shadow(color: .black.opacity(0.4), radius: 4, x: 0, y: 2)
-                                .padding(.trailing, 25)
-                                .padding(.top, 20)
-                        }
-                    }
-                }
 
-                // Info Section
-                VStack(alignment: .leading, spacing: 10) {
-                    HStack {
+            formatter.dateFormat = "E, h:mm a"
+            let formattedDate = formatter.string(from: session.date).uppercased()
+            return "NEXT: \(session.name.uppercased()) - \(formattedDate)"
+        }
+        return "RACE COMPLETE"
+    }
+
+    var body: some View {
+        VStack(spacing: 0) {
+
+            heroSection
+
+            infoSection
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 28)
+                .fill(.ultraThinMaterial)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 28)
+                .stroke(Color.white.opacity(0.4), lineWidth: 0.5)
+        )
+        .padding(.horizontal)
+    }
+
+    // MARK: - Hero Section
+    private var heroSection: some View {
+        ZStack(alignment: .topTrailing) {
+            
+            ZStack(alignment: .bottomLeading) {
+                
+                // Flag Image with padding + corner radius
+                Image("\(race.Country)Flag")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 190)
+                    .clipped()
+                    .cornerRadius(25)
+                    .padding()
+                
+                // Clean bottom gradient (no material background)
+                LinearGradient(
+                    colors: [.clear, .black.opacity(0.75)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .cornerRadius(24)
+                .padding()
+                
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(race.dayRangeWithMonth.uppercased())
+                            .font(.custom("SFPro-ExpandedRegular", size: 12))
+                            .foregroundColor(.white.opacity(0.9))
+                        
                         Text(race.displayCountry.uppercased())
                             .font(.custom("SFPro-ExpandedBold", size: 22))
                             .foregroundColor(.white)
-                        Spacer()
+                        
                         Text(race.Location)
-                            .font(.custom("SFPro-ExpandedRegular", size: 17))
+                            .font(.custom("SFPro-ExpandedRegular", size: 12))
                             .foregroundColor(.white.opacity(0.9))
                     }
-
-                    HStack(spacing: 6) {
-                        Image(systemName: "mappin")
-                            .foregroundColor(.white.opacity(0.9))
-                            .imageScale(.small)
-                        Text(race.circuitName ?? "TBC")
-                            .font(.custom("SFPro-ExpandedRegular", size: 14))
-                            .foregroundColor(.white.opacity(0.95))
-                            .lineLimit(2)
-                        Spacer()
-                        Text(race.dayRangeWithMonth.uppercased())
-                            .font(.custom("SFPro-ExpandedBold", size: 15))
-                            .foregroundColor(.red)
-                            .padding(.top, 2)
-                    }
-
-                    HStack {
-                        SessionCountdownView(session: race.currentOrNextSession)
-                        .onReceive(Timer.publish(every: 60, on: .main, in: .common)
-                            .autoconnect())
-                        {
-                            _ in now = Date()
-                        }
-                                                
-                        Image("\(race.Location)Circuit")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 150, height: 90)
-                            .colorInvert()
-                    }
                     
-                    // --- CHANGE 3: Add the "Next Session" text below ---
-                    Text(nextSessionString)
-                        .font(.custom("SFPro-ExpandedBold", size: 14))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.top, 10)
+                    Spacer()
                     
-                    // Add some space for button overlay
-                    Spacer().frame(height: 40)
-                }
-                .padding()
-            }
-            .background(.ultraThinMaterial)
-            .cornerRadius(20)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.white.opacity(0.5), lineWidth: 0.4)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(.ultraThinMaterial.opacity(0.05))
-                    )
-            )
-            .padding(.horizontal)
-            .allowsHitTesting(false) // disable tap on entire card, only button will receive taps
-
-            // MARK: - Force tappable button overlay
-            VStack {
-                Spacer()
-                if #available(iOS 26.0, *) {
                     Button("Weekend Info") {
                         onRaceInfoTap()
                     }
                     .font(.custom("SFPro-ExpandedBold", size: 13))
-                    .buttonStyle(.glassProminent)
-                    .tint(.red)
-                    .contentShape(Rectangle())
-                } else {
-                    Button("Weekend Info") {
-                        onRaceInfoTap()
-                    }
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 18)
+                    .background(
+                        Capsule().fill(Color.black.opacity(0.45))
+                    )
+                    .overlay(
+                        Capsule().stroke(Color.white.opacity(0.6))
+                    )
+                    .foregroundColor(.white)
+                }
+                .padding(.horizontal, 35)
+                .padding(.bottom, 30)
+            }
+            
+            // ✅ Your iOS 26 Round Badge Preserved
+            if #available(iOS 26.0, *) {
+                Text("R\(race.RoundNumber)")
+                    .font(.custom("SFPro-ExpandedBold", size: 15))
+                    .foregroundColor(.white)
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 10)
+                    .glassEffect()
+                    .padding(.trailing, 35)
+                    .padding(.top, 30)
+            } else {
+                Text("R\(race.RoundNumber)")
                     .font(.custom("SFPro-ExpandedBold", size: 13))
                     .foregroundColor(.white)
-                    .padding(.vertical, 10)
-                    .padding(.horizontal, 20)
-                    .background(RoundedRectangle(cornerRadius: 18).fill(Color.red))
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 10)
+                    .background(Capsule().fill(Color.red.opacity(0.9)))
                     .overlay(
-                        RoundedRectangle(cornerRadius: 18)
+                        Capsule()
                             .stroke(Color.white.opacity(0.9), lineWidth: 1)
                     )
-                    .contentShape(Rectangle())
-                }
+                    .shadow(color: .black.opacity(0.4), radius: 4, x: 0, y: 2)
+                    .padding(.trailing, 35)
+                    .padding(.top, 30)
             }
-            .padding(.bottom, 20) // adjust button position
+        }
+    }
+
+    // MARK: - Info Section
+    private var infoSection: some View {
+        HStack(alignment: .center) {
+            VStack(alignment: .leading, spacing: 18) {
+                SessionCountdownView(session: race.currentOrNextSession)
+                    .onReceive(
+                        Timer.publish(every: 60, on: .main, in: .common)
+                            .autoconnect()
+                    ) { _ in
+                        now = Date()
+                    }
+
+                /*Text(nextSessionString)
+                    .font(.custom("SFPro-ExpandedBold", size: 13))
+                    .foregroundColor(.white)*/
+            }
+
+            Spacer()
+
+            ZStack {
+                RoundedRectangle(cornerRadius: 22)
+                    .fill(Color.white.opacity(0.08))
+
+                Image("\(race.Location)Circuit")
+                    .resizable()
+                    .scaledToFit()
+                    .padding(18)
+                    .colorInvert()
+            }
+            .frame(width: 150, height: 110)
+        }
+        .padding()
+    }
+
+    private func infoBlock(title: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.custom("SFPro-ExpandedRegular", size: 11))
+                .foregroundColor(.white.opacity(0.6))
+
+            Text(value)
+                .font(.custom("SFPro-ExpandedBold", size: 20))
+                .foregroundColor(.white)
         }
     }
 }

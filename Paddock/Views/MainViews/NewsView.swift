@@ -80,7 +80,7 @@ struct NewsCard: View {
             .cornerRadius(20)
             .overlay( // This adds the thin border
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.white.opacity(1.0), lineWidth: 1.5)
+                    .stroke(Color.white.opacity(1.0), lineWidth: 0.5)
             )
             .offset(y: 180) // Adjust position to appear at the bottom of the card
             

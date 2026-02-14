@@ -2,7 +2,7 @@
 //  ProfileCardView.swift
 //  Paddock
 //
-//  Created by Francisco  Cortez on 7/31/25.
+//  Created by Francisco Cortez on 7/31/25.
 //
 
 import SwiftUI
@@ -10,177 +10,132 @@ import SwiftUI
 struct ProfileCardView: View {
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 28) {
-                Text("Driver Info")
-                    .font(.custom("SFPro-ExpandedBold", size: 20))
-                // MARK: - Top Card with 3x2 Layout
-                VStack(spacing: 20) {
-                    // Top row with 3 data points
-                    HStack(spacing: 0) {
-                        // Column 1: Country
-                        VStack(spacing: 5) {
-                            HStack(spacing: 5) {
-                                Image("AustraliaFlag")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 25, height: 20)
-                                    .cornerRadius(20)
-
-                                Text("AUS")
-                                    .font(.custom("SFPro-ExpandedRegular", size: 18))
-                            }
-                            Text("Country")
-                                .font(.custom("SFPro-ExpandedRegular", size: 12))
-                                .foregroundStyle(.secondary)
-                        }
-                        .frame(maxWidth: .infinity)
-                        
-                        // Column 2: Team
-                        VStack(spacing: 5) {
-                            Text("McLaren")
-                                .font(.custom("SFPro-ExpandedRegular", size: 18))
-
-                            Text("Team")
-                                .font(.custom("SFPro-ExpandedRegular", size: 12))
-                                .foregroundStyle(.secondary)
-                        }
-                        .frame(maxWidth: .infinity)
-
-                        // Column 3: Number
-                        VStack(spacing: 5) {
-                            Text("81") // Placeholder, assuming this is the number
-                                .font(.custom("SFPro-ExpandedRegular", size: 18))
-                            Text("Number")
-                                .font(.custom("SFPro-ExpandedRegular", size: 12))
-                                .foregroundStyle(.secondary)
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
-                    
-                    // Bottom row with 2 data points
-                    HStack(spacing: 0) {
-                        // Column 1: Height
-                        VStack(spacing: 5) {
-                            Text("5.8 ft")
-                                .font(.custom("SFPro-ExpandedRegular", size: 18))
-                            Text("Height")
-                                .font(.custom("SFPro-ExpandedRegular", size: 12))
-                                .foregroundStyle(.secondary)
-                        }
-                        .frame(maxWidth: .infinity)
-                        
-                        // Column 2: Date of Birth
-                        VStack(spacing: 5) {
-                            Text("Apr 6, 2001")
-                                .font(.custom("SFPro-ExpandedRegular", size: 18))
-                            Text("Birthday")
-                                .font(.custom("SFPro-ExpandedRegular", size: 12))
-                                .foregroundStyle(.secondary)
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
-                }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .foregroundColor(.white) // Apply a consistent text color
-                .background(.ultraThinMaterial)
-                .cornerRadius(20)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .stroke(Color.white.opacity(0.8), lineWidth: 1)
-                )
+            VStack(alignment: .leading, spacing: 32) {
                 
-                Text("Season Stats")
-                    .font(.custom("SFPro-ExpandedBold", size: 20))
-                VStack(alignment: .leading, spacing: 15) {
-                    HStack(spacing: 8) {
-                        Image("F1Logo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 25)
-                        Text("2025 Season")
-                            .font(.custom("SFPro-ExpandedBold", size: 18))
-                            .foregroundColor(.white)
-                    }
-                    .frame(maxWidth: .infinity)
+                // MARK: - Player Info Section
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("Driver Info")
+                        .font(.custom("SFPro-ExpandedBold", size: 20))
+                        .foregroundColor(.white)
                     
-                    HStack(alignment: .top) {
-                        // Each VStack is a column
-                        VStack(spacing: 5) {
-                            Text("14")
-                                .font(.custom("SFPro-ExpandedRegular", size: 18))
-                                .foregroundColor(.white)
-                            Text("Races")
-                                .font(.custom("SFPro-ExpandedRegular", size: 12))
-                                .foregroundStyle(.secondary)
-                        }
-                        .frame(maxWidth: .infinity)
-                        
-                        VStack(spacing: 5) {
-                            Text("6")
-                                .font(.custom("SFPro-ExpandedRegular", size: 18))
-                                .foregroundColor(.white)
-                            Text("Wins")
-                                .font(.custom("SFPro-ExpandedRegular", size: 12))
-                                .foregroundStyle(.secondary)
-                        }
-                        .frame(maxWidth: .infinity)
-                        
-                        VStack(spacing: 5) {
-                            Text("12")
-                                .font(.custom("SFPro-ExpandedRegular", size: 18))
-                                .foregroundColor(.white)
-                            Text("Podiums")
-                                .font(.custom("SFPro-ExpandedRegular", size: 12))
-                                .foregroundStyle(.secondary)
-                        }
-                        .frame(maxWidth: .infinity)
-                        
-                        VStack(spacing: 5) {
-                            Text("284")
-                                .font(.custom("SFPro-ExpandedRegular", size: 18))
-                                .foregroundColor(.white)
-                            Text("Points")
-                                .font(.custom("SFPro-ExpandedRegular", size: 12))
-                                .foregroundStyle(.secondary)
-                        }
-                        .frame(maxWidth: .infinity)
-                        
-                        VStack(spacing: 5) {
-                            Text("9.0")
-                                .font(.custom("SFPro-ExpandedRegular", size: 18))
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 7)
-                                .background(
-                                    Capsule()
-                                        .fill(LinearGradient(
-                                            colors: [Color.purple.opacity(0.7), Color.purple.opacity(0.3)],
-                                            startPoint: .leading,
-                                            endPoint: .trailing))
-                                        .overlay(
-                                            Capsule()
-                                                .stroke(Color.purple, lineWidth: 1)
-                                        )
-                                )
-                            Text("Rating")
-                                .font(.custom("SFPro-ExpandedRegular", size: 12))
-                                .foregroundStyle(.secondary)
-                        }
-                        .frame(maxWidth: .infinity)
+                    // 2x2 Grid Layout for Driver Details
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                        DriverInfoCard(flagImage: nil, value: "24 years", label: "6 April 2001")
+                        // Country Card (With Flag)
+                        DriverInfoCard(flagImage: "AustraliaFlag", value: "AUS", label: "Country")
+                        DriverInfoCard(flagImage: nil, value: "#81", label: "Driver Number")
+                        DriverInfoCard(flagImage: nil, value: "185 cm", label: "Height")
                     }
                 }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(.ultraThinMaterial)
-                .cornerRadius(20)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .stroke(Color.white.opacity(0.8), lineWidth: 1)
-                )
+                
+                // MARK: - Season Stats Section
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("Season Stats")
+                        .font(.custom("SFPro-ExpandedBold", size: 20))
+                        .foregroundColor(.white)
+                    
+                    // Horizontal Stats Row
+                    HStack(spacing: 0) {
+                        StatItem(value: "14", label: "Races")
+                        StatItem(value: "6", label: "Wins")
+                        StatItem(value: "12", label: "Podiums")
+                        StatItem(value: "284", label: "Points")
+                        StatItem(value: "9.0", label: "Rating", isRating: true)
+                    }
+                    .padding(.vertical, 20)
+                    .background(Color(white: 0.1).opacity(0.8))
+                    .cornerRadius(16)
+                }
             }
             .padding()
-            .padding(.bottom, 80) // so it doesn’t get cut off
+            .padding(.bottom, 80)
         }
+        .background(Color.black.ignoresSafeArea()) // High-contrast backdrop
+    }
+}
+
+// MARK: - Supporting Views
+
+struct DriverInfoCard: View {
+    let flagImage: String?
+    let value: String
+    let label: String
+    var subLabel: Bool = false
+    
+    var body: some View {
+        HStack(spacing: 15) {
+            // 1. Conditional Flag Placement
+            if let flag = flagImage {
+                Image(flag)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 26, height: 18) // Standard 2026 broadcast ratio
+                    .cornerRadius(5)
+            }
+            
+            VStack(alignment: .leading, spacing: 2) {
+                Text(value)
+                    .font(.custom("SFPro-ExpandedBold", size: 16))
+                Text(label)
+                    .font(.custom("SFPro-ExpandedRegular", size: 12))
+                    .foregroundColor(.secondary)
+            }
+            Spacer()
+        }
+        .padding()
+        .frame(height: 70)
+        .background(Color(white: 0.09))
+        .cornerRadius(16)
+    }
+}
+
+struct TeamRow: View {
+    var flag: String? = nil
+    var logo: String? = nil
+    let name: String
+    
+    var body: some View {
+        HStack {
+            if let flagName = flag {
+                Image(flagName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 28, height: 20)
+                    .cornerRadius(4)
+            } else if let logoName = logo {
+                Image(logoName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 25, height: 25)
+            }
+            
+            Text(name)
+                .font(.custom("SFPro-ExpandedMedium", size: 16))
+            Spacer()
+            Image(systemName: "star") // Favoriting capability
+                .foregroundColor(.secondary)
+        }
+        .padding()
+        .background(Color(white: 0.15))
+        .cornerRadius(16)
+    }
+}
+
+struct StatItem: View {
+    let value: String
+    let label: String
+    var isRating: Bool = false
+    
+    var body: some View {
+        VStack(spacing: 6) {
+            Text(value)
+                .font(.custom("SFPro-ExpandedBold", size: 18))
+                .foregroundColor(isRating ? .purple : .white)
+            Text(label)
+                .font(.custom("SFPro-ExpandedRegular", size: 10))
+                .foregroundColor(.secondary)
+        }
+        .frame(maxWidth: .infinity)
     }
 }
 
